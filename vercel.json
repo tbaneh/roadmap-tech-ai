@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "name": "tech-career-roadmap-elite",
+  "buildCommand": "echo 'Static site - no build needed'",
+  "outputDirectory": "src",
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/roadmaps",
+      "destination": "/pages/roadmaps.html"
+    },
+    {
+      "source": "/roadmap",
+      "destination": "/pages/roadmap.html"
+    },
+    {
+      "source": "/pages/(.*)",
+      "destination": "/pages/$1"
+    },
+    {
+      "source": "/utils/(.*)",
+      "destination": "/utils/$1"
+    },
+    {
+      "source": "/styles/(.*)",
+      "destination": "/styles/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
+  ]
+}

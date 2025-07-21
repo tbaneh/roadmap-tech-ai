@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap - Roadmap Tech</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .nav {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    main {
+      padding-top: 5rem;
+      min-height: 100vh;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 0;
+      margin-bottom: 3rem;
+    }
+
+    .hero-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .roadmap-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #60a5fa;
+    }
+
+    .topic-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .topic-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .topic-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .topic-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .topic-description {
+      margin-bottom: 1rem;
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    .resources-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .resource-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .resource-item:last-child {
+      border-bottom: none;
+    }
+
+    .resource-link {
+      color: #60a5fa;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .resource-link:hover {
+      opacity: 0.8;
+    }
+
+    .progress-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      border-radius: 5px;
+      width: 25%;
+      transition: width 0.3s;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #60a5fa;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer p {
+      opacity: 0.6;
+    }
+
+    @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 0;
+      }
+
+      main {
+        padding-top: 7rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .stats {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .topic-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">🚀</div>
+          Roadmap Tech
+        </a>
+        
+        <div class="nav-links">
+          <a href="./roadmaps.html" class="nav-link">← Voltar aos Roadmaps</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="hero">
+        <div class="hero-icon" id="roadmap-icon">📊</div>
+        <h1 id="roadmap-title">Data Scientist</h1>
+        <p id="roadmap-description">
+          Torne-se um cientista de dados completo. Aprenda Python, machine learning, 
+          estatística e como resolver problemas reais com dados.
+        </p>
+        
+        <div class="hero-buttons">
+          <button class="btn btn-primary">🎯 Continuar Aprendizado</button>
+          <button class="btn btn-secondary">🤖 Mentor IA</button>
+          <button class="btn btn-secondary">📝 Fazer Quiz</button>
+        </div>
+      </div>
+
+      <!-- Progress Section -->
+      <div class="progress-section">
+        <h3>Seu Progresso</h3>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Tópicos Concluídos</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">20</div>
+            <div class="stat-label">Total de Tópicos</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">30%</div>
+            <div class="stat-label">Progresso</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roadmap Sections -->
+      <div id="roadmap-content">
+        <!-- Default Data Scientist Content -->
+        <div id="data-scientist-content">
+          <div class="roadmap-section">
+            <h2 class="section-title">🔢 Fundamentos de Matemática e Estatística</h2>
+        
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">📊</div>
+            <div class="topic-title">Estatística Descritiva</div>
+          </div>
+          <div class="topic-description">
+            Aprenda medidas de tendência central, dispersão e como interpretar dados estatísticos básicos.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.coursera.org/learn/statistical-thinking" class="resource-link" target="_blank">Statistical Thinking for Data Science - Coursera</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://www.amazon.com/Think-Stats-Exploratory-Data-Analysis/dp/1491907339" class="resource-link" target="_blank">Think Stats - O'Reilly</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=xxpc-HPKN28" class="resource-link" target="_blank">Statistics Fundamentals - StatQuest</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">🧮</div>
+            <div class="topic-title">Álgebra Linear</div>
+          </div>
+          <div class="topic-description">
+            Fundamentos de vetores, matrizes e operações essenciais para machine learning.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.khanacademy.org/math/linear-algebra" class="resource-link" target="_blank">Linear Algebra - Khan Academy</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://www.amazon.com/Introduction-Linear-Algebra-Gilbert-Strang/dp/0980232775" class="resource-link" target="_blank">Introduction to Linear Algebra - Gilbert Strang</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-section">
+        <h2 class="section-title">🐍 Python para Data Science</h2>
+        
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">🐍</div>
+            <div class="topic-title">Python Básico</div>
+          </div>
+          <div class="topic-description">
+            Sintaxe Python, estruturas de dados, controle de fluxo e programação orientada a objetos.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.coursera.org/learn/python-data-analysis" class="resource-link" target="_blank">Python for Data Science - Coursera</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://automatetheboringstuff.com/" class="resource-link" target="_blank">Automate the Boring Stuff with Python</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=_uQrJ0TkZlc" class="resource-link" target="_blank">Python Tutorial - Programming with Mosh</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">📊</div>
+            <div class="topic-title">Pandas e NumPy</div>
+          </div>
+          <div class="topic-description">
+            Manipulação e análise de dados com as principais bibliotecas Python.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.kaggle.com/learn/pandas" class="resource-link" target="_blank">Pandas Course - Kaggle</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython/dp/1491957662" class="resource-link" target="_blank">Python for Data Analysis - Wes McKinney</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-section">
+        <h2 class="section-title">🤖 Machine Learning</h2>
+        
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">🧠</div>
+            <div class="topic-title">Algoritmos de ML</div>
+          </div>
+          <div class="topic-description">
+            Regressão linear, árvores de decisão, clustering e algoritmos de classificação.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.coursera.org/learn/machine-learning" class="resource-link" target="_blank">Machine Learning - Andrew Ng</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://www.amazon.com/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1492032646" class="resource-link" target="_blank">Hands-On Machine Learning</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=aircAruvnKk" class="resource-link" target="_blank">Neural Networks Explained - 3Blue1Brown</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">⚙️</div>
+            <div class="topic-title">Scikit-learn e TensorFlow</div>
+          </div>
+          <div class="topic-description">
+            Frameworks essenciais para implementar algoritmos de machine learning em Python.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.kaggle.com/learn/intro-to-machine-learning" class="resource-link" target="_blank">Intro to Machine Learning - Kaggle</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://scikit-learn.org/stable/tutorial/index.html" class="resource-link" target="_blank">Scikit-learn Tutorial</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.tensorflow.org/tutorials" class="resource-link" target="_blank">TensorFlow Tutorials</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-section">
+        <h2 class="section-title">📊 Visualização de Dados</h2>
+        
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">📈</div>
+            <div class="topic-title">Matplotlib e Seaborn</div>
+          </div>
+          <div class="topic-description">
+            Criação de gráficos estatísticos e visualizações exploratórias em Python.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.kaggle.com/learn/data-visualization" class="resource-link" target="_blank">Data Visualization - Kaggle</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://matplotlib.org/stable/tutorials/index.html" class="resource-link" target="_blank">Matplotlib Tutorials</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=UO98lJQ3QGI" class="resource-link" target="_blank">Seaborn Tutorial - Corey Schafer</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">💼</div>
+            <div class="topic-title">Tableau e Power BI</div>
+          </div>
+          <div class="topic-description">
+            Ferramentas de visualização profissional para apresentações e dashboards.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.tableau.com/learn/training" class="resource-link" target="_blank">Tableau Training</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://docs.microsoft.com/en-us/power-bi/" class="resource-link" target="_blank">Power BI Documentation</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=nagfPGj9Bz8" class="resource-link" target="_blank">Power BI Tutorial - ExcelIsFun</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-section">
+        <h2 class="section-title">🗄️ Big Data e Engenharia de Dados</h2>
+        
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">🔥</div>
+            <div class="topic-title">Apache Spark</div>
+          </div>
+          <div class="topic-description">
+            Processamento de grandes volumes de dados de forma distribuída.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.udacity.com/course/learn-spark-at-udacity--ud2002" class="resource-link" target="_blank">Learn Spark - Udacity</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://spark.apache.org/docs/latest/" class="resource-link" target="_blank">Apache Spark Documentation</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=tDVPcqGpEnM" class="resource-link" target="_blank">Apache Spark Tutorial - Edureka</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">☁️</div>
+            <div class="topic-title">AWS/Azure para Data Science</div>
+          </div>
+          <div class="topic-description">
+            Plataformas cloud para deploy e escalabilidade de modelos de ML.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://aws.amazon.com/training/learn-about/machine-learning/" class="resource-link" target="_blank">AWS ML Training</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://docs.microsoft.com/en-us/azure/machine-learning/" class="resource-link" target="_blank">Azure ML Documentation</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=tDVPcqGpEnM" class="resource-link" target="_blank">AWS SageMaker Tutorial</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-section">
+        <h2 class="section-title">🎯 Projetos Práticos</h2>
+        
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">🏠</div>
+            <div class="topic-title">Predição de Preços Imobiliários</div>
+          </div>
+          <div class="topic-description">
+            Projeto completo de regressão com análise exploratória e deploy de modelo.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques" class="resource-link" target="_blank">House Prices Competition - Kaggle</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://github.com/ageron/handson-ml2" class="resource-link" target="_blank">Hands-On ML Code Examples</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=bly4e2xm_Ok" class="resource-link" target="_blank">End-to-End ML Project - StatQuest</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-header">
+            <div class="topic-icon">🛒</div>
+            <div class="topic-title">Sistema de Recomendação</div>
+          </div>
+          <div class="topic-description">
+            Construa um sistema de recomendação como Netflix ou Amazon.
+          </div>
+          <ul class="resources-list">
+            <li class="resource-item">
+              📚 <a href="https://www.coursera.org/learn/machine-learning-with-python" class="resource-link" target="_blank">ML with Python - IBM</a>
+            </li>
+            <li class="resource-item">
+              📖 <a href="https://surprise.readthedocs.io/en/stable/" class="resource-link" target="_blank">Surprise Library Documentation</a>
+            </li>
+            <li class="resource-item">
+              🎥 <a href="https://www.youtube.com/watch?v=XoTwndOgXBM" class="resource-link" target="_blank">Recommendation Systems - Sentdex</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+        </div>
+        <!-- End Data Scientist Content -->
+
+        <!-- BI Analyst Content -->
+        <div id="bi-analyst-content" style="display: none;">
+          <div class="roadmap-section">
+            <h2 class="section-title">📊 Power BI Avançado</h2>
+            
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">⚡</div>
+                <div class="topic-title">DAX e Modelagem</div>
+              </div>
+              <div class="topic-description">
+                Domine a linguagem DAX para cálculos complexos e construa modelos de dados eficientes.
+              </div>
+              <ul class="resources-list">
+                <li class="resource-item">
+                  📚 <a href="https://docs.microsoft.com/en-us/dax/" class="resource-link" target="_blank">DAX Documentation - Microsoft</a>
+                </li>
+                <li class="resource-item">
+                  📖 <a href="https://www.sqlbi.com/books/the-definitive-guide-to-dax/" class="resource-link" target="_blank">The Definitive Guide to DAX</a>
+                </li>
+                <li class="resource-item">
+                  🎥 <a href="https://www.youtube.com/watch?v=klQAZLr5vxA" class="resource-link" target="_blank">DAX Fundamentals - SQLBI</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">📈</div>
+                <div class="topic-title">Visualizações Avançadas</div>
+              </div>
+              <div class="topic-description">
+                Crie dashboards interativos e visualizações impactantes para executivos.
+              </div>
+              <ul class="resources-list">
+                <li class="resource-item">
+                  📚 <a href="https://learn.microsoft.com/en-us/power-bi/visuals/" class="resource-link" target="_blank">Power BI Visuals - Microsoft Learn</a>
+                </li>
+                <li class="resource-item">
+                  📖 <a href="https://www.amazon.com/Microsoft-Power-Step-Step/dp/1509307524" class="resource-link" target="_blank">Microsoft Power BI Step by Step</a>
+                </li>
+                <li class="resource-item">
+                  🎥 <a href="https://www.youtube.com/c/GuyInACube" class="resource-link" target="_blank">Guy in a Cube - Power BI</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="roadmap-section">
+            <h2 class="section-title">🗃️ SQL para BI</h2>
+            
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">🔍</div>
+                <div class="topic-title">Consultas Complexas</div>
+              </div>
+              <div class="topic-description">
+                Window functions, CTEs, subqueries e otimização de performance para análises avançadas.
+              </div>
+              <ul class="resources-list">
+                <li class="resource-item">
+                  📚 <a href="https://www.w3schools.com/sql/" class="resource-link" target="_blank">SQL Tutorial - W3Schools</a>
+                </li>
+                <li class="resource-item">
+                  📖 <a href="https://www.amazon.com/Learning-SQL-Generate-Manipulate-Retrieve/dp/1492057614" class="resource-link" target="_blank">Learning SQL - O'Reilly</a>
+                </li>
+                <li class="resource-item">
+                  🎥 <a href="https://www.youtube.com/watch?v=HXV3zeQKqGY" class="resource-link" target="_blank">SQL Full Course - FreeCodeCamp</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">🏗️</div>
+                <div class="topic-title">Data Warehouse</div>
+              </div>
+              <div class="topic-description">
+                Conceitos de modelagem dimensional, ETL e arquitetura de data warehouse.
+              </div>
+              <ul class="resources-list">
+                <li class="resource-item">
+                  📚 <a href="https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/" class="resource-link" target="_blank">Kimball Group - DW Resources</a>
+                </li>
+                <li class="resource-item">
+                  📖 <a href="https://www.amazon.com/Data-Warehouse-Toolkit-Definitive-Dimensional/dp/1118530802" class="resource-link" target="_blank">The Data Warehouse Toolkit</a>
+                </li>
+                <li class="resource-item">
+                  🎥 <a href="https://www.youtube.com/watch?v=J326LIUrZM8" class="resource-link" target="_blank">Data Warehouse Concepts - Edureka</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="roadmap-section">
+            <h2 class="section-title">📊 Excel Avançado</h2>
+            
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">📋</div>
+                <div class="topic-title">Tabelas Dinâmicas e Power Query</div>
+              </div>
+              <div class="topic-description">
+                Análise de dados avançada com tabelas dinâmicas e transformação de dados com Power Query.
+              </div>
+              <ul class="resources-list">
+                <li class="resource-item">
+                  📚 <a href="https://support.microsoft.com/en-us/office/overview-of-pivottables-and-pivotcharts-527c8fa3-02c0-445a-a2db-7794676bce96" class="resource-link" target="_blank">PivotTables Overview - Microsoft</a>
+                </li>
+                <li class="resource-item">
+                  📖 <a href="https://www.amazon.com/Power-Query-Excel-Data-Analysis/dp/1615470395" class="resource-link" target="_blank">Power Query for Excel</a>
+                </li>
+                <li class="resource-item">
+                  🎥 <a href="https://www.youtube.com/watch?v=UbfzIT6CnIk" class="resource-link" target="_blank">Excel Advanced Tutorial - ExcelIsFun</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">🤖</div>
+                <div class="topic-title">VBA e Automação</div>
+              </div>
+              <div class="topic-description">
+                Automatize tarefas repetitivas e crie soluções personalizadas com VBA.
+              </div>
+              <ul class="resources-list">
+                <li class="resource-item">
+                  📚 <a href="https://docs.microsoft.com/en-us/office/vba/excel/concepts/getting-started-with-vba-in-excel" class="resource-link" target="_blank">VBA in Excel - Microsoft</a>
+                </li>
+                <li class="resource-item">
+                  📖 <a href="https://www.amazon.com/Excel-VBA-Programming-Dummies-2nd/dp/1119518174" class="resource-link" target="_blank">Excel VBA Programming For Dummies</a>
+                </li>
+                <li class="resource-item">
+                  🎥 <a href="https://www.youtube.com/watch?v=G05TrN7nt6k" class="resource-link" target="_blank">Excel VBA Tutorial - Wise Owl</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="roadmap-section">
+            <h2 class="section-title">🎯 Projetos BI</h2>
+            
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">📊</div>
+                <div class="topic-title">Dashboard Executivo</div>
+              </div>
+              <div class="topic-description">
+                Construa um dashboard executivo completo com KPIs, métricas de negócio e análise de tendências.
+              </div>
+              <ul class="resources-list">
+                <li class="resource-item">
+                  📚 <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/sample-executive-dashboard" class="resource-link" target="_blank">Executive Dashboard Sample - Microsoft</a>
+                </li>
+                <li class="resource-item">
+                  📖 <a href="https://www.tableau.com/learn/articles/executive-dashboard" class="resource-link" target="_blank">Executive Dashboard Best Practices</a>
+                </li>
+                <li class="resource-item">
+                  🎥 <a href="https://www.youtube.com/watch?v=ggWHJpBnPLA" class="resource-link" target="_blank">Executive Dashboard Tutorial - Power BI</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">💰</div>
+                <div class="topic-title">Análise de Vendas</div>
+              </div>
+              <div class="topic-description">
+                Análise completa de performance de vendas, forecasting e análise de comportamento do cliente.
+              </div>
+              <ul class="resources-list">
+                <li class="resource-item">
+                  📚 <a href="https://www.kaggle.com/datasets/rohitsahoo/sales-forecasting" class="resource-link" target="_blank">Sales Forecasting Dataset - Kaggle</a>
+                </li>
+                <li class="resource-item">
+                  📖 <a href="https://www.amazon.com/Sales-Analytics-Practical-Guide-Forecasting/dp/1119713882" class="resource-link" target="_blank">Sales Analytics - Practical Guide</a>
+                </li>
+                <li class="resource-item">
+                  🎥 <a href="https://www.youtube.com/watch?v=VE0eROGUVF8" class="resource-link" target="_blank">Sales Analysis Power BI - Edureka</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- End BI Analyst Content -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="logo-icon">🚀</div>
+        <span class="logo">Roadmap Tech</span>
+      </div>
+      <p>Transformando carreiras através da educação em tecnologia.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Global variables
+    let geminiAI = null;
+    let currentRoadmap = null;
+    
+    document.addEventListener('DOMContentLoaded', async function() {
+      console.log('🚀 Iniciando carregamento da página roadmap...');
+      
+      // Prevent automatic scroll restoration to avoid flickering
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      
+      // Initialize Simple Gemini AI
+      try {
+        const { getSimpleGeminiAI } = await import('../utils/gemini-ai-simple.js');
+        geminiAI = getSimpleGeminiAI();
+        console.log('🤖 IA Gemini inicializada com sucesso!');
+      } catch (error) {
+        console.warn('⚠️ IA Gemini não disponível:', error);
+      }
+      
+      // Get roadmap ID from URL parameters
+      const params = new URLSearchParams(window.location.search);
+      const roadmapId = params.get('id');
+      
+      // Roadmap data (simplified)
+      const roadmaps = {
+        'data-scientist': {
+          icon: '📊',
+          title: 'Data Scientist',
+          description: 'Torne-se um cientista de dados completo. Aprenda Python, machine learning, estatística e como resolver problemas reais com dados.'
+        },
+        'bi-analyst': {
+          icon: '📈',
+          title: 'BI Analyst',
+          description: 'Especialize-se em Business Intelligence. Domine Power BI, SQL, Excel avançado e transforme dados em insights de negócio.'
+        },
+        'data-analyst': {
+          icon: '🔍',
+          title: 'Data Analyst',
+          description: 'Inicie sua carreira em dados. Aprenda SQL, Python básico, visualização de dados e como extrair insights valiosos.'
+        },
+        'software-engineer-google': {
+          icon: '💻',
+          title: 'Software Engineer',
+          description: 'Prepare-se para Big Tech. Algoritmos, estruturas de dados, design de sistemas e práticas de desenvolvimento para Google, Meta, etc.'
+        }
+      };
+
+      // Update page content based on roadmap ID
+      if (roadmapId && roadmaps[roadmapId]) {
+        currentRoadmap = roadmaps[roadmapId];
+        document.getElementById('roadmap-icon').textContent = currentRoadmap.icon;
+        document.getElementById('roadmap-title').textContent = currentRoadmap.title;
+        document.getElementById('roadmap-description').textContent = currentRoadmap.description;
+        document.title = `${currentRoadmap.title} - Roadmap Tech`;
+        
+        // Show appropriate content section
+        const allSections = document.querySelectorAll('#roadmap-content > div');
+        allSections.forEach(section => section.style.display = 'none');
+        
+        if (roadmapId === 'bi-analyst') {
+          document.getElementById('bi-analyst-content').style.display = 'block';
+        } else {
+          // Default to data-scientist content for other roadmaps
+          document.getElementById('data-scientist-content').style.display = 'block';
+        }
+      }
+      
+      // Show content after everything is loaded
+      document.getElementById('content').style.opacity = '1';
+      
+      // Smooth scroll control after page load
+      setTimeout(() => {
+        // Ensure page starts at a consistent position
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        
+        // Add smooth scroll behavior for better UX
+        document.documentElement.style.scrollBehavior = 'smooth';
+      }, 50);
+    });
+    
+    // AI-powered quiz generation
+    window.generateQuiz = async function(topic) {
+      if (!geminiAI) {
+        alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+        return;
+      }
+      
+      const button = event.target;
+      const originalText = button.textContent;
+      
+      try {
+        // Show loading state
+        button.textContent = '🤖 Gerando quiz...';
+        button.disabled = true;
+        
+        // Generate AI quiz
+        const difficulty = currentRoadmap?.title?.includes('BI') ? 'intermediate' : 'advanced';
+        const quiz = await geminiAI.generateQuiz(topic, difficulty, 3);
+        
+        // Show quiz in modal
+        showAIModal(`🧠 Quiz: ${topic}`, quiz);
+        
+      } catch (error) {
+        console.error('❌ Erro ao gerar quiz:', error);
+        alert('🤖 Não foi possível gerar o quiz. Tente novamente.');
+      } finally {
+        // Restore button
+        button.textContent = originalText;
+        button.disabled = false;
+      }
+    };
+    
+    // AI-powered resource analysis
+    window.analyzeResource = async function(resourceTitle, resourceUrl, resourceType = 'Curso') {
+      if (!geminiAI) {
+        alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+        return;
+      }
+      
+      const button = event.target;
+      const originalText = button.textContent;
+      
+      try {
+        // Show loading state
+        button.textContent = '🤖 Analisando...';
+        button.disabled = true;
+        
+        // Prepare resource data
+        const resource = {
+          title: resourceTitle,
+          url: resourceUrl,
+          type: resourceType,
+          provider: resourceUrl.includes('coursera') ? 'Coursera' : 
+                   resourceUrl.includes('udemy') ? 'Udemy' :
+                   resourceUrl.includes('kaggle') ? 'Kaggle' : 'Outros'
+        };
+        
+        // Generate AI analysis
+        const analysis = await geminiAI.analyzeResource(resource);
+        
+        // Show analysis in modal
+        showAIModal(`📊 Análise: ${resourceTitle}`, analysis);
+        
+      } catch (error) {
+        console.error('❌ Erro ao analisar recurso:', error);
+        alert('🤖 Não foi possível analisar o recurso. Tente novamente.');
+      } finally {
+        // Restore button
+        button.textContent = originalText;
+        button.disabled = false;
+      }
+    };
+    
+    // AI Mentor function
+    window.askMentor = async function() {
+      if (!geminiAI) {
+        alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+        return;
+      }
+      
+      const question = prompt('🎯 Qual é sua dúvida sobre a carreira em tech?');
+      if (!question) return;
+      
+      try {
+        const userContext = `Usuário estudando: ${currentRoadmap?.title || 'Carreira em Tech'}`;
+        const advice = await geminiAI.getMentorAdvice(question, userContext);
+        
+        showAIModal('🎓 Mentor IA', advice);
+        
+      } catch (error) {
+        console.error('❌ Erro ao consultar mentor:', error);
+        alert('🤖 Não foi possível consultar o mentor. Tente novamente.');
+      }
+    };
+    
+    // Modal for AI responses
+    function showAIModal(title, content) {
+      // Remove existing modal
+      const existingModal = document.getElementById('ai-modal');
+      if (existingModal) {
+        existingModal.remove();
+      }
+      
+      // Create modal
+      const modal = document.createElement('div');
+      modal.id = 'ai-modal';
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+      `;
+      
+      modal.innerHTML = `
+        <div style="
+          background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+          border-radius: 20px;
+          max-width: 800px;
+          max-height: 80vh;
+          overflow-y: auto;
+          padding: 30px;
+          margin: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        ">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="color: #fff; margin: 0; font-size: 1.5rem;">${title}</h2>
+            <button onclick="document.getElementById('ai-modal').remove()" 
+                    style="background: rgba(255, 255, 255, 0.1); color: #fff; border: none; 
+                           border-radius: 50%; width: 40px; height: 40px; cursor: pointer; 
+                           font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">×</button>
+          </div>
+          <div style="color: #e2e8f0; line-height: 1.6; white-space: pre-line;">${content}</div>
+        </div>
+      `;
+      
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+      
+      document.body.appendChild(modal);
+    }
+    
+  </script>
+  </script>
+</body>
+</html>
