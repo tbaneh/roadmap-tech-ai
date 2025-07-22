@@ -217,6 +217,242 @@
             opacity: 0.5;
         }
 
+        /* XP System Styles */
+        .xp-system {
+            text-align: center;
+        }
+
+        .level-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .level-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .level-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .xp-bar-container {
+            margin-bottom: 15px;
+        }
+
+        .xp-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .xp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64ffda, #4fc3f7, #ffd700);
+            border-radius: 6px;
+            transition: width 0.8s ease;
+            position: relative;
+        }
+
+        .xp-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .xp-text {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .xp-gain {
+            font-size: 0.8rem;
+            color: #64ffda;
+            font-weight: 600;
+            min-height: 20px;
+        }
+
+        /* Streaks Styles */
+        .streaks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .streak-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .streak-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .streak-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .streak-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ff6b35;
+            margin-bottom: 4px;
+        }
+
+        .streak-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Activity Feed Styles */
+        .activity-feed {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #64ffda;
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .activity-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex-grow: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+            font-size: 0.9rem;
+        }
+
+        .activity-desc {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .activity-time {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        /* Goals Styles */
+        .goals-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .goal-item {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .goal-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .goal-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .goal-progress {
+            font-weight: 700;
+            color: #4fc3f7;
+            font-size: 0.8rem;
+        }
+
+        .goal-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .goal-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4fc3f7, #64ffda);
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        /* Enhanced Badge Styles */
+        .badge.legendary {
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            border-color: #8e44ad;
+            animation: legendary-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes legendary-glow {
+            from { box-shadow: 0 0 20px rgba(142, 68, 173, 0.5); }
+            to { box-shadow: 0 0 40px rgba(142, 68, 173, 0.8); }
+        }
+
+        .badge.rare {
+            background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+            border-color: #e74c3c;
+        }
+
+        /* Responsive Improvements */
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
@@ -228,6 +464,28 @@
 
             .stats-overview {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .streaks-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .level-number {
+                font-size: 2.5rem;
+            }
+
+            .activity-feed {
+                max-height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .streaks-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -280,10 +538,596 @@
                     <!-- Badges serão inseridos via JavaScript -->
                 </div>
             </div>
+
+            <!-- Sistema de XP e Nível -->
+            <div class="card">
+                <h3>⚡ Sistema de XP</h3>
+                <div class="xp-system">
+                    <div class="level-info">
+                        <span class="level-label">Nível</span>
+                        <span class="level-number" id="userLevel">1</span>
+                    </div>
+                    <div class="xp-bar-container">
+                        <div class="xp-bar">
+                            <div class="xp-fill" id="xpFill"></div>
+                        </div>
+                        <div class="xp-text">
+                            <span id="currentXP">0</span> / <span id="nextLevelXP">100</span> XP
+                        </div>
+                    </div>
+                    <div class="xp-gain" id="recentXPGain"></div>
+                </div>
+            </div>
+
+            <!-- Streaks e Consistência -->
+            <div class="card">
+                <h3>🔥 Streaks & Consistência</h3>
+                <div class="streaks-container">
+                    <div class="streak-item">
+                        <div class="streak-icon">🔥</div>
+                        <div class="streak-info">
+                            <div class="streak-value" id="currentStreak">0</div>
+                            <div class="streak-label">Dias Consecutivos</div>
+                        </div>
+                    </div>
+                    <div class="streak-item">
+                        <div class="streak-icon">⭐</div>
+                        <div class="streak-info">
+                            <div class="streak-value" id="longestStreak">0</div>
+                            <div class="streak-label">Recorde</div>
+                        </div>
+                    </div>
+                    <div class="streak-item">
+                        <div class="streak-icon">📈</div>
+                        <div class="streak-info">
+                            <div class="streak-value" id="weeklyGoal">0/7</div>
+                            <div class="streak-label">Meta Semanal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atividade Recente -->
+            <div class="card">
+                <h3>📊 Atividade Recente</h3>
+                <div class="activity-feed" id="activityFeed">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <p>Suas atividades aparecerão aqui!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metas e Objetivos -->
+            <div class="card">
+                <h3>🎯 Metas & Objetivos</h3>
+                <div class="goals-container" id="goalsContainer">
+                    <div class="goal-item">
+                        <div class="goal-header">
+                            <span class="goal-title">Meta Diária</span>
+                            <span class="goal-progress" id="dailyGoalProgress">0/1</span>
+                        </div>
+                        <div class="goal-bar">
+                            <div class="goal-fill" id="dailyGoalFill"></div>
+                        </div>
+                    </div>
+                    <div class="goal-item">
+                        <div class="goal-header">
+                            <span class="goal-title">Meta Semanal</span>
+                            <span class="goal-progress" id="weeklyGoalProgress">0/5</span>
+                        </div>
+                        <div class="goal-bar">
+                            <div class="goal-fill" id="weeklyGoalFill"></div>
+                        </div>
+                    </div>
+                    <div class="goal-item">
+                        <div class="goal-header">
+                            <span class="goal-title">Meta Mensal</span>
+                            <span class="goal-progress" id="monthlyGoalProgress">0/20</span>
+                        </div>
+                        <div class="goal-bar">
+                            <div class="goal-fill" id="monthlyGoalFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="../data/roadmaps.js"></script>
     <script src="../js/progress-system.js"></script>
+    <script>
+        // Dashboard Enhanced Functionality with Real Data Integration
+        class DashboardManager {
+            constructor() {
+                this.progressSystem = null;
+                this.init();
+            }
+
+            async init() {
+                // Aguardar sistema de progresso estar disponível
+                await this.waitForProgressSystem();
+                this.setupDashboard();
+            }
+
+            async waitForProgressSystem() {
+                return new Promise((resolve) => {
+                    const checkSystem = () => {
+                        if (window.userProgressSystem) {
+                            this.progressSystem = window.userProgressSystem;
+                            resolve();
+                        } else {
+                            setTimeout(checkSystem, 100);
+                        }
+                    };
+                    checkSystem();
+                });
+            }
+
+            setupDashboard() {
+                this.updateAllStats();
+                this.setupRealTimeUpdates();
+                this.addInteractivity();
+            }
+
+            updateAllStats() {
+                this.updateOverallStats();
+                this.updateXPSystem();
+                this.updateStreaks();
+                this.updateRoadmapProgress();
+                this.updateBadges();
+                this.updateActivityFeed();
+                this.updateGoals();
+            }
+
+            updateOverallStats() {
+                const progress = this.progressSystem.progress;
+                
+                // Progresso Geral
+                const totalTopics = this.calculateTotalTopics();
+                const completedTopics = progress.completedTopics.length;
+                const overallPercentage = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+                
+                document.getElementById('totalProgress').textContent = `${overallPercentage}%`;
+                document.getElementById('completedTopics').textContent = completedTopics;
+                document.getElementById('studyHours').textContent = `${progress.studyHours}h`;
+                document.getElementById('badgesEarned').textContent = progress.badgesEarned.length;
+            }
+
+            updateXPSystem() {
+                const progress = this.progressSystem.progress;
+                const xp = this.calculateXP();
+                const level = this.calculateLevel(xp);
+                const xpForCurrentLevel = this.getXPForLevel(level);
+                const xpForNextLevel = this.getXPForLevel(level + 1);
+                const currentLevelXP = xp - xpForCurrentLevel;
+                const neededXP = xpForNextLevel - xpForCurrentLevel;
+                const percentage = (currentLevelXP / neededXP) * 100;
+
+                document.getElementById('userLevel').textContent = level;
+                document.getElementById('currentXP').textContent = currentLevelXP;
+                document.getElementById('nextLevelXP').textContent = neededXP;
+                document.getElementById('xpFill').style.width = `${percentage}%`;
+
+                // Mostrar ganho recente de XP
+                this.showRecentXPGain();
+            }
+
+            updateStreaks() {
+                const progress = this.progressSystem.progress;
+                const currentStreak = this.calculateCurrentStreak();
+                const longestStreak = this.calculateLongestStreak();
+                const weeklyProgress = this.calculateWeeklyProgress();
+
+                document.getElementById('currentStreak').textContent = currentStreak;
+                document.getElementById('longestStreak').textContent = longestStreak;
+                document.getElementById('weeklyGoal').textContent = `${weeklyProgress}/7`;
+            }
+
+            updateRoadmapProgress() {
+                const container = document.getElementById('roadmapProgress');
+                const roadmaps = this.progressSystem.progress.roadmaps;
+                
+                if (Object.keys(roadmaps).length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <p>Comece estudando um roadmap para ver seu progresso!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = '';
+                Object.keys(roadmaps).forEach(roadmapId => {
+                    const roadmapData = window.roadmaps?.find(r => r.id === roadmapId);
+                    if (!roadmapData) return;
+
+                    const percentage = this.calculateRoadmapProgress(roadmapId);
+                    const progressElement = document.createElement('div');
+                    progressElement.className = 'progress-item';
+                    progressElement.innerHTML = `
+                        <div class="progress-header">
+                            <div class="progress-title">${roadmapData.title}</div>
+                            <div class="progress-percentage">${percentage}%</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">
+                            ${this.getProgressDescription(percentage)}
+                        </div>
+                    `;
+                    
+                    progressElement.addEventListener('click', () => {
+                        window.location.href = `roadmap.html?id=${roadmapId}`;
+                    });
+                    
+                    container.appendChild(progressElement);
+                });
+            }
+
+            updateBadges() {
+                const container = document.getElementById('badgesContainer');
+                const badges = this.progressSystem.badges;
+                const earnedBadges = this.progressSystem.progress.badgesEarned;
+                
+                container.innerHTML = '';
+                badges.forEach(badge => {
+                    const isEarned = earnedBadges.includes(badge.id);
+                    const canEarn = badge.condition();
+                    
+                    const badgeElement = document.createElement('div');
+                    badgeElement.className = `badge ${isEarned ? 'earned' : ''} ${this.getBadgeRarity(badge.id)}`;
+                    badgeElement.innerHTML = `
+                        <div class="badge-icon">${badge.icon}</div>
+                        <div class="badge-title">${badge.title}</div>
+                        <div style="font-size: 0.7rem; opacity: 0.8;">${badge.desc}</div>
+                    `;
+                    
+                    if (!isEarned && canEarn) {
+                        badgeElement.style.animation = 'pulse 2s infinite';
+                        badgeElement.title = 'Conquista disponível! Clique para obter.';
+                        badgeElement.addEventListener('click', () => {
+                            this.earnBadge(badge.id);
+                        });
+                    }
+                    
+                    container.appendChild(badgeElement);
+                });
+            }
+
+            updateActivityFeed() {
+                const container = document.getElementById('activityFeed');
+                const activities = this.generateRecentActivities();
+                
+                if (activities.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📝</div>
+                            <p>Suas atividades aparecerão aqui!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = activities.map(activity => `
+                    <div class="activity-item">
+                        <div class="activity-icon">${activity.icon}</div>
+                        <div class="activity-content">
+                            <div class="activity-title">${activity.title}</div>
+                            <div class="activity-desc">${activity.description}</div>
+                        </div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                `).join('');
+            }
+
+            updateGoals() {
+                const today = new Date().toDateString();
+                const thisWeek = this.getThisWeekDates();
+                const thisMonth = this.getThisMonthDates();
+                
+                // Meta Diária
+                const dailyCompleted = this.progressSystem.progress.dailyTopics?.[today] || 0;
+                const dailyGoal = 1;
+                const dailyPercentage = Math.min((dailyCompleted / dailyGoal) * 100, 100);
+                
+                document.getElementById('dailyGoalProgress').textContent = `${dailyCompleted}/${dailyGoal}`;
+                document.getElementById('dailyGoalFill').style.width = `${dailyPercentage}%`;
+                
+                // Meta Semanal
+                const weeklyCompleted = thisWeek.filter(date => 
+                    this.progressSystem.progress.dailyTopics?.[date] > 0
+                ).length;
+                const weeklyGoal = 5;
+                const weeklyPercentage = Math.min((weeklyCompleted / weeklyGoal) * 100, 100);
+                
+                document.getElementById('weeklyGoalProgress').textContent = `${weeklyCompleted}/${weeklyGoal}`;
+                document.getElementById('weeklyGoalFill').style.width = `${weeklyPercentage}%`;
+                
+                // Meta Mensal
+                const monthlyCompleted = thisMonth.filter(date => 
+                    this.progressSystem.progress.dailyTopics?.[date] > 0
+                ).length;
+                const monthlyGoal = 20;
+                const monthlyPercentage = Math.min((monthlyCompleted / monthlyGoal) * 100, 100);
+                
+                document.getElementById('monthlyGoalProgress').textContent = `${monthlyCompleted}/${monthlyGoal}`;
+                document.getElementById('monthlyGoalFill').style.width = `${monthlyPercentage}%`;
+            }
+
+            // Utility Methods
+            calculateTotalTopics() {
+                if (!window.roadmaps) return 0;
+                return window.roadmaps.reduce((total, roadmap) => {
+                    return total + roadmap.sections.reduce((sectionTotal, section) => {
+                        return sectionTotal + (section.topics?.length || 0);
+                    }, 0);
+                }, 0);
+            }
+
+            calculateXP() {
+                const progress = this.progressSystem.progress;
+                let xp = 0;
+                xp += progress.completedTopics.length * 10; // 10 XP por tópico
+                xp += progress.tasksCompleted * 25; // 25 XP por tarefa IA
+                xp += progress.questionsAnswered * 5; // 5 XP por pergunta
+                xp += progress.badgesEarned.length * 50; // 50 XP por badge
+                xp += Math.floor(progress.studyHours) * 15; // 15 XP por hora
+                return xp;
+            }
+
+            calculateLevel(xp) {
+                return Math.floor(Math.sqrt(xp / 100)) + 1;
+            }
+
+            getXPForLevel(level) {
+                return Math.pow(level - 1, 2) * 100;
+            }
+
+            calculateCurrentStreak() {
+                const dates = this.progressSystem.progress.studyDates;
+                if (!dates || dates.length === 0) return 0;
+                
+                const sortedDates = dates.map(d => new Date(d)).sort((a, b) => b - a);
+                let streak = 0;
+                let currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                
+                for (let date of sortedDates) {
+                    date.setHours(0, 0, 0, 0);
+                    if (date.getTime() === currentDate.getTime()) {
+                        streak++;
+                        currentDate.setDate(currentDate.getDate() - 1);
+                    } else {
+                        break;
+                    }
+                }
+                
+                return streak;
+            }
+
+            calculateLongestStreak() {
+                const dates = this.progressSystem.progress.studyDates;
+                if (!dates || dates.length === 0) return 0;
+                
+                const sortedDates = dates.map(d => new Date(d)).sort((a, b) => a - b);
+                let longestStreak = 1;
+                let currentStreak = 1;
+                
+                for (let i = 1; i < sortedDates.length; i++) {
+                    const diffDays = Math.floor((sortedDates[i] - sortedDates[i-1]) / (1000 * 60 * 60 * 24));
+                    if (diffDays === 1) {
+                        currentStreak++;
+                        longestStreak = Math.max(longestStreak, currentStreak);
+                    } else {
+                        currentStreak = 1;
+                    }
+                }
+                
+                return longestStreak;
+            }
+
+            calculateWeeklyProgress() {
+                const thisWeek = this.getThisWeekDates();
+                return thisWeek.filter(date => 
+                    this.progressSystem.progress.studyDates?.includes(date)
+                ).length;
+            }
+
+            calculateRoadmapProgress(roadmapId) {
+                const roadmapData = window.roadmaps?.find(r => r.id === roadmapId);
+                if (!roadmapData) return 0;
+                
+                let totalTopics = 0;
+                let completedTopics = 0;
+                
+                roadmapData.sections.forEach(section => {
+                    totalTopics += section.topics?.length || 0;
+                    section.topics?.forEach(topic => {
+                        if (this.progressSystem.isTopicCompleted(roadmapId, section.id, topic.id)) {
+                            completedTopics++;
+                        }
+                    });
+                });
+                
+                return totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+            }
+
+            getProgressDescription(percentage) {
+                if (percentage === 0) return 'Ainda não iniciado';
+                if (percentage < 25) return 'Primeiros passos';
+                if (percentage < 50) return 'Progredindo bem';
+                if (percentage < 75) return 'Mais da metade!';
+                if (percentage < 100) return 'Quase terminando!';
+                return 'Roadmap completo! 🎉';
+            }
+
+            getBadgeRarity(badgeId) {
+                const legendaryBadges = ['legend', 'perfectionist', 'grand_master'];
+                const rareBadges = ['data_scientist', 'bi_expert', 'data_specialist'];
+                
+                if (legendaryBadges.includes(badgeId)) return 'legendary';
+                if (rareBadges.includes(badgeId)) return 'rare';
+                return '';
+            }
+
+            generateRecentActivities() {
+                const progress = this.progressSystem.progress;
+                const activities = [];
+                
+                // Últimos tópicos completados
+                const recentTopics = progress.completedTopics.slice(-5);
+                recentTopics.forEach(topicId => {
+                    activities.push({
+                        icon: '✅',
+                        title: 'Tópico Concluído',
+                        description: `Você completou um novo tópico!`,
+                        time: 'Recente'
+                    });
+                });
+                
+                // Badges recentes
+                progress.badgesEarned.slice(-3).forEach(badgeId => {
+                    const badge = this.progressSystem.badges.find(b => b.id === badgeId);
+                    if (badge) {
+                        activities.push({
+                            icon: badge.icon,
+                            title: 'Nova Conquista!',
+                            description: badge.title,
+                            time: 'Recente'
+                        });
+                    }
+                });
+                
+                return activities.slice(0, 8); // Mostrar últimas 8 atividades
+            }
+
+            getThisWeekDates() {
+                const today = new Date();
+                const thisWeek = [];
+                const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+                
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(startOfWeek);
+                    date.setDate(startOfWeek.getDate() + i);
+                    thisWeek.push(date.toDateString());
+                }
+                
+                return thisWeek;
+            }
+
+            getThisMonthDates() {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = today.getMonth();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const thisMonth = [];
+                
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const date = new Date(year, month, i);
+                    thisMonth.push(date.toDateString());
+                }
+                
+                return thisMonth;
+            }
+
+            showRecentXPGain() {
+                const container = document.getElementById('recentXPGain');
+                const recentGain = localStorage.getItem('recentXPGain');
+                
+                if (recentGain) {
+                    container.textContent = `+${recentGain} XP`;
+                    container.style.animation = 'fadeInUp 0.5s ease';
+                    
+                    setTimeout(() => {
+                        container.textContent = '';
+                        localStorage.removeItem('recentXPGain');
+                    }, 3000);
+                }
+            }
+
+            earnBadge(badgeId) {
+                if (!this.progressSystem.progress.badgesEarned.includes(badgeId)) {
+                    this.progressSystem.progress.badgesEarned.push(badgeId);
+                    this.progressSystem.saveProgress();
+                    
+                    // Feedback visual
+                    localStorage.setItem('recentXPGain', '50');
+                    this.showNotification(`🎉 Nova conquista desbloqueada!`);
+                    this.updateAllStats();
+                }
+            }
+
+            showNotification(message) {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    animation: slideInRight 0.5s ease;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 4000);
+            }
+
+            setupRealTimeUpdates() {
+                // Atualizar dashboard a cada 30 segundos
+                setInterval(() => {
+                    this.updateAllStats();
+                }, 30000);
+            }
+
+            addInteractivity() {
+                // Animações de hover e cliques
+                document.querySelectorAll('.stat-card, .card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-5px) scale(1.02)';
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0) scale(1)';
+                    });
+                });
+            }
+        }
+
+        // CSS para animações
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            @keyframes slideInRight {
+                from { opacity: 0; transform: translateX(100%); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Inicializar Dashboard quando DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', () => {
+            window.dashboardManager = new DashboardManager();
+        });
+    </script>
 </body>
 </html>
