@@ -97,7 +97,7 @@ class SimpleGeminiAI {
     return await this.generateContent(prompt);
   }
 
-  // Gerar quiz personalizado
+  // Gerar quiz personalizado (mantido para compatibilidade)
   async generateQuiz(topic, difficulty = 'intermediate', questionCount = 5) {
     const prompt = `
     Crie um quiz prático sobre: ${topic}
@@ -129,6 +129,85 @@ class SimpleGeminiAI {
     `;
 
     return await this.generateContent(prompt);
+  }
+
+  // Gerar tarefa interativa com múltipla escolha
+  async generateTask(topic, difficulty = 'intermediate') {
+    const prompt = `
+    Crie uma tarefa prática sobre: ${topic}
+    
+    **Configurações:**
+    - Dificuldade: ${difficulty}
+    - Tipo: Múltipla escolha com 4 alternativas
+    - Foco: Aplicação prática no mercado de trabalho
+    
+    **IMPORTANTE: Responda APENAS com um JSON válido no formato exato abaixo:**
+    
+    {
+      "question": "[Pergunta clara e prática sobre ${topic}]",
+      "alternatives": [
+        "[Opção A - clara e específica]",
+        "[Opção B - clara e específica]", 
+        "[Opção C - clara e específica]",
+        "[Opção D - clara e específica]"
+      ],
+      "correct": [índice da resposta correta: 0, 1, 2 ou 3],
+      "explanation": "[Explicação detalhada de por que a resposta está correta, incluindo contexto prático e aplicação no mercado de trabalho]"
+    }
+    
+    **Exemplo de contexto para ${topic}:**
+    - Use cenários reais de trabalho
+    - Inclua ferramentas específicas da área
+    - Foque em situações práticas que um profissional enfrentaria
+    - Torne as alternativas plausíveis mas com apenas uma correta
+    
+    **RESPONDA APENAS COM O JSON - NÃO ADICIONE TEXTO EXTRA**
+    `;
+
+    try {
+      const response = await this.generateContent(prompt);
+      
+      // Clean response and try to parse JSON
+      let cleanResponse = response.trim();
+      
+      // Remove any markdown code blocks if present
+      cleanResponse = cleanResponse.replace(/```json\s*|```\s*/g, '');
+      
+      // Try to find JSON content
+      const jsonMatch = cleanResponse.match(/\{[^}]*"question"[^}]*\}/s);
+      if (jsonMatch) {
+        cleanResponse = jsonMatch[0];
+      }
+      
+      // Parse and validate JSON
+      const taskData = JSON.parse(cleanResponse);
+      
+      // Validate required fields
+      if (!taskData.question || !taskData.alternatives || !Array.isArray(taskData.alternatives) || 
+          taskData.alternatives.length !== 4 || typeof taskData.correct !== 'number' || 
+          taskData.correct < 0 || taskData.correct > 3 || !taskData.explanation) {
+        throw new Error('JSON structure invalid');
+      }
+      
+      console.log('✅ Tarefa gerada com sucesso:', taskData);
+      return taskData;
+      
+    } catch (error) {
+      console.warn('⚠️ Erro ao parsear JSON, usando fallback:', error);
+      
+      // Fallback with a sample task
+      return {
+        question: `Qual é a principal aplicação de ${topic} no mercado de trabalho atual?`,
+        alternatives: [
+          `${topic} é usado principalmente para análise de dados`,
+          `${topic} é focado apenas em desenvolvimento web`,
+          `${topic} serve exclusivamente para mobile`,
+          `${topic} é usado somente em inteligência artificial`
+        ],
+        correct: 0,
+        explanation: `${topic} tem aplicações diversas, mas sua principal força está na análise e manipulação de dados, sendo amplamente usado em empresas para extrair insights valiosos e tomar decisões baseadas em dados.`
+      };
+    }
   }
 
   // Mentor virtual personalizado
