@@ -172,8 +172,10 @@ class SimpleGeminiAI {
   }
 
   // Gerar tarefa interativa com múltipla escolha - 5 perguntas + 3 dificuldades progressivas
-  async generateTask(topic, initialDifficulty = 'beginner') {
-    console.log(`🎯 Gerando 5 perguntas progressivas sobre: ${topic}`);
+  async generateTask(topic, initialDifficulty = 'beginner', uniqueId = null) {
+    // BUG FIX: Usar uniqueId para unicidade sem expor no prompt
+    const sessionId = uniqueId || Date.now();
+    console.log(`🎯 Gerando 5 perguntas progressivas sobre: ${topic} (ID: ${sessionId})`);
     
     // Definir configurações por dificuldade
     const difficultyConfigs = {
@@ -221,6 +223,7 @@ class SimpleGeminiAI {
         const prompt = `
 Crie UMA pergunta ÚNICA e específica sobre: **${topic}**
 
+**SESSÃO:** ${sessionId} (para garantir unicidade absoluta)
 **NÍVEL:** ${config.name} (${config.description})
 **FOCO ESPECÍFICO:** ${questionConfig.focus} - ${questionConfig.aspect}
 **COMPLEXIDADE:** ${config.complexity}
@@ -234,10 +237,11 @@ Crie UMA pergunta ÚNICA e específica sobre: **${topic}**
 - NUNCA repita conceitos ou estruturas de perguntas anteriores
 - Cada pergunta deve abordar um aspecto DISTINTO do tópico
 - Use cenários e exemplos específicos para esta perspectiva
+- RANDOMIZE a alternativa correta (NÃO sempre A): deve variar entre A, B, C, D ou E
 
 **FORMATO EXATO DA RESPOSTA:**
 {
-  "question": "[Pergunta elaborada e contextualizada]",
+  "question": "[Pergunta elaborada e contextualizada SEM expor o sessionId]",
   "alternatives": [
     "[Alternativa A - detalhada e plausível]",
     "[Alternativa B - detalhada e plausível]", 
@@ -245,7 +249,7 @@ Crie UMA pergunta ÚNICA e específica sobre: **${topic}**
     "[Alternativa D - detalhada e plausível]",
     "[Alternativa E - detalhada e plausível]"
   ],
-  "correct": [Índice da alternativa correta: 0, 1, 2, 3 ou 4],
+  "correct": [RANDOMIZE: 0, 1, 2, 3 ou 4 - NÃO SEMPRE 0],
   "explanation": "[Explicação detalhada da resposta correta e por que as outras estão incorretas]",
   "difficulty": "${difficulty}",
   "questionNumber": ${number},

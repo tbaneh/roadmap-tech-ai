@@ -1454,10 +1454,10 @@
             // BUG FIX: LOADING IMEDIATO
             showLoadingModal('🎯 Gerando Tarefa IA', `Criando 5 perguntas progressivas sobre ${topic}...`);
             
-            // BUG FIX: GARANTIR UNICIDADE - Adicionar timestamp para evitar cache
+            // BUG FIX: GARANTIR UNICIDADE SEM EXPOR TIMESTAMP NO PROMPT
             const timestamp = Date.now();
-            const uniquePrompt = `${topic} - ${difficulty} - ${timestamp}`;
-            const task = await geminiAI.generateTask(uniquePrompt, difficulty);
+            // Passar timestamp como parâmetro separado para evitar aparecer na pergunta
+            const task = await geminiAI.generateTask(topic, difficulty, timestamp);
             closeLoadingModal();
             showProgressiveQuestionsModal(topic, task);
             
@@ -1520,16 +1520,17 @@
           try {
             showLoadingModal('🧠 Gerando Quiz IA', `Criando quiz inteligente sobre ${topic}...`);
             
-            // Generate unique quiz with timestamp
+            // BUG FIX: Generate unique quiz with proper error handling
             const timestamp = Date.now();
-            const quiz = await geminiAI.generateQuiz(`${topic} - Quiz - ${timestamp}`);
+            const quiz = await geminiAI.generateQuiz(topic, 'intermediate', 5, timestamp);
             closeLoadingModal();
             showAIModal('🧠 Quiz IA Gerado', quiz);
             
           } catch (error) {
             console.error('❌ Erro ao gerar quiz:', error);
             closeLoadingModal();
-            alert('🤖 Não foi possível gerar o quiz. Tente novamente.');
+            // BUG FIX: Evitar mensagem duplicada - apenas uma mensagem de erro
+            showAIModal('❌ Erro no Quiz IA', 'Não foi possível gerar o quiz. Verifique sua conexão e tente novamente.');
           }
         });
         
@@ -1575,7 +1576,8 @@
           } catch (error) {
             console.error('❌ Erro ao analisar recurso:', error);
             closeLoadingModal();
-            alert('🤖 Não foi possível analisar o recurso. Tente novamente.');
+            // BUG FIX: Evitar mensagem duplicada - apenas uma mensagem de erro
+            showAIModal('❌ Erro na Análise', 'Não foi possível analisar o recurso. Verifique sua conexão e tente novamente.');
           }
         });
         
@@ -1594,6 +1596,111 @@
       }
       
       console.log('🎉 Todos os cards de IA configurados com sucesso!');
+    }
+    
+    // Input Modal - BUG FIX: Substituir prompt() duplicado
+    function showInputModal(title, callback) {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+      `;
+      
+      modal.innerHTML = `
+        <div style="
+          background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+          border-radius: 20px;
+          padding: 2rem;
+          width: 90%;
+          max-width: 500px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        ">
+          <h3 style="color: white; margin-bottom: 1rem; text-align: center;">${title}</h3>
+          <textarea 
+            id="userInput" 
+            placeholder="Digite sua pergunta aqui..."
+            style="
+              width: 100%;
+              min-height: 120px;
+              padding: 1rem;
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              border-radius: 12px;
+              background: rgba(255, 255, 255, 0.05);
+              color: white;
+              font-size: 1rem;
+              resize: vertical;
+              outline: none;
+              margin-bottom: 1.5rem;
+            "
+          ></textarea>
+          <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button id="cancelBtn" style="
+              padding: 0.75rem 1.5rem;
+              border: 1px solid rgba(239, 68, 68, 0.5);
+              border-radius: 8px;
+              background: rgba(239, 68, 68, 0.1);
+              color: #ef4444;
+              cursor: pointer;
+              font-weight: 500;
+            ">✖ Cancelar</button>
+            <button id="submitBtn" style="
+              padding: 0.75rem 1.5rem;
+              border: 1px solid rgba(16, 185, 129, 0.5);
+              border-radius: 8px;
+              background: rgba(16, 185, 129, 0.1);
+              color: #10b981;
+              cursor: pointer;
+              font-weight: 500;
+            ">✓ Enviar</button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      const input = document.getElementById('userInput');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const submitBtn = document.getElementById('submitBtn');
+      
+      // Focus no input
+      setTimeout(() => input.focus(), 100);
+      
+      // Event listeners
+      cancelBtn.onclick = () => {
+        document.body.removeChild(modal);
+      };
+      
+      submitBtn.onclick = () => {
+        const value = input.value.trim();
+        if (value) {
+          document.body.removeChild(modal);
+          callback(value);
+        }
+      };
+      
+      // Enter para enviar
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.ctrlKey) {
+          submitBtn.click();
+        }
+      });
+      
+      // ESC para cancelar
+      modal.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          cancelBtn.click();
+        }
+      });
     }
     
     // Progressive Questions Modal - Sistema de 5 Perguntas Progressivas
@@ -1980,26 +2087,32 @@
       }
     }
     
-    // AI Mentor function
+    // AI Mentor function - BUG FIX: REMOVER PROMPT DUPLICADO
     window.askMentor = async function() {
       if (!geminiAI) {
         alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
         return;
       }
       
-      const question = prompt('🎯 Qual é sua dúvida sobre a carreira em tech?');
-      if (!question) return;
-      
-      try {
-        const userContext = `Usuário estudando: ${currentRoadmap?.title || 'Carreira em Tech'}`;
-        const advice = await geminiAI.getMentorAdvice(question, userContext);
+      // BUG FIX: Usar modal personalizado em vez de prompt() duplicado
+      showInputModal('🎯 Qual é sua dúvida sobre carreira em tech?', async (question) => {
+        if (!question || question.trim() === '') return;
         
-        showAIModal('🎓 Mentor IA', advice);
-        
-      } catch (error) {
-        console.error('❌ Erro ao consultar mentor:', error);
-        alert('🤖 Não foi possível consultar o mentor. Tente novamente.');
-      }
+        try {
+          showLoadingModal('🤖 Consultando Mentor IA', 'Gerando resposta personalizada...');
+          
+          const userContext = `Usuário estudando: ${currentRoadmap?.title || 'Carreira em Tech'}`;
+          const advice = await geminiAI.getMentorAdvice(question, userContext);
+          
+          closeLoadingModal();
+          showAIModal('🎓 Mentor IA', advice);
+          
+        } catch (error) {
+          console.error('❌ Erro ao consultar mentor:', error);
+          closeLoadingModal();
+          alert('🤖 Não foi possível consultar o mentor. Tente novamente.');
+        }
+      });
     };
     
 
