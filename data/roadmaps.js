@@ -511,26 +511,336 @@ export const roadmaps = {
     averageSalary: 'R$ 8.000 - R$ 18.000',
     sections: [
       {
-        id: 'math-stats',
-        title: 'Matemática e Estatística',
-        description: 'Base matemática sólida para Data Science',
-        estimatedHours: 80,
+        id: 'math-stats-foundation',
+        title: 'Matemática e Estatística Avançada',
+        description: 'Base matemática sólida para Data Science e Machine Learning',
+        estimatedHours: 100,
         topics: [
           {
             id: 'linear-algebra',
             title: 'Álgebra Linear',
-            description: 'Vetores, matrizes e transformações lineares',
-            estimatedHours: 25,
+            description: 'Vetores, matrizes, eigenvalues e transformações lineares',
+            estimatedHours: 30,
             resources: [
               { type: 'Curso', title: 'Linear Algebra - MIT', url: 'https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010', provider: 'MIT OpenCourseWare' },
               { type: 'Vídeo', title: '3Blue1Brown Linear Algebra', url: 'https://youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab', provider: 'YouTube' },
               { type: 'Prática', title: 'NumPy Linear Algebra', url: 'https://numpy.org/doc/stable/reference/routines.linalg.html', provider: 'NumPy' }
             ]
+          },
+          {
+            id: 'calculus-optimization',
+            title: 'Cálculo e Otimização',
+            description: 'Derivadas, gradientes e algoritmos de otimização',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'Calculus for Machine Learning', url: 'https://www.coursera.org/learn/machine-learning-calculus', provider: 'Coursera' },
+              { type: 'Livro', title: 'Calculus for Machine Learning', url: 'https://mml-book.github.io/', provider: 'MML Book' },
+              { type: 'Prática', title: 'SciPy Optimize', url: 'https://docs.scipy.org/doc/scipy/reference/optimize.html', provider: 'SciPy' }
+            ]
+          },
+          {
+            id: 'statistics-probability',
+            title: 'Estatística e Probabilidade',
+            description: 'Distribuições, testes de hipótese e inferência estatística',
+            estimatedHours: 30,
+            resources: [
+              { type: 'Curso', title: 'Statistics for Data Science', url: 'https://www.coursera.org/learn/statistical-inferences', provider: 'Coursera' },
+              { type: 'Livro', title: 'Think Stats', url: 'https://greenteapress.com/thinkstats2/', provider: 'Green Tea Press' },
+              { type: 'Prática', title: 'Statistical Analysis with Python', url: 'https://www.scipy.org/getting-started.html#scipy-statsmodels', provider: 'SciPy' }
+            ]
+          },
+          {
+            id: 'bayesian-statistics',
+            title: 'Estatística Bayesiana',
+            description: 'Teorema de Bayes, MCMC e inferência bayesiana',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Curso', title: 'Bayesian Methods for Machine Learning', url: 'https://www.coursera.org/learn/bayesian-methods-in-machine-learning', provider: 'Coursera' },
+              { type: 'Livro', title: 'Bayesian Analysis with Python', url: 'https://www.packtpub.com/product/bayesian-analysis-with-python-second-edition/9781789341652', provider: 'Packt' },
+              { type: 'Ferramenta', title: 'PyMC3 Tutorial', url: 'https://docs.pymc.io/', provider: 'PyMC' }
+            ]
           }
-          // ... mais tópicos
+        ]
+      },
+      {
+        id: 'python-data-science',
+        title: 'Python para Data Science',
+        description: 'Ecosystem Python avançado para análise e modelagem de dados',
+        estimatedHours: 80,
+        topics: [
+          {
+            id: 'numpy-advanced',
+            title: 'NumPy Avançado',
+            description: 'Arrays multidimensionais, broadcasting e operações vetorizadas',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'NumPy Ultimate Guide', url: 'https://www.udemy.com/course/deep-learning-prerequisites-the-numpy-stack-in-python/', provider: 'Udemy' },
+              { type: 'Documentação', title: 'NumPy User Guide', url: 'https://numpy.org/doc/stable/user/', provider: 'NumPy' },
+              { type: 'Prática', title: 'NumPy Exercises', url: 'https://github.com/rougier/numpy-100', provider: 'GitHub' }
+            ]
+          },
+          {
+            id: 'pandas-advanced',
+            title: 'Pandas Avançado',
+            description: 'Manipulação avançada de dados, performance e memory optimization',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'Pandas for Data Analysis', url: 'https://www.udemy.com/course/data-analysis-with-pandas/', provider: 'Udemy' },
+              { type: 'Livro', title: 'Python for Data Analysis', url: 'https://wesmckinney.com/book/', provider: 'Wes McKinney' },
+              { type: 'Prática', title: 'Pandas Exercises', url: 'https://github.com/guipsamora/pandas_exercises', provider: 'GitHub' }
+            ]
+          },
+          {
+            id: 'visualization-advanced',
+            title: 'Visualização Avançada',
+            description: 'Matplotlib, Seaborn, Plotly e visualizações interativas',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Data Visualization with Python', url: 'https://www.coursera.org/learn/python-for-data-visualization', provider: 'Coursera' },
+              { type: 'Galeria', title: 'Python Graph Gallery', url: 'https://python-graph-gallery.com/', provider: 'Community' },
+              { type: 'Ferramenta', title: 'Plotly Documentation', url: 'https://plotly.com/python/', provider: 'Plotly' }
+            ]
+          },
+          {
+            id: 'jupyter-advanced',
+            title: 'Jupyter e Ambientes de Desenvolvimento',
+            description: 'Jupyter Lab, notebooks avançados e deployment',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Curso', title: 'Mastering Jupyter Notebooks', url: 'https://www.datacamp.com/courses/introduction-to-jupyter-notebooks', provider: 'DataCamp' },
+              { type: 'Documentação', title: 'JupyterLab Documentation', url: 'https://jupyterlab.readthedocs.io/', provider: 'Jupyter' },
+              { type: 'Ferramenta', title: 'Google Colab', url: 'https://colab.research.google.com/', provider: 'Google' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'machine-learning-fundamentals',
+        title: 'Machine Learning Fundamentals',
+        description: 'Algoritmos fundamentais e teoria de machine learning',
+        estimatedHours: 100,
+        topics: [
+          {
+            id: 'supervised-learning',
+            title: 'Aprendizado Supervisionado',
+            description: 'Regressão, classificação e algoritmos supervisionados',
+            estimatedHours: 35,
+            resources: [
+              { type: 'Curso', title: 'Machine Learning - Andrew Ng', url: 'https://www.coursera.org/learn/machine-learning', provider: 'Coursera' },
+              { type: 'Livro', title: 'Hands-On Machine Learning', url: 'https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/', provider: 'O\'Reilly' },
+              { type: 'Prática', title: 'Scikit-learn Tutorials', url: 'https://scikit-learn.org/stable/tutorial/', provider: 'Scikit-learn' }
+            ]
+          },
+          {
+            id: 'unsupervised-learning',
+            title: 'Aprendizado Não-supervisionado',
+            description: 'Clustering, redução de dimensionalidade e detecção de anomalias',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'Unsupervised Learning', url: 'https://www.udacity.com/course/machine-learning--ud262', provider: 'Udacity' },
+              { type: 'Artigo', title: 'Clustering Algorithms', url: 'https://scikit-learn.org/stable/modules/clustering.html', provider: 'Scikit-learn' },
+              { type: 'Prática', title: 'PCA and t-SNE', url: 'https://www.kaggle.com/learn/data-visualization', provider: 'Kaggle' }
+            ]
+          },
+          {
+            id: 'model-evaluation',
+            title: 'Avaliação e Validação de Modelos',
+            description: 'Cross-validation, métricas e seleção de modelos',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Model Validation', url: 'https://www.kaggle.com/learn/machine-learning-explainability', provider: 'Kaggle' },
+              { type: 'Artigo', title: 'Cross-validation Guide', url: 'https://scikit-learn.org/stable/modules/cross_validation.html', provider: 'Scikit-learn' },
+              { type: 'Ferramenta', title: 'Yellowbrick', url: 'https://www.scikit-yb.org/', provider: 'Yellowbrick' }
+            ]
+          },
+          {
+            id: 'feature-engineering',
+            title: 'Feature Engineering',
+            description: 'Seleção, transformação e criação de features',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Feature Engineering', url: 'https://www.kaggle.com/learn/feature-engineering', provider: 'Kaggle' },
+              { type: 'Livro', title: 'Feature Engineering for Machine Learning', url: 'https://www.oreilly.com/library/view/feature-engineering-for/9781491953235/', provider: 'O\'Reilly' },
+              { type: 'Ferramenta', title: 'Featuretools', url: 'https://docs.featuretools.com/', provider: 'Featuretools' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'deep-learning',
+        title: 'Deep Learning',
+        description: 'Redes neurais profundas e arquiteturas avançadas',
+        estimatedHours: 90,
+        topics: [
+          {
+            id: 'neural-networks',
+            title: 'Redes Neurais Fundamentals',
+            description: 'Perceptrons, backpropagation e redes densas',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'Deep Learning Specialization', url: 'https://www.coursera.org/specializations/deep-learning', provider: 'Coursera' },
+              { type: 'Livro', title: 'Deep Learning - Goodfellow', url: 'https://www.deeplearningbook.org/', provider: 'MIT Press' },
+              { type: 'Vídeo', title: 'Neural Networks - 3Blue1Brown', url: 'https://youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi', provider: 'YouTube' }
+            ]
+          },
+          {
+            id: 'tensorflow-keras',
+            title: 'TensorFlow e Keras',
+            description: 'Framework para deep learning e implementação prática',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'TensorFlow Developer Certificate', url: 'https://www.coursera.org/professional-certificates/tensorflow-in-practice', provider: 'Coursera' },
+              { type: 'Documentação', title: 'TensorFlow Tutorials', url: 'https://www.tensorflow.org/tutorials', provider: 'TensorFlow' },
+              { type: 'Prática', title: 'Keras Examples', url: 'https://keras.io/examples/', provider: 'Keras' }
+            ]
+          },
+          {
+            id: 'computer-vision',
+            title: 'Computer Vision',
+            description: 'CNNs, processamento de imagens e visão computacional',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Computer Vision Specialization', url: 'https://www.coursera.org/specializations/computer-vision-tensorflow', provider: 'Coursera' },
+              { type: 'Dataset', title: 'ImageNet Dataset', url: 'https://www.image-net.org/', provider: 'ImageNet' },
+              { type: 'Ferramenta', title: 'OpenCV Tutorial', url: 'https://opencv-python-tutroals.readthedocs.io/', provider: 'OpenCV' }
+            ]
+          },
+          {
+            id: 'nlp-fundamentals',
+            title: 'Natural Language Processing',
+            description: 'Processamento de texto, RNNs e transformers básicos',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Natural Language Processing', url: 'https://www.coursera.org/specializations/natural-language-processing', provider: 'Coursera' },
+              { type: 'Livro', title: 'Natural Language Processing with Python', url: 'https://www.nltk.org/book/', provider: 'NLTK' },
+              { type: 'Ferramenta', title: 'spaCy Tutorial', url: 'https://spacy.io/usage', provider: 'spaCy' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'mlops-production',
+        title: 'MLOps e Machine Learning em Produção',
+        description: 'Deploy, monitoramento e operações de modelos ML',
+        estimatedHours: 70,
+        topics: [
+          {
+            id: 'model-deployment',
+            title: 'Deploy de Modelos',
+            description: 'APIs, containerização e servir modelos em produção',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'MLOps Specialization', url: 'https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops', provider: 'Coursera' },
+              { type: 'Ferramenta', title: 'MLflow Documentation', url: 'https://mlflow.org/docs/latest/index.html', provider: 'MLflow' },
+              { type: 'Prática', title: 'Docker for ML', url: 'https://github.com/docker/labs/tree/master/beginner', provider: 'Docker' }
+            ]
+          },
+          {
+            id: 'model-monitoring',
+            title: 'Monitoramento de Modelos',
+            description: 'Drift detection, performance monitoring e observabilidade',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Artigo', title: 'Model Monitoring Best Practices', url: 'https://neptune.ai/blog/ml-model-monitoring-best-tools', provider: 'Neptune.ai' },
+              { type: 'Ferramenta', title: 'Evidently AI', url: 'https://docs.evidentlyai.com/', provider: 'Evidently' },
+              { type: 'Curso', title: 'ML Monitoring', url: 'https://www.udacity.com/course/machine-learning-devops-engineer-nanodegree--nd0821', provider: 'Udacity' }
+            ]
+          },
+          {
+            id: 'cloud-platforms',
+            title: 'Plataformas Cloud para ML',
+            description: 'AWS SageMaker, Google Cloud AI, Azure ML',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'AWS SageMaker', url: 'https://aws.amazon.com/sagemaker/getting-started/', provider: 'AWS' },
+              { type: 'Curso', title: 'Google Cloud AI Platform', url: 'https://cloud.google.com/ai-platform/docs', provider: 'Google Cloud' },
+              { type: 'Certificação', title: 'Azure AI Engineer', url: 'https://docs.microsoft.com/learn/certifications/azure-ai-engineer/', provider: 'Microsoft' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'advanced-topics',
+        title: 'Tópicos Avançados',
+        description: 'Áreas especializadas e tendências emergentes',
+        estimatedHours: 60,
+        topics: [
+          {
+            id: 'time-series',
+            title: 'Análise de Séries Temporais',
+            description: 'ARIMA, LSTM para séries temporais e forecasting',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Time Series Analysis', url: 'https://www.coursera.org/learn/practical-time-series-analysis', provider: 'Coursera' },
+              { type: 'Livro', title: 'Forecasting: Principles and Practice', url: 'https://otexts.com/fpp3/', provider: 'OTexts' },
+              { type: 'Ferramenta', title: 'Prophet by Facebook', url: 'https://facebook.github.io/prophet/', provider: 'Facebook' }
+            ]
+          },
+          {
+            id: 'reinforcement-learning',
+            title: 'Reinforcement Learning',
+            description: 'Q-learning, policy gradients e deep RL',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Reinforcement Learning', url: 'https://www.udacity.com/course/reinforcement-learning--ud600', provider: 'Udacity' },
+              { type: 'Livro', title: 'Reinforcement Learning: An Introduction', url: 'http://incompleteideas.net/book/', provider: 'Sutton & Barto' },
+              { type: 'Ferramenta', title: 'OpenAI Gym', url: 'https://gym.openai.com/', provider: 'OpenAI' }
+            ]
+          },
+          {
+            id: 'transformers-llms',
+            title: 'Transformers e Large Language Models',
+            description: 'BERT, GPT, fine-tuning e aplicações de LLMs',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Hugging Face Course', url: 'https://huggingface.co/course', provider: 'Hugging Face' },
+              { type: 'Artigo', title: 'Attention Is All You Need', url: 'https://arxiv.org/abs/1706.03762', provider: 'arXiv' },
+              { type: 'Ferramenta', title: 'Transformers Library', url: 'https://huggingface.co/docs/transformers/', provider: 'Hugging Face' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'data-science-projects',
+        title: 'Projetos Data Science Premium',
+        description: 'Projetos end-to-end para portfólio profissional',
+        estimatedHours: 100,
+        topics: [
+          {
+            id: 'predictive-analytics',
+            title: 'Sistema de Análise Preditiva',
+            description: 'Modelo de previsão de vendas com deployment completo',
+            estimatedHours: 35,
+            resources: [
+              { type: 'Dataset', title: 'Sales Forecasting Dataset', url: 'https://www.kaggle.com/c/demand-forecasting-kernels-only', provider: 'Kaggle' },
+              { type: 'Template', title: 'MLOps Project Template', url: 'https://github.com/drivendata/cookiecutter-data-science', provider: 'DrivenData' },
+              { type: 'Tutorial', title: 'End-to-End ML Project', url: 'https://github.com/ageron/handson-ml2', provider: 'GitHub' }
+            ]
+          },
+          {
+            id: 'recommendation-system',
+            title: 'Sistema de Recomendação',
+            description: 'Collaborative filtering e content-based recommendations',
+            estimatedHours: 30,
+            resources: [
+              { type: 'Dataset', title: 'MovieLens Dataset', url: 'https://grouplens.org/datasets/movielens/', provider: 'GroupLens' },
+              { type: 'Curso', title: 'Recommender Systems', url: 'https://www.coursera.org/specializations/recommender-systems', provider: 'Coursera' },
+              { type: 'Ferramenta', title: 'Surprise Library', url: 'https://surprise.readthedocs.io/', provider: 'Surprise' }
+            ]
+          },
+          {
+            id: 'nlp-sentiment-analysis',
+            title: 'Análise de Sentimentos em Tempo Real',
+            description: 'Pipeline NLP com streaming data e dashboard',
+            estimatedHours: 35,
+            resources: [
+              { type: 'Dataset', title: 'Twitter Sentiment Dataset', url: 'https://www.kaggle.com/datasets/kazanova/sentiment140', provider: 'Kaggle' },
+              { type: 'Ferramenta', title: 'Streamlit for ML Apps', url: 'https://streamlit.io/', provider: 'Streamlit' },
+              { type: 'API', title: 'Twitter API v2', url: 'https://developer.twitter.com/en/docs/twitter-api', provider: 'Twitter' }
+            ]
+          }
         ]
       }
-      // ... mais seções
     ]
   },
 
