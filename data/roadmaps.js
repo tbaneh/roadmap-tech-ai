@@ -15,16 +15,16 @@ export const roadmaps = {
     averageSalary: 'R$ 4.000 - R$ 8.000',
     sections: [
       {
-        id: 'foundations',
-        title: 'Fundamentos de Dados',
-        description: 'Base sólida em conceitos de dados e estatística',
-        estimatedHours: 40,
+        id: 'foundations-data',
+        title: 'Fundamentos de Dados e Estatística',
+        description: 'Base sólida em conceitos de dados, estatística e pensamento analítico',
+        estimatedHours: 60,
         topics: [
           {
             id: 'data-concepts',
             title: 'Conceitos Básicos de Dados',
-            description: 'Tipos de dados, estruturas e qualidade',
-            estimatedHours: 8,
+            description: 'Tipos de dados, estruturas, qualidade e governança',
+            estimatedHours: 15,
             resources: [
               { type: 'Curso', title: 'Introduction to Data Analysis', url: 'https://www.coursera.org/learn/introduction-to-data-analytics', provider: 'Coursera' },
               { type: 'Livro', title: 'Data Science for Business', url: 'https://www.amazon.com/Data-Science-Business-Foster-Provost/dp/1449361323', provider: 'Amazon' },
@@ -32,10 +32,10 @@ export const roadmaps = {
             ]
           },
           {
-            id: 'statistics-basics',
+            id: 'statistics-descriptive',
             title: 'Estatística Descritiva',
             description: 'Medidas de tendência central, dispersão e distribuições',
-            estimatedHours: 16,
+            estimatedHours: 20,
             resources: [
               { type: 'Curso', title: 'Statistics for Data Science', url: 'https://www.udemy.com/course/statistics-for-data-science-and-business-analysis/', provider: 'Udemy' },
               { type: 'Prática', title: 'Khan Academy Statistics', url: 'https://www.khanacademy.org/math/statistics-probability', provider: 'Khan Academy' },
@@ -43,96 +43,285 @@ export const roadmaps = {
             ]
           },
           {
-            id: 'excel-advanced',
-            title: 'Excel Avançado',
-            description: 'Fórmulas, tabelas dinâmicas e visualizações',
-            estimatedHours: 16,
+            id: 'statistics-inferential',
+            title: 'Estatística Inferencial',
+            description: 'Testes de hipótese, intervalos de confiança e correlação',
+            estimatedHours: 15,
             resources: [
-              { type: 'Curso', title: 'Excel para Análise de Dados', url: 'https://udemy.com/excel-data-analysis', provider: 'Udemy' },
-              { type: 'Prática', title: 'Exercícios Excel - Hashtag', url: 'https://hashtagtreinamentos.com/excel', provider: 'Hashtag' },
-              { type: 'Template', title: 'Templates de Dashboards', url: 'https://excel-templates.com', provider: 'Excel Templates' }
+              { type: 'Curso', title: 'Inferential Statistics', url: 'https://www.coursera.org/learn/statistical-inferences', provider: 'Coursera' },
+              { type: 'Livro', title: 'Think Stats', url: 'https://greenteapress.com/thinkstats2/', provider: 'Green Tea Press' },
+              { type: 'Prática', title: 'Statistics in R', url: 'https://www.datacamp.com/courses/introduction-to-statistics-in-r', provider: 'DataCamp' }
+            ]
+          },
+          {
+            id: 'analytical-thinking',
+            title: 'Pensamento Analítico',
+            description: 'Framework de análise, formulação de perguntas e storytelling',
+            estimatedHours: 10,
+            resources: [
+              { type: 'Curso', title: 'Analytical Thinking for Problem Solving', url: 'https://www.coursera.org/learn/analytical-thinking-problem-solving', provider: 'Coursera' },
+              { type: 'Livro', title: 'Good Charts', url: 'https://www.amazon.com/Good-Charts-Smarter-Persuasive-Visualizations/dp/1633690709', provider: 'Amazon' },
+              { type: 'Artigo', title: 'Data Storytelling Best Practices', url: 'https://www.tableau.com/learn/articles/data-storytelling', provider: 'Tableau' }
             ]
           }
         ]
       },
       {
-        id: 'sql',
-        title: 'SQL Mastery',
-        description: 'Domine a linguagem essencial para trabalhar com dados',
-        estimatedHours: 60,
+        id: 'excel-mastery',
+        title: 'Excel Mastery para Análise',
+        description: 'Domine Excel para análise de dados profissional e automação',
+        estimatedHours: 50,
         topics: [
           {
-            id: 'sql-basics',
+            id: 'excel-advanced-functions',
+            title: 'Fórmulas e Funções Avançadas',
+            description: 'VLOOKUP, INDEX/MATCH, SUMIFS, array formulas',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Curso', title: 'Excel para Análise de Dados', url: 'https://www.udemy.com/course/microsoft-excel-data-analysis-course/', provider: 'Udemy' },
+              { type: 'Prática', title: 'Excel Practice Online', url: 'https://excel-practice-online.com/', provider: 'Excel Practice' },
+              { type: 'Documentação', title: 'Excel Function Reference', url: 'https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188', provider: 'Microsoft' }
+            ]
+          },
+          {
+            id: 'pivot-tables-advanced',
+            title: 'Tabelas Dinâmicas Avançadas',
+            description: 'Análise multidimensional, campos calculados e segmentação',
+            estimatedHours: 12,
+            resources: [
+              { type: 'Curso', title: 'Mastering Pivot Tables', url: 'https://www.linkedin.com/learning/excel-pivottables-for-beginners', provider: 'LinkedIn Learning' },
+              { type: 'Template', title: 'Pivot Table Templates', url: 'https://www.vertex42.com/ExcelTemplates/', provider: 'Vertex42' },
+              { type: 'Vídeo', title: 'Advanced Pivot Tables', url: 'https://www.youtube.com/watch?v=qu-AK0Hv0b4', provider: 'YouTube' }
+            ]
+          },
+          {
+            id: 'excel-visualization',
+            title: 'Visualização e Dashboards em Excel',
+            description: 'Gráficos avançados, conditional formatting e dashboards dinâmicos',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Curso', title: 'Excel Dashboards & Data Visualization', url: 'https://www.udemy.com/course/excel-dashboards-reports/', provider: 'Udemy' },
+              { type: 'Template', title: 'Professional Dashboard Templates', url: 'https://www.someka.net/excel-template/', provider: 'Someka' },
+              { type: 'Galeria', title: 'Excel Dashboard Examples', url: 'https://chandoo.org/wp/excel-dashboards/', provider: 'Chandoo' }
+            ]
+          },
+          {
+            id: 'excel-automation',
+            title: 'Automação com VBA Básico',
+            description: 'Macros, VBA fundamentals e automação de tarefas repetitivas',
+            estimatedHours: 8,
+            resources: [
+              { type: 'Curso', title: 'Excel VBA for Beginners', url: 'https://www.udemy.com/course/excel-vba-for-beginners/', provider: 'Udemy' },
+              { type: 'Documentação', title: 'VBA Language Reference', url: 'https://docs.microsoft.com/en-us/office/vba/language/reference/', provider: 'Microsoft' },
+              { type: 'Prática', title: 'VBA Code Examples', url: 'https://www.excel-easy.com/vba.html', provider: 'Excel Easy' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'sql-mastery',
+        title: 'SQL Mastery Avançado',
+        description: 'Domine a linguagem essencial para trabalhar com dados em todos os níveis',
+        estimatedHours: 80,
+        topics: [
+          {
+            id: 'sql-fundamentals',
             title: 'SQL Fundamentals',
             description: 'SELECT, WHERE, GROUP BY, JOIN e funções agregadas',
-            estimatedHours: 24,
+            estimatedHours: 25,
             resources: [
-              { type: 'Curso', title: 'SQL para Data Science', url: 'https://coursera.org/sql-data-science', provider: 'Coursera' },
+              { type: 'Curso', title: 'SQL para Data Science', url: 'https://www.coursera.org/learn/sql-for-data-science', provider: 'Coursera' },
               { type: 'Prática', title: 'SQLBolt Interactive Tutorial', url: 'https://sqlbolt.com', provider: 'SQLBolt' },
-              { type: 'Prática', title: 'HackerRank SQL', url: 'https://hackerrank.com/domains/sql', provider: 'HackerRank' }
+              { type: 'Prática', title: 'HackerRank SQL', url: 'https://www.hackerrank.com/domains/sql', provider: 'HackerRank' }
             ]
           },
           {
             id: 'sql-intermediate',
             title: 'SQL Intermediário',
             description: 'CTEs, Window Functions, subconsultas avançadas',
-            estimatedHours: 20,
+            estimatedHours: 25,
             resources: [
-              { type: 'Curso', title: 'Advanced SQL', url: 'https://mode.com/sql-tutorial', provider: 'Mode Analytics' },
-              { type: 'Prática', title: 'SQL Exercises - W3Schools', url: 'https://w3schools.com/sql/sql_exercises.asp', provider: 'W3Schools' },
+              { type: 'Curso', title: 'Advanced SQL', url: 'https://mode.com/sql-tutorial/', provider: 'Mode Analytics' },
+              { type: 'Prática', title: 'SQL Exercises - W3Schools', url: 'https://www.w3schools.com/sql/sql_exercises.asp', provider: 'W3Schools' },
               { type: 'Dataset', title: 'Sample Databases', url: 'https://github.com/microsoft/sql-server-samples', provider: 'Microsoft' }
             ]
           },
           {
-            id: 'sql-optimization',
-            title: 'Otimização e Performance',
-            description: 'Índices, query optimization e boas práticas',
-            estimatedHours: 16,
+            id: 'sql-advanced',
+            title: 'SQL Avançado',
+            description: 'Procedures, triggers, índices complexos e otimização',
+            estimatedHours: 20,
             resources: [
-              { type: 'Artigo', title: 'SQL Performance Tips', url: 'https://sqlperformance.com', provider: 'SQL Performance' },
-              { type: 'Curso', title: 'Database Performance Tuning', url: 'https://pluralsight.com/sql-performance', provider: 'Pluralsight' },
-              { type: 'Ferramenta', title: 'SQL Server Query Analyzer', url: 'https://docs.microsoft.com/sql/tools', provider: 'Microsoft' }
+              { type: 'Curso', title: 'Database Performance Tuning', url: 'https://www.pluralsight.com/courses/sql-server-performance-tuning', provider: 'Pluralsight' },
+              { type: 'Artigo', title: 'SQL Performance Tips', url: 'https://use-the-index-luke.com/', provider: 'Use The Index Luke' },
+              { type: 'Ferramenta', title: 'SQL Server Query Analyzer', url: 'https://docs.microsoft.com/en-us/sql/tools/', provider: 'Microsoft' }
+            ]
+          },
+          {
+            id: 'sql-analytics',
+            title: 'SQL para Analytics',
+            description: 'Window functions avançadas, cohort analysis e métricas de negócio',
+            estimatedHours: 10,
+            resources: [
+              { type: 'Curso', title: 'SQL for Analytics', url: 'https://www.datacamp.com/courses/intro-to-sql-for-data-science', provider: 'DataCamp' },
+              { type: 'Prática', title: 'SQL Murder Mystery', url: 'https://mystery.knightlab.com/', provider: 'Knight Lab' },
+              { type: 'Dataset', title: 'Northwind Database', url: 'https://northwinddatabase.codeplex.com/', provider: 'Northwind' }
             ]
           }
         ]
       },
       {
-        id: 'visualization',
-        title: 'Visualização de Dados',
-        description: 'Crie dashboards e relatórios impactantes',
-        estimatedHours: 50,
+        id: 'visualization-mastery',
+        title: 'Visualização e Business Intelligence',
+        description: 'Crie dashboards e relatórios impactantes com ferramentas líderes de mercado',
+        estimatedHours: 70,
         topics: [
           {
             id: 'powerbi-fundamentals',
             title: 'Power BI Fundamentals',
-            description: 'Interface, modelagem e relacionamentos',
-            estimatedHours: 20,
+            description: 'Interface, modelagem, relacionamentos e conectores de dados',
+            estimatedHours: 25,
             resources: [
-              { type: 'Curso', title: 'Power BI Completo', url: 'https://udemy.com/powerbi-complete', provider: 'Udemy' },
-              { type: 'Documentação', title: 'Microsoft Power BI Docs', url: 'https://docs.microsoft.com/power-bi', provider: 'Microsoft' },
-              { type: 'Template', title: 'Power BI Templates', url: 'https://powerbi.microsoft.com/templates', provider: 'Microsoft' }
+              { type: 'Curso', title: 'Power BI Completo', url: 'https://www.udemy.com/course/microsoft-power-bi-up-running-with-power-bi-desktop/', provider: 'Udemy' },
+              { type: 'Documentação', title: 'Microsoft Power BI Learning Path', url: 'https://docs.microsoft.com/en-us/learn/powerplatform/power-bi/', provider: 'Microsoft Learn' },
+              { type: 'Template', title: 'Power BI Sample Datasets', url: 'https://docs.microsoft.com/en-us/power-bi/create-reports/sample-datasets', provider: 'Microsoft' }
             ]
           },
           {
-            id: 'dax-basics',
+            id: 'dax-essentials',
             title: 'DAX Essentials',
-            description: 'Medidas, colunas calculadas e time intelligence',
-            estimatedHours: 16,
+            description: 'Medidas, colunas calculadas, time intelligence e context',
+            estimatedHours: 20,
             resources: [
-              { type: 'Curso', title: 'DAX Formulas', url: 'https://sqlbi.com/dax', provider: 'SQLBI' },
-              { type: 'Referência', title: 'DAX Guide', url: 'https://dax.guide', provider: 'DAX Guide' },
-              { type: 'Prática', title: 'DAX Exercises', url: 'https://exceleratorbi.com.au/dax-exercises', provider: 'ExceleratorBI' }
+              { type: 'Curso', title: 'Introducing DAX', url: 'https://www.sqlbi.com/training/introducing-dax-video-course/', provider: 'SQLBI' },
+              { type: 'Referência', title: 'DAX Guide', url: 'https://dax.guide/', provider: 'DAX Guide' },
+              { type: 'Prática', title: 'DAX Exercises', url: 'https://exceleratorbi.com.au/dax-exercises/', provider: 'ExceleratorBI' }
             ]
           },
           {
             id: 'dashboard-design',
-            title: 'Design de Dashboards',
-            description: 'UX/UI, storytelling e boas práticas visuais',
-            estimatedHours: 14,
+            title: 'Design de Dashboards Profissionais',
+            description: 'UX/UI, storytelling, color theory e boas práticas visuais',
+            estimatedHours: 15,
             resources: [
-              { type: 'Livro', title: 'Storytelling with Data', url: 'https://storytellingwithdata.com', provider: 'Cole Nussbaumer Knaflic' },
-              { type: 'Curso', title: 'Dashboard Design Principles', url: 'https://tableau.com/learn/training', provider: 'Tableau' },
+              { type: 'Livro', title: 'Storytelling with Data', url: 'https://www.storytellingwithdata.com/', provider: 'Cole Nussbaumer Knaflic' },
+              { type: 'Curso', title: 'Dashboard Design Principles', url: 'https://www.tableau.com/learn/training/elearning', provider: 'Tableau' },
               { type: 'Inspiração', title: 'Power BI Gallery', url: 'https://community.powerbi.com/t5/Data-Stories-Gallery/bd-p/DataStoriesGallery', provider: 'Power BI Community' }
+            ]
+          },
+          {
+            id: 'tableau-basics',
+            title: 'Tableau para Analistas',
+            description: 'Alternativa poderosa para visualização e análise exploratória',
+            estimatedHours: 10,
+            resources: [
+              { type: 'Curso', title: 'Tableau Desktop Specialist', url: 'https://www.tableau.com/learn/training/20201-tableau-desktop-i-fundamentals', provider: 'Tableau' },
+              { type: 'Prática', title: 'Tableau Public', url: 'https://public.tableau.com/app/discover', provider: 'Tableau Public' },
+              { type: 'Dataset', title: 'Sample Superstore', url: 'https://help.tableau.com/samples/en-us/superstore_sample.xlsx', provider: 'Tableau' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'python-for-analysts',
+        title: 'Python para Analistas de Dados',
+        description: 'Introdução ao Python para automação e análise avançada',
+        estimatedHours: 60,
+        topics: [
+          {
+            id: 'python-fundamentals',
+            title: 'Python Fundamentals',
+            description: 'Sintaxe básica, estruturas de dados e controle de fluxo',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Curso', title: 'Python for Data Analysis', url: 'https://www.coursera.org/learn/python-for-applied-data-science-ai', provider: 'Coursera' },
+              { type: 'Livro', title: 'Python Crash Course', url: 'https://nostarch.com/pythoncrashcourse2e', provider: 'No Starch Press' },
+              { type: 'Prática', title: 'Codecademy Python', url: 'https://www.codecademy.com/learn/learn-python-3', provider: 'Codecademy' }
+            ]
+          },
+          {
+            id: 'pandas-basics',
+            title: 'Pandas para Análise',
+            description: 'DataFrames, manipulação de dados e análise exploratória',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Pandas Tutorial', url: 'https://www.datacamp.com/courses/pandas-foundations', provider: 'DataCamp' },
+              { type: 'Livro', title: 'Python for Data Analysis', url: 'https://wesmckinney.com/book/', provider: 'Wes McKinney' },
+              { type: 'Prática', title: 'Pandas Exercises', url: 'https://github.com/guipsamora/pandas_exercises', provider: 'GitHub' }
+            ]
+          },
+          {
+            id: 'data-visualization-python',
+            title: 'Visualização com Python',
+            description: 'Matplotlib, Seaborn e Plotly para gráficos e dashboards',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Curso', title: 'Data Visualization with Python', url: 'https://www.coursera.org/learn/python-for-data-visualization', provider: 'Coursera' },
+              { type: 'Galeria', title: 'Python Graph Gallery', url: 'https://python-graph-gallery.com/', provider: 'Community' },
+              { type: 'Ferramenta', title: 'Plotly Documentation', url: 'https://plotly.com/python/', provider: 'Plotly' }
+            ]
+          },
+          {
+            id: 'data-automation',
+            title: 'Automação de Tarefas',
+            description: 'Scripts para ETL básico, reports automatizados e APIs',
+            estimatedHours: 10,
+            resources: [
+              { type: 'Curso', title: 'Automate the Boring Stuff', url: 'https://automatetheboringstuff.com/', provider: 'Al Sweigart' },
+              { type: 'Prática', title: 'Python Automation Examples', url: 'https://github.com/geekcomputers/Python', provider: 'GitHub' },
+              { type: 'Ferramenta', title: 'Jupyter Notebooks', url: 'https://jupyter.org/', provider: 'Jupyter' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'data-analyst-projects',
+        title: 'Projetos Data Analyst Premium',
+        description: 'Projetos end-to-end para portfólio profissional e preparação para o mercado',
+        estimatedHours: 80,
+        topics: [
+          {
+            id: 'sales-performance-analysis',
+            title: 'Análise de Performance de Vendas',
+            description: 'Dashboard completo com KPIs, tendências e insights acionáveis',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Dataset', title: 'AdventureWorks Sales Data', url: 'https://github.com/microsoft/sql-server-samples', provider: 'Microsoft' },
+              { type: 'Template', title: 'Sales Dashboard Template', url: 'https://appsource.microsoft.com/en-us/product/power-bi/pbi-contentpacks.pbi-microsoft-dynamics-crm', provider: 'Microsoft AppSource' },
+              { type: 'Tutorial', title: 'Building Sales Analytics', url: 'https://docs.microsoft.com/en-us/power-bi/create-reports/desktop-excel-stunning-report', provider: 'Microsoft' }
+            ]
+          },
+          {
+            id: 'customer-segmentation',
+            title: 'Segmentação de Clientes',
+            description: 'Análise RFM, cohort analysis e perfis de cliente',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Dataset', title: 'E-commerce Customer Data', url: 'https://www.kaggle.com/datasets/carrie1/ecommerce-data', provider: 'Kaggle' },
+              { type: 'Curso', title: 'Customer Analytics', url: 'https://www.coursera.org/learn/customer-analytics', provider: 'Coursera' },
+              { type: 'Template', title: 'RFM Analysis Template', url: 'https://github.com/sorooshrabet/RFM-analysis', provider: 'GitHub' }
+            ]
+          },
+          {
+            id: 'financial-reporting',
+            title: 'Relatório Financeiro Automatizado',
+            description: 'P&L automatizado, cash flow e analysis financeira',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Dataset', title: 'Financial Sample Data', url: 'https://docs.microsoft.com/en-us/power-bi/create-reports/sample-financial-download', provider: 'Microsoft' },
+              { type: 'Template', title: 'Financial Dashboard Template', url: 'https://appsource.microsoft.com/en-us/product/power-bi-template-apps/pbi_template_apps.template-financial-reporting', provider: 'Microsoft AppSource' },
+              { type: 'Curso', title: 'Financial Analysis with Power BI', url: 'https://www.udemy.com/course/financial-analysis-with-microsoft-power-bi/', provider: 'Udemy' }
+            ]
+          },
+          {
+            id: 'web-analytics-project',
+            title: 'Análise de Web Analytics',
+            description: 'Google Analytics data, funis de conversão e otimização',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Dataset', title: 'Google Analytics Sample Data', url: 'https://developers.google.com/analytics/devguides/reporting/core/dimsmets', provider: 'Google' },
+              { type: 'Ferramenta', title: 'Google Analytics Demo Account', url: 'https://analytics.google.com/analytics/web/demoAccount', provider: 'Google' },
+              { type: 'Curso', title: 'Web Analytics Fundamentals', url: 'https://analytics.google.com/analytics/academy/', provider: 'Google Analytics Academy' }
             ]
           }
         ]
