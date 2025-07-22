@@ -1798,6 +1798,74 @@
       renderQuestion();
     }
     
+    // Loading Modal Functions (CRITICAL - were missing!)
+    function showLoadingModal(title, message) {
+      // Remove existing loading modal
+      const existingModal = document.getElementById('loading-modal');
+      if (existingModal) {
+        existingModal.remove();
+      }
+      
+      // Create loading modal
+      const modal = document.createElement('div');
+      modal.id = 'loading-modal';
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+      `;
+      
+      modal.innerHTML = `
+        <div style="
+          background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+          border-radius: 20px;
+          padding: 2rem;
+          max-width: 400px;
+          width: 90%;
+          text-align: center;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        ">
+          <div style="
+            width: 60px;
+            height: 60px;
+            border: 4px solid #3b82f6;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+          "></div>
+          
+          <h3 style="color: white; margin-bottom: 1rem; font-size: 1.25rem;">${title}</h3>
+          <p style="color: rgba(255,255,255,0.8); margin: 0; line-height: 1.5;">${message}</p>
+          
+          <style>
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          </style>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+    }
+    
+    function closeLoadingModal() {
+      const modal = document.getElementById('loading-modal');
+      if (modal) {
+        modal.remove();
+      }
+    }
+    
     // AI Mentor function
     window.askMentor = async function() {
       if (!geminiAI) {
@@ -2054,6 +2122,28 @@ function getResourceIcon(type) {
     'Blog': '📰'
   };
   return icons[type] || '🔗';
+}
+
+// CRITICAL: Initialize AI Card Event Listeners on page load
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 Página carregada, inicializando event listeners dos cards de IA...');
+  
+  // Wait for content to be fully rendered
+  setTimeout(() => {
+    setupAICardListeners();
+    console.log('✅ Event listeners dos cards de IA inicializados!');
+  }, 1000);
+});
+
+// Also setup immediately if DOM is already loaded
+if (document.readyState === 'loading') {
+  // DOM is still loading
+} else {
+  // DOM already loaded
+  setTimeout(() => {
+    setupAICardListeners();
+    console.log('✅ Event listeners dos cards de IA configurados (DOM já carregado)!');
+  }, 500);
 }
 </script>
 </body>
