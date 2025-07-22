@@ -303,55 +303,109 @@ Crie UMA pergunta ÚNICA e específica sobre: **${topic}**
 
   // Gerar pergunta de fallback
   generateFallbackQuestion(topic, difficulty, questionNumber) {
-    const difficultyConfigs = {
-      'beginner': { name: 'Iniciante', color: '#10b981' },
-      'intermediate': { name: 'Intermediário', color: '#f59e0b' },
-      'advanced': { name: 'Avançado', color: '#ef4444' }
-    };
+    console.log(`🔄 Gerando fallback ÚNICO para pergunta ${questionNumber} (${difficulty})...`);
     
-    const config = difficultyConfigs[difficulty];
-    
-    const fallbackQuestions = {
-      beginner: {
-        question: `Qual é o conceito fundamental mais importante para entender ${topic}?`,
-        alternatives: [
-          `${topic} é uma metodologia de desenvolvimento ágil`,
-          `${topic} é uma ferramenta de análise de dados essencial para tomada de decisões`,
-          `${topic} é apenas uma tendência passageira do mercado`,
-          `${topic} é exclusivamente usado em grandes corporações`,
-          `${topic} é uma linguagem de programação avançada`
-        ],
-        correct: 1,
-        explanation: `${topic} é fundamentalmente uma ferramenta/conceito de análise que permite tomada de decisões baseada em dados, sendo aplicável em diversos contextos e tamanhos de empresa.`
+    // Cada pergunta tem foco e contexto COMPLETAMENTE DIFERENTES
+    const uniqueFallbackQuestions = {
+      1: { // FOCO: Conceitos Fundamentais
+        beginner: {
+          question: `Qual é a definição básica e origem do ${topic}?`,
+          alternatives: [
+            `${topic} é uma tecnologia/conceito moderno focado em resolver problemas específicos de dados e análise`,
+            `${topic} é apenas uma linguagem de programação simples`,
+            `${topic} é exclusivamente usado para desenvolvimento web frontend`,
+            `${topic} é uma ferramenta obsoleta sem aplicação atual`,
+            `${topic} é somente para dispositivos móveis e aplicativos`
+          ],
+          correct: 0
+        }
       },
-      intermediate: {
-        question: `Em um cenário real de trabalho, qual seria a melhor abordagem para implementar ${topic} em uma empresa de médio porte?`,
-        alternatives: [
-          `Implementar tudo de uma vez sem planejamento para acelerar o processo`,
-          `Começar com um projeto piloto, validar os resultados e depois escalar gradualmente`,
-          `Contratar apenas consultores externos sem envolver a equipe interna`,
-          `Focar apenas nos aspectos técnicos ignorando o impacto organizacional`,
-          `Aguardar que a concorrência implemente primeiro para copiar a estratégia`
-        ],
-        correct: 1,
-        explanation: `A melhor prática é sempre começar com um projeto piloto para ${topic}, validar os resultados, aprender com os desafios e então escalar gradualmente, envolvendo a equipe interna no processo.`
+      2: { // FOCO: Terminologia e Vocabulário
+        beginner: {
+          question: `Qual termo técnico é MAIS associado ao ecossistema de ${topic}?`,
+          alternatives: [
+            `Biblioteca, framework, sintaxe, comunidade, documentação`,
+            `Apenas HTML, CSS e design gráfico`,
+            `Somente hardware e componentes físicos`,
+            `Exclusivamente redes sociais e marketing`,
+            `Apenas teoria matemática abstrata`
+          ],
+          correct: 0
+        }
       },
-      advanced: {
-        question: `Como líder técnico, qual estratégia você adotaria para otimizar ${topic} em larga escala em uma organização multinacional?`,
-        alternatives: [
-          `Padronizar uma única solução global ignorando diferenças regionais`,
-          `Permitir que cada região implemente sua própria solução sem coordenação`,
-          `Criar um framework flexível com padrões globais e adaptações locais específicas`,
-          `Terceirizar completamente a implementação para reduzir complexidade`,
-          `Adiar a implementação até que uma solução perfeita seja encontrada`
-        ],
-        correct: 2,
-        explanation: `Em organizações multinacionais, a melhor estratégia para ${topic} é criar um framework que balance padrões globais com flexibilidade para adaptações locais, garantindo consistência mas respeitando necessidades regionais específicas.`
+      3: { // FOCO: Aplicação Prática Real
+        intermediate: {
+          question: `Em qual cenário profissional ${topic} oferece MAIOR vantagem competitiva?`,
+          alternatives: [
+            `Análise de grandes volumes de dados, automação de processos e geração de insights para tomada de decisões estratégicas`,
+            `Apenas para criar apresentações visuais simples`,
+            `Exclusivamente para jogos casuais e entretenimento`,
+            `Somente para manutenção de sistemas legados antigos`,
+            `Apenas para criação de documentos de texto básicos`
+          ],
+          correct: 0
+        }
+      },
+      4: { // FOCO: Resolução de Problemas e Metodologia
+        intermediate: {
+          question: `Qual metodologia seria MAIS eficaz para implementar ${topic} em um projeto complexo?`,
+          alternatives: [
+            `Planejamento estruturado, prototipagem iterativa, testes contínuos e documentação colaborativa`,
+            `Desenvolvimento sem planejamento, implementação única sem testes`,
+            `Copiar soluções prontas sem adaptação ao contexto específico`,
+            `Focar apenas na interface visual sem considerar a lógica`,
+            `Usar sempre as mesmas soluções independente do problema`
+          ],
+          correct: 0
+        }
+      },
+      5: { // FOCO: Estratégia e Otimização Avançada
+        advanced: {
+          question: `Para escalar ${topic} em uma empresa de grande porte, qual estratégia arquitetural seria MAIS recomendada?`,
+          alternatives: [
+            `Arquitetura modular, microserviços, cache distribuído, monitoramento proativo e estratégia de CI/CD robusta`,
+            `Arquitetura monolítica única sem divisão de responsabilidades`,
+            `Usar apenas soluções locais sem considerar escalabilidade`,
+            `Priorizar velocidade de desenvolvimento sobre qualidade e manutenibilidade`,
+            `Implementar soluções temporárias sem pensar em crescimento futuro`
+          ],
+          correct: 0
+        }
       }
     };
     
-    const fallback = fallbackQuestions[difficulty] || fallbackQuestions.intermediate;
+    const questionData = uniqueFallbackQuestions[questionNumber]?.[difficulty];
     
+    if (questionData) {
+      return {
+        question: questionData.question,
+        alternatives: questionData.alternatives,
+        correct: questionData.correct,
+        explanation: `${topic} é uma tecnologia/conceito versátil com aplicações estratégicas. A resposta correta reflete as melhores práticas do mercado e abordagens profissionais comprovadas para maximizar resultados e eficiência.`,
+        difficulty: difficulty,
+        questionNumber: questionNumber,
+        topic: topic,
+        source: 'fallback-unique'
+      };
+    } else {
+      // Fallback final extremo (não deveria acontecer)
+      return {
+        question: `Considerando o contexto profissional atual, qual é o aspecto MAIS crítico de ${topic}?`,
+        alternatives: [
+          `Compreensão profunda dos fundamentos, aplicação prática consistente e adaptação contínua às tendências do mercado`,
+          `Memorização de sintaxe sem compreensão conceitual`,
+          `Foco exclusivo em aspectos teóricos sem implementação prática`,
+          `Uso limitado sem explorar o potencial completo da tecnologia`,
+          `Aplicação superficial sem considerar boas práticas e padrões`
+        ],
+        correct: 0,
+        explanation: `Para maximizar o valor de ${topic}, profissionais devem combinar conhecimento teórico sólido, experiência prática consistente e capacidade de adaptação às demandas e inovações do mercado tecnológico.`,
+        difficulty: difficulty,
+        questionNumber: questionNumber,
+        topic: topic,
+        source: 'fallback-generic'
+      };
+    }
     return {
       ...fallback,
       difficulty,
