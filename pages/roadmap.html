@@ -1676,16 +1676,39 @@
       // Focus no input
       setTimeout(() => input.focus(), 100);
       
-      // Event listeners
-      cancelBtn.onclick = () => {
-        document.body.removeChild(modal);
+      // BUG FIX: Event listeners melhorados para garantir fechamento
+      const closeModal = () => {
+        try {
+          if (modal && modal.parentNode) {
+            document.body.removeChild(modal);
+          }
+        } catch (error) {
+          console.warn('Modal já foi removido:', error);
+        }
       };
       
-      submitBtn.onclick = () => {
+      cancelBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+      };
+      
+      submitBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const value = input.value.trim();
         if (value) {
-          document.body.removeChild(modal);
+          closeModal();
           callback(value);
+        } else {
+          input.focus();
+        }
+      };
+      
+      // Clicar fora do modal para fechar
+      modal.onclick = (e) => {
+        if (e.target === modal) {
+          closeModal();
         }
       };
       

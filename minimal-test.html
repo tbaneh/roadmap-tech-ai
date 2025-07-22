@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><title>Teste Mínimo - Bugs IA</title></head>
+<body>
+<h1>🚨 Teste Direto dos Bugs Críticos</h1>
+<div id="results"></div>
+
+<script>
+// Abrir produção e testar imediatamente
+const prodUrl = 'https://roadmap-tech-ai.vercel.app/pages/roadmap.html?id=data-scientist';
+const testWindow = window.open(prodUrl, 'test');
+
+setTimeout(() => {
+    if (testWindow && !testWindow.closed) {
+        // Executar teste direto
+        testWindow.eval(`
+            console.log('🚨 TESTE DIRETO - BUGS CRÍTICOS');
+            
+            // Teste 1: Clicar em Tarefas IA
+            const tarefasCard = document.querySelector('[data-card="ai-task"]');
+            if (tarefasCard) {
+                console.log('✅ Card Tarefas IA encontrado - clicando...');
+                tarefasCard.click();
+            } else {
+                console.log('❌ Card Tarefas IA NÃO encontrado');
+            }
+        `);
+        
+        document.getElementById('results').innerHTML = '✅ Teste executado no browser de produção. Verifique o console da página de produção.';
+    } else {
+        document.getElementById('results').innerHTML = '❌ Erro ao abrir página de produção';
+    }
+}, 3000);
+</script>
+</body>
+</html>
