@@ -131,35 +131,66 @@ class SimpleGeminiAI {
     return await this.generateContent(prompt);
   }
 
-  // Gerar tarefa interativa com múltipla escolha
-  async generateTask(topic, difficulty = 'intermediate') {
+  // Gerar tarefa interativa com múltipla escolha - 5 perguntas + 3 dificuldades
+  async generateTask(topic, difficulty = 'intermediate', questionNumber = 1, totalQuestions = 5) {
+    // Definir configurações por dificuldade
+    const difficultyConfigs = {
+      'beginner': {
+        name: 'Iniciante',
+        description: 'Conceitos fundamentais e definições básicas',
+        complexity: 'Perguntas diretas sobre conceitos base, terminologia e princípios fundamentais',
+        scenarios: 'Situações simples do dia a dia profissional'
+      },
+      'intermediate': {
+        name: 'Intermediário', 
+        description: 'Aplicação prática e análise de cenários',
+        complexity: 'Perguntas sobre implementação, análise de casos e tomada de decisões',
+        scenarios: 'Cenários reais de trabalho que exigem análise e aplicação de conhecimento'
+      },
+      'advanced': {
+        name: 'Avançado',
+        description: 'Estratégia, otimização e resolução de problemas complexos',
+        complexity: 'Perguntas sobre otimização, arquitetura, estratégia e resolução de problemas complexos',
+        scenarios: 'Situações enterprise, liderança técnica e decisões arquiteturais'
+      }
+    };
+    
+    const config = difficultyConfigs[difficulty] || difficultyConfigs['intermediate'];
+    
     const prompt = `
     Crie uma tarefa prática sobre: ${topic}
     
     **Configurações:**
-    - Dificuldade: ${difficulty}
-    - Tipo: Múltipla escolha com 4 alternativas
-    - Foco: Aplicação prática no mercado de trabalho
+    - Dificuldade: ${config.name} (${config.description})
+    - Tipo: Múltipla escolha com 5 alternativas (A, B, C, D, E)
+    - Questão: ${questionNumber} de ${totalQuestions}
+    - Complexidade: ${config.complexity}
+    - Foco: ${config.scenarios}
     
     **IMPORTANTE: Responda APENAS com um JSON válido no formato exato abaixo:**
     
     {
-      "question": "[Pergunta clara e prática sobre ${topic}]",
+      "question": "[Pergunta ${config.name.toLowerCase()} e prática sobre ${topic}]",
       "alternatives": [
         "[Opção A - clara e específica]",
         "[Opção B - clara e específica]", 
         "[Opção C - clara e específica]",
-        "[Opção D - clara e específica]"
+        "[Opção D - clara e específica]",
+        "[Opção E - clara e específica]"
       ],
-      "correct": [índice da resposta correta: 0, 1, 2 ou 3],
-      "explanation": "[Explicação detalhada de por que a resposta está correta, incluindo contexto prático e aplicação no mercado de trabalho]"
+      "correct": [índice da resposta correta: 0, 1, 2, 3 ou 4],
+      "explanation": "[Explicação detalhada de por que a resposta está correta, incluindo contexto prático e aplicação no mercado de trabalho. Explique também por que as outras alternativas estão incorretas.]",
+      "difficulty": "${difficulty}",
+      "questionNumber": ${questionNumber},
+      "totalQuestions": ${totalQuestions}
     }
     
-    **Exemplo de contexto para ${topic}:**
-    - Use cenários reais de trabalho
-    - Inclua ferramentas específicas da área
-    - Foque em situações práticas que um profissional enfrentaria
-    - Torne as alternativas plausíveis mas com apenas uma correta
+    **Contexto para ${topic} - Nível ${config.name}:**
+    - ${config.scenarios}
+    - Use ferramentas e tecnologias específicas da área
+    - Inclua métricas, KPIs e resultados práticos quando aplicável
+    - Torne as 5 alternativas plausíveis mas com apenas uma correta
+    - Varie o tipo de pergunta: conceitual, prática, análise, comparação ou aplicação
     
     **RESPONDA APENAS COM O JSON - NÃO ADICIONE TEXTO EXTRA**
     `;
@@ -182,30 +213,45 @@ class SimpleGeminiAI {
       // Parse and validate JSON
       const taskData = JSON.parse(cleanResponse);
       
-      // Validate required fields
+      // Validate required fields for 5 alternatives
       if (!taskData.question || !taskData.alternatives || !Array.isArray(taskData.alternatives) || 
-          taskData.alternatives.length !== 4 || typeof taskData.correct !== 'number' || 
-          taskData.correct < 0 || taskData.correct > 3 || !taskData.explanation) {
-        throw new Error('JSON structure invalid');
+          taskData.alternatives.length !== 5 || typeof taskData.correct !== 'number' || 
+          taskData.correct < 0 || taskData.correct > 4 || !taskData.explanation) {
+        throw new Error('JSON structure invalid - expected 5 alternatives');
       }
       
-      console.log('✅ Tarefa gerada com sucesso:', taskData);
+      // Ensure difficulty and question tracking
+      taskData.difficulty = taskData.difficulty || difficulty;
+      taskData.questionNumber = taskData.questionNumber || questionNumber;
+      taskData.totalQuestions = taskData.totalQuestions || totalQuestions;
+      
+      console.log(`✅ Tarefa gerada com sucesso (${questionNumber}/${totalQuestions} - ${difficulty}):`, taskData);
       return taskData;
       
     } catch (error) {
       console.warn('⚠️ Erro ao parsear JSON, usando fallback:', error);
       
-      // Fallback with a sample task
+      // Enhanced fallback with 5 alternatives and difficulty support
+      const fallbackQuestions = {
+        beginner: `Qual é a definição básica de ${topic}?`,
+        intermediate: `Como ${topic} é aplicado na prática profissional?`,
+        advanced: `Qual estratégia otimizada usar ao implementar ${topic} em larga escala?`
+      };
+      
       return {
-        question: `Qual é a principal aplicação de ${topic} no mercado de trabalho atual?`,
+        question: fallbackQuestions[difficulty] || `Qual é a principal aplicação de ${topic} no mercado de trabalho atual?`,
         alternatives: [
           `${topic} é usado principalmente para análise de dados`,
           `${topic} é focado apenas em desenvolvimento web`,
           `${topic} serve exclusivamente para mobile`,
-          `${topic} é usado somente em inteligência artificial`
+          `${topic} é usado somente em inteligência artificial`,
+          `${topic} não tem aplicação prática no mercado`
         ],
         correct: 0,
-        explanation: `${topic} tem aplicações diversas, mas sua principal força está na análise e manipulação de dados, sendo amplamente usado em empresas para extrair insights valiosos e tomar decisões baseadas em dados.`
+        explanation: `${topic} tem aplicações diversas, mas sua principal força está na análise e manipulação de dados, sendo amplamente usado em empresas para extrair insights valiosos e tomar decisões baseadas em dados. As outras alternativas são limitadas ou incorretas.`,
+        difficulty: difficulty,
+        questionNumber: questionNumber,
+        totalQuestions: totalQuestions
       };
     }
   }

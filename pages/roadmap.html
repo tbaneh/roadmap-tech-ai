@@ -1120,18 +1120,41 @@
       try {
         taskContent = typeof taskData === 'string' ? JSON.parse(taskData) : taskData;
       } catch (e) {
-        // Fallback if not valid JSON
+        // Fallback if not valid JSON with 5 alternatives
         taskContent = {
           question: taskData || `Pergunta sobre ${topic}`,
-          alternatives: ['Opção A', 'Opção B', 'Opção C', 'Opção D'],
+          alternatives: ['Opção A', 'Opção B', 'Opção C', 'Opção D', 'Opção E'],
           correct: 0,
-          explanation: 'Explicação da resposta correta.'
+          explanation: 'Explicação da resposta correta.',
+          difficulty: 'intermediate',
+          questionNumber: 1,
+          totalQuestions: 5
         };
       }
       
+      // Get difficulty badge and progress info
+      const difficultyBadges = {
+        'beginner': { icon: '👥', name: 'Iniciante', color: '#10b981' },
+        'intermediate': { icon: '💼', name: 'Intermediário', color: '#f59e0b' },
+        'advanced': { icon: '🏆', name: 'Avançado', color: '#ef4444' }
+      };
+      
+      const difficultyInfo = difficultyBadges[taskContent.difficulty] || difficultyBadges['intermediate'];
+      const progressPercentage = Math.round((taskContent.questionNumber / taskContent.totalQuestions) * 100);
+      
       modalContent.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-          <h3 style="color: #ffffff; margin: 0; font-size: 1.25rem;">🎯 Tarefa: ${topic}</h3>
+          <div>
+            <h3 style="color: #ffffff; margin: 0; font-size: 1.25rem;">🎯 Tarefa: ${topic}</h3>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+              <span style="background: ${difficultyInfo.color}20; border: 1px solid ${difficultyInfo.color}; color: ${difficultyInfo.color}; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: 0.8rem;">
+                ${difficultyInfo.icon} ${difficultyInfo.name}
+              </span>
+              <span style="color: #94a3b8; font-size: 0.9rem;">
+                Questão ${taskContent.questionNumber}/${taskContent.totalQuestions} (${progressPercentage}%)
+              </span>
+            </div>
+          </div>
           <button id="close-task-modal" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">&times;</button>
         </div>
         
