@@ -1621,31 +1621,38 @@
           </div>
         `;
         
-        // Setup alternative selection
+        // BUG FIX: SELEÇÃO ÚNICA COM VISUAL VERDE TOTAL
         document.querySelectorAll('.alternative-option').forEach(option => {
           option.addEventListener('click', () => {
-            // Remove previous selection
+            // BUG FIX 1: LIMPAR TODAS AS SELEÇÕES ANTERIORES (seleção única)
             document.querySelectorAll('.alternative-option').forEach(opt => {
               opt.style.background = 'rgba(255, 255, 255, 0.05)';
               opt.style.borderColor = 'rgba(255, 255, 255, 0.1)';
               opt.style.color = 'rgba(255, 255, 255, 0.9)';
+              opt.style.fontWeight = 'normal';
+              opt.style.transform = 'scale(1)';
+              opt.style.boxShadow = 'none';
+              opt.classList.remove('selected');
             });
             
-            // Highlight selected com efeito visual mais forte
-            option.style.background = `linear-gradient(135deg, ${difficultyColors[question.difficulty]}80, ${difficultyColors[question.difficulty]}60)`;
-            option.style.borderColor = difficultyColors[question.difficulty];
-            option.style.color = 'white';
+            // BUG FIX 2: VISUAL VERDE TOTAL (conforme segundo print)
+            option.style.background = `${difficultyColors[question.difficulty]} !important`;
+            option.style.borderColor = `${difficultyColors[question.difficulty]} !important`;
+            option.style.color = 'white !important';
             option.style.fontWeight = 'bold';
             option.style.transform = 'scale(1.02)';
             option.style.boxShadow = `0 4px 12px ${difficultyColors[question.difficulty]}40`;
+            option.classList.add('selected');
             
             // Enable next button
             const nextButton = document.getElementById('next-button');
             nextButton.disabled = false;
             nextButton.style.opacity = '1';
             
-            // Store answer
+            // Store answer (garantir seleção única)
             userAnswers[currentQuestionIndex] = parseInt(option.dataset.index);
+            
+            console.log(`✅ Alternativa ${option.dataset.index} selecionada exclusivamente!`);
           });
         });
         
