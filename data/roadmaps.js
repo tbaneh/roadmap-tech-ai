@@ -240,7 +240,7 @@ export const roadmaps = {
         id: 'bi-foundations',
         title: 'Fundamentos de BI',
         description: 'Conceitos essenciais de Business Intelligence',
-        estimatedHours: 30,
+        estimatedHours: 40,
         topics: [
           {
             id: 'bi-concepts',
@@ -248,8 +248,8 @@ export const roadmaps = {
             description: 'OLAP, OLTP, Data Warehouse, Data Mart',
             estimatedHours: 12,
             resources: [
-              { type: 'Curso', title: 'Business Intelligence Fundamentals', url: 'https://coursera.org/bi-fundamentals', provider: 'Coursera' },
-              { type: 'Livro', title: 'The Data Warehouse Toolkit', url: 'https://kimballgroup.com', provider: 'Kimball Group' },
+              { type: 'Curso', title: 'Business Intelligence Fundamentals', url: 'https://coursera.org/learn/business-intelligence-fundamentals', provider: 'Coursera' },
+              { type: 'Livro', title: 'The Data Warehouse Toolkit', url: 'https://www.amazon.com/Data-Warehouse-Toolkit-Definitive-Dimensional/dp/1118530802', provider: 'Amazon' },
               { type: 'Artigo', title: 'BI vs Analytics', url: 'https://tableau.com/learn/articles/business-intelligence', provider: 'Tableau' }
             ]
           },
@@ -257,16 +257,242 @@ export const roadmaps = {
             id: 'dimensional-modeling',
             title: 'Modelagem Dimensional',
             description: 'Star schema, snowflake e fact tables',
-            estimatedHours: 18,
+            estimatedHours: 16,
             resources: [
-              { type: 'Curso', title: 'Data Modeling for BI', url: 'https://udemy.com/data-modeling-bi', provider: 'Udemy' },
+              { type: 'Curso', title: 'Data Modeling for BI', url: 'https://www.udemy.com/course/data-modeling-for-business-intelligence/', provider: 'Udemy' },
               { type: 'Documentação', title: 'Power BI Data Modeling', url: 'https://docs.microsoft.com/power-bi/guidance/star-schema', provider: 'Microsoft' },
               { type: 'Prática', title: 'AdventureWorks Sample', url: 'https://github.com/microsoft/sql-server-samples', provider: 'Microsoft' }
+            ]
+          },
+          {
+            id: 'etl-basics',
+            title: 'ETL e Data Integration',
+            description: 'Extract, Transform, Load e integração de dados',
+            estimatedHours: 12,
+            resources: [
+              { type: 'Curso', title: 'ETL with Power BI', url: 'https://www.pluralsight.com/courses/power-bi-etl', provider: 'Pluralsight' },
+              { type: 'Ferramenta', title: 'Power Query M Language', url: 'https://docs.microsoft.com/powerquery-m/', provider: 'Microsoft' },
+              { type: 'Prática', title: 'ETL Examples', url: 'https://github.com/MicrosoftLearning/DA-100-Analyzing-Data-with-Power-BI', provider: 'GitHub' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'power-bi-mastery',
+        title: 'Power BI Mastery',
+        description: 'Domine a ferramenta líder de BI da Microsoft',
+        estimatedHours: 80,
+        topics: [
+          {
+            id: 'power-bi-basics',
+            title: 'Power BI Desktop',
+            description: 'Interface, conectores de dados e transformações básicas',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Power BI Complete Course', url: 'https://www.udemy.com/course/microsoft-power-bi-up-running-with-power-bi-desktop/', provider: 'Udemy' },
+              { type: 'Documentação', title: 'Power BI Learning Path', url: 'https://docs.microsoft.com/learn/powerplatform/power-bi', provider: 'Microsoft Learn' },
+              { type: 'Prática', title: 'Power BI Samples', url: 'https://docs.microsoft.com/power-bi/create-reports/sample-datasets', provider: 'Microsoft' }
+            ]
+          },
+          {
+            id: 'dax-fundamentals',
+            title: 'DAX Fundamentals',
+            description: 'Linguagem de fórmulas do Power BI',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'DAX Mastery', url: 'https://www.sqlbi.com/training/introducing-dax-video-course/', provider: 'SQLBI' },
+              { type: 'Livro', title: 'The Definitive Guide to DAX', url: 'https://www.sqlbi.com/books/the-definitive-guide-to-dax-2nd-edition/', provider: 'SQLBI' },
+              { type: 'Referência', title: 'DAX Function Reference', url: 'https://docs.microsoft.com/dax/dax-function-reference', provider: 'Microsoft' }
+            ]
+          },
+          {
+            id: 'advanced-visualizations',
+            title: 'Visualizações Avançadas',
+            description: 'Custom visuals, formatação e design principles',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Power BI Data Visualization', url: 'https://www.coursera.org/learn/analytics-tableau', provider: 'Coursera' },
+              { type: 'Galeria', title: 'Power BI Visuals Gallery', url: 'https://appsource.microsoft.com/marketplace/apps?product=power-bi-visuals', provider: 'Microsoft AppSource' },
+              { type: 'Inspiração', title: 'Power BI Community Gallery', url: 'https://community.powerbi.com/t5/Data-Stories-Gallery/bd-p/DataStoriesGallery', provider: 'Power BI Community' }
+            ]
+          },
+          {
+            id: 'power-bi-service',
+            title: 'Power BI Service & Collaboration',
+            description: 'Publicação, compartilhamento e governança',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Curso', title: 'Power BI Service Administration', url: 'https://www.pluralsight.com/courses/power-bi-service-administration', provider: 'Pluralsight' },
+              { type: 'Documentação', title: 'Power BI Admin Guide', url: 'https://docs.microsoft.com/power-bi/admin/', provider: 'Microsoft' },
+              { type: 'Certificação', title: 'Power BI Data Analyst Associate', url: 'https://docs.microsoft.com/certifications/data-analyst-associate/', provider: 'Microsoft' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'tableau-expertise',
+        title: 'Tableau Expertise',
+        description: 'Alternativa poderosa para visualização de dados',
+        estimatedHours: 60,
+        topics: [
+          {
+            id: 'tableau-desktop',
+            title: 'Tableau Desktop',
+            description: 'Interface, conexões e visualizações básicas',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Curso', title: 'Tableau Desktop Specialist', url: 'https://www.tableau.com/learn/training/20201-tableau-desktop-i-fundamentals', provider: 'Tableau' },
+              { type: 'Prática', title: 'Tableau Public', url: 'https://public.tableau.com/app/discover', provider: 'Tableau Public' },
+              { type: 'Dataset', title: 'Sample Superstore', url: 'https://help.tableau.com/samples/en-us/superstore_sample.xlsx', provider: 'Tableau' }
+            ]
+          },
+          {
+            id: 'tableau-calculations',
+            title: 'Cálculos Avançados',
+            description: 'LOD expressions, table calculations e parâmetros',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Advanced Tableau', url: 'https://www.udemy.com/course/tableau20-advanced/', provider: 'Udemy' },
+              { type: 'Documentação', title: 'Tableau Calculations', url: 'https://help.tableau.com/current/pro/desktop/en-us/calculations_calculatedfields.htm', provider: 'Tableau' },
+              { type: 'Prática', title: 'Workout Wednesday', url: 'http://www.workout-wednesday.com/', provider: 'Community' }
+            ]
+          },
+          {
+            id: 'tableau-server',
+            title: 'Tableau Server & Publishing',
+            description: 'Deployment, segurança e colaboração',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Curso', title: 'Tableau Server Administration', url: 'https://www.tableau.com/learn/training/tableau-server-administration', provider: 'Tableau' },
+              { type: 'Documentação', title: 'Tableau Server Guide', url: 'https://help.tableau.com/current/server/en-us/', provider: 'Tableau' },
+              { type: 'Certificação', title: 'Tableau Desktop Certified Associate', url: 'https://www.tableau.com/learn/certification/desktop-certified-associate', provider: 'Tableau' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'data-storytelling',
+        title: 'Data Storytelling',
+        description: 'Transforme dados em narrativas impactantes',
+        estimatedHours: 40,
+        topics: [
+          {
+            id: 'design-principles',
+            title: 'Princípios de Design',
+            description: 'UX/UI para dashboards e relatórios',
+            estimatedHours: 15,
+            resources: [
+              { type: 'Livro', title: 'Storytelling with Data', url: 'https://www.storytellingwithdata.com/', provider: 'Cole Nussbaumer Knaflic' },
+              { type: 'Curso', title: 'Data Visualization and Communication', url: 'https://www.coursera.org/learn/analytics-tableau', provider: 'Coursera' },
+              { type: 'Blog', title: 'The Big Book of Dashboards', url: 'https://bigbookofdashboards.com/', provider: 'Wiley' }
+            ]
+          },
+          {
+            id: 'dashboard-best-practices',
+            title: 'Dashboard Best Practices',
+            description: 'Layout, cores, hierarquia visual e usabilidade',
+            estimatedHours: 12,
+            resources: [
+              { type: 'Artigo', title: 'Dashboard Design Principles', url: 'https://www.klipfolio.com/resources/articles/what-is-a-dashboard', provider: 'Klipfolio' },
+              { type: 'Template', title: 'Dashboard Templates', url: 'https://powerbi.microsoft.com/en-us/desktop/', provider: 'Microsoft' },
+              { type: 'Inspiração', title: 'Dashboard Examples Gallery', url: 'https://public.tableau.com/app/discover/viz-of-the-day', provider: 'Tableau Public' }
+            ]
+          },
+          {
+            id: 'executive-reporting',
+            title: 'Executive Reporting',
+            description: 'Relatórios para C-level e stakeholders',
+            estimatedHours: 13,
+            resources: [
+              { type: 'Curso', title: 'Executive Dashboard Design', url: 'https://www.linkedin.com/learning/executive-reporting-with-power-bi', provider: 'LinkedIn Learning' },
+              { type: 'Template', title: 'Executive Dashboard Templates', url: 'https://appsource.microsoft.com/marketplace/apps?search=executive%20dashboard', provider: 'Microsoft AppSource' },
+              { type: 'Artigo', title: 'KPIs for Executives', url: 'https://www.klipfolio.com/resources/kpi-examples', provider: 'Klipfolio' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'advanced-analytics',
+        title: 'Advanced Analytics',
+        description: 'Análises preditivas e estatísticas em BI',
+        estimatedHours: 50,
+        topics: [
+          {
+            id: 'statistical-analysis',
+            title: 'Análise Estatística',
+            description: 'Correlação, regressão e testes de hipótese',
+            estimatedHours: 20,
+            resources: [
+              { type: 'Curso', title: 'Statistics for Business Analytics', url: 'https://www.coursera.org/learn/wharton-statistics', provider: 'Coursera' },
+              { type: 'Ferramenta', title: 'Power BI R Integration', url: 'https://docs.microsoft.com/power-bi/connect-data/desktop-r-scripts', provider: 'Microsoft' },
+              { type: 'Prática', title: 'Statistical Analysis Examples', url: 'https://github.com/microsoft/powerbi-desktop-samples', provider: 'GitHub' }
+            ]
+          },
+          {
+            id: 'forecasting',
+            title: 'Forecasting & Time Series',
+            description: 'Previsões e análise de séries temporais',
+            estimatedHours: 18,
+            resources: [
+              { type: 'Curso', title: 'Time Series Forecasting', url: 'https://www.udemy.com/course/time-series-analysis/', provider: 'Udemy' },
+              { type: 'Ferramenta', title: 'Power BI Forecasting', url: 'https://docs.microsoft.com/power-bi/visuals/power-bi-visualization-forecasting', provider: 'Microsoft' },
+              { type: 'Dataset', title: 'Time Series Datasets', url: 'https://github.com/datasets/time-series', provider: 'GitHub' }
+            ]
+          },
+          {
+            id: 'cohort-analysis',
+            title: 'Cohort & Retention Analysis',
+            description: 'Análise de coortes e retenção de usuários',
+            estimatedHours: 12,
+            resources: [
+              { type: 'Artigo', title: 'Cohort Analysis Guide', url: 'https://blog.amplitude.com/cohort-analysis', provider: 'Amplitude' },
+              { type: 'Template', title: 'Cohort Analysis Template', url: 'https://community.powerbi.com/t5/Community-Blog/Cohort-Analysis-in-Power-BI/ba-p/1081067', provider: 'Power BI Community' },
+              { type: 'Dataset', title: 'E-commerce Cohort Data', url: 'https://www.kaggle.com/datasets/carrie1/ecommerce-data', provider: 'Kaggle' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'bi-projects',
+        title: 'Projetos BI Premium',
+        description: 'Projetos práticos para portfólio profissional',
+        estimatedHours: 80,
+        topics: [
+          {
+            id: 'sales-dashboard',
+            title: 'Dashboard de Vendas Executivo',
+            description: 'Dashboard completo para área comercial',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Dataset', title: 'AdventureWorks Sales', url: 'https://github.com/microsoft/sql-server-samples', provider: 'Microsoft' },
+              { type: 'Template', title: 'Sales Dashboard Template', url: 'https://appsource.microsoft.com/product/power-bi/pbi-contentpacks.pbi-microsoft-dynamics-crm', provider: 'Microsoft' },
+              { type: 'Tutorial', title: 'Building Sales Dashboards', url: 'https://docs.microsoft.com/power-bi/create-reports/desktop-excel-stunning-report', provider: 'Microsoft' }
+            ]
+          },
+          {
+            id: 'financial-reporting',
+            title: 'Relatório Financeiro Automatizado',
+            description: 'P&L, cash flow e KPIs financeiros',
+            estimatedHours: 30,
+            resources: [
+              { type: 'Dataset', title: 'Financial Sample Data', url: 'https://docs.microsoft.com/power-bi/create-reports/sample-financial-download', provider: 'Microsoft' },
+              { type: 'Template', title: 'Financial Report Template', url: 'https://appsource.microsoft.com/product/power-bi-template-apps/pbi_template_apps.template-financial-reporting', provider: 'Microsoft AppSource' },
+              { type: 'Curso', title: 'Financial Analysis with Power BI', url: 'https://www.udemy.com/course/financial-analysis-with-microsoft-power-bi/', provider: 'Udemy' }
+            ]
+          },
+          {
+            id: 'hr-analytics',
+            title: 'HR Analytics Dashboard',
+            description: 'Métricas de RH, turnover e performance',
+            estimatedHours: 25,
+            resources: [
+              { type: 'Dataset', title: 'HR Analytics Dataset', url: 'https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset', provider: 'Kaggle' },
+              { type: 'Template', title: 'HR Dashboard Template', url: 'https://community.powerbi.com/t5/Data-Stories-Gallery/HR-Analytics-Dashboard/m-p/182749', provider: 'Power BI Community' },
+              { type: 'Artigo', title: 'HR Metrics that Matter', url: 'https://www.bamboohr.com/hr-metrics/', provider: 'BambooHR' }
             ]
           }
         ]
       }
-      // ... mais seções seriam adicionadas aqui
     ]
   },
 
