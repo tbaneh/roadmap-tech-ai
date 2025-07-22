@@ -891,48 +891,81 @@
       const params = new URLSearchParams(window.location.search);
       const roadmapId = params.get('id');
       
-      // Roadmap data (simplified)
-      const roadmaps = {
-        'data-scientist': {
-          icon: '📊',
-          title: 'Data Scientist',
-          description: 'Torne-se um cientista de dados completo. Aprenda Python, machine learning, estatística e como resolver problemas reais com dados.'
-        },
-        'bi-analyst': {
-          icon: '📈',
-          title: 'BI Analyst',
-          description: 'Especialize-se em Business Intelligence. Domine Power BI, SQL, Excel avançado e transforme dados em insights de negócio.'
-        },
-        'data-analyst': {
-          icon: '🔍',
-          title: 'Data Analyst',
-          description: 'Inicie sua carreira em dados. Aprenda SQL, Python básico, visualização de dados e como extrair insights valiosos.'
-        },
-        'software-engineer-google': {
-          icon: '💻',
-          title: 'Software Engineer',
-          description: 'Prepare-se para Big Tech. Algoritmos, estruturas de dados, design de sistemas e práticas de desenvolvimento para Google, Meta, etc.'
-        }
-      };
+      // Load expanded roadmap data from roadmaps.js
+      let roadmaps = {};
+      try {
+        const { roadmaps: expandedRoadmaps } = await import('../data/roadmaps.js');
+        roadmaps = expandedRoadmaps;
+        console.log('✅ Roadmaps expandidos carregados:', Object.keys(roadmaps));
+      } catch (error) {
+        console.error('❌ Erro ao carregar roadmaps expandidos:', error);
+        // Fallback to basic data if expanded roadmaps fail to load
+        roadmaps = {
+          'data-scientist': {
+            icon: '📊',
+            title: 'Data Scientist',
+            description: 'Torne-se um cientista de dados completo. Aprenda Python, machine learning, estatística e como resolver problemas reais com dados.'
+          },
+          'bi-analyst': {
+            icon: '📈',
+            title: 'BI Analyst',
+            description: 'Especialize-se em Business Intelligence. Domine Power BI, SQL, Excel avançado e transforme dados em insights de negócio.'
+          },
+          'data-analyst': {
+            icon: '🔍',
+            title: 'Data Analyst',
+            description: 'Inicie sua carreira em dados. Aprenda SQL, Python básico, visualização de dados e como extrair insights valiosos.'
+          },
+          'software-engineer-google': {
+            icon: '💻',
+            title: 'Software Engineer',
+            description: 'Prepare-se para Big Tech. Algoritmos, estruturas de dados, design de sistemas e práticas de desenvolvimento para Google, Meta, etc.'
+          }
+        };
+      }
 
       // Update page content based on roadmap ID
       if (roadmapId && roadmaps[roadmapId]) {
         currentRoadmap = roadmaps[roadmapId];
+        
+        // Update header with roadmap info
         document.getElementById('roadmap-icon').textContent = currentRoadmap.icon;
         document.getElementById('roadmap-title').textContent = currentRoadmap.title;
         document.getElementById('roadmap-description').textContent = currentRoadmap.description;
         document.title = `${currentRoadmap.title} - Roadmap Tech`;
         
-        // Show appropriate content section
-        const allSections = document.querySelectorAll('#roadmap-content > div');
-        allSections.forEach(section => section.style.display = 'none');
+        // Clear existing content and render expanded roadmap dynamically
+        const contentContainer = document.getElementById('roadmap-content');
+        contentContainer.innerHTML = '';
         
-        if (roadmapId === 'bi-analyst') {
-          document.getElementById('bi-analyst-content').style.display = 'block';
+        // Render expanded roadmap sections
+        if (currentRoadmap.sections && currentRoadmap.sections.length > 0) {
+          console.log(`🚀 Renderizando ${currentRoadmap.sections.length} seções para ${currentRoadmap.title}`);
+          
+          currentRoadmap.sections.forEach(section => {
+            const sectionElement = createSectionElement(section);
+            contentContainer.appendChild(sectionElement);
+          });
         } else {
-          // Default to data-scientist content for other roadmaps
-          document.getElementById('data-scientist-content').style.display = 'block';
+          // Fallback to hardcoded content if no sections available
+          const fallbackMessage = document.createElement('div');
+          fallbackMessage.className = 'roadmap-section';
+          fallbackMessage.innerHTML = `
+            <h2 class="section-title">🚧 Roadmap em Desenvolvimento</h2>
+            <div class="topic-card">
+              <div class="topic-header">
+                <div class="topic-icon">⏳</div>
+                <div class="topic-title">Expandindo Conteúdo</div>
+              </div>
+              <div class="topic-description">
+                Este roadmap está sendo expandido com conteúdo premium. Em breve teremos seções detalhadas, recursos curados e projetos práticos.
+              </div>
+            </div>
+          `;
+          contentContainer.appendChild(fallbackMessage);
         }
+      } else {
+        console.warn('⚠️ Roadmap não encontrado:', roadmapId);
       }
       
       // Show content after everything is loaded
@@ -1100,8 +1133,182 @@
       
       document.body.appendChild(modal);
     }
+
+// Function to create section elements dynamically
+function createSectionElement(section) {
+  const sectionDiv = document.createElement('div');
+  sectionDiv.className = 'roadmap-section';
+  
+  // Section title
+  const titleElement = document.createElement('h2');
+  titleElement.className = 'section-title';
+  titleElement.textContent = section.title;
+  sectionDiv.appendChild(titleElement);
+  
+  // Section description
+  if (section.description) {
+    const descElement = document.createElement('p');
+    descElement.className = 'section-description';
+    descElement.textContent = section.description;
+    descElement.style.cssText = `
+      color: #cbd5e1;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      text-align: center;
+    `;
+    sectionDiv.appendChild(descElement);
+  }
+  
+  // Topics
+  if (section.topics && section.topics.length > 0) {
+    section.topics.forEach(topic => {
+      const topicCard = createTopicCard(topic);
+      sectionDiv.appendChild(topicCard);
+    });
+  }
+  
+  return sectionDiv;
+}
+
+// Function to create topic cards
+function createTopicCard(topic) {
+  const topicDiv = document.createElement('div');
+  topicDiv.className = 'topic-card';
+  
+  // Topic header
+  const headerDiv = document.createElement('div');
+  headerDiv.className = 'topic-header';
+  
+  const iconDiv = document.createElement('div');
+  iconDiv.className = 'topic-icon';
+  iconDiv.textContent = '📚'; // Default icon
+  
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'topic-title';
+  titleDiv.textContent = topic.title;
+  
+  // Estimated hours
+  if (topic.estimatedHours) {
+    const hoursSpan = document.createElement('span');
+    hoursSpan.className = 'topic-hours';
+    hoursSpan.textContent = `(${topic.estimatedHours}h)`;
+    hoursSpan.style.cssText = `
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-left: 0.5rem;
+    `;
+    titleDiv.appendChild(hoursSpan);
+  }
+  
+  headerDiv.appendChild(iconDiv);
+  headerDiv.appendChild(titleDiv);
+  topicDiv.appendChild(headerDiv);
+  
+  // Topic description
+  if (topic.description) {
+    const descDiv = document.createElement('div');
+    descDiv.className = 'topic-description';
+    descDiv.textContent = topic.description;
+    topicDiv.appendChild(descDiv);
+  }
+  
+  // Resources
+  if (topic.resources && topic.resources.length > 0) {
+    const resourcesList = document.createElement('ul');
+    resourcesList.className = 'resources-list';
     
-  </script>
-  </script>
+    topic.resources.forEach(resource => {
+      const resourceItem = document.createElement('li');
+      resourceItem.className = 'resource-item';
+      
+      // Resource type icon
+      const typeIcon = getResourceIcon(resource.type);
+      
+      const resourceLink = document.createElement('a');
+      resourceLink.className = 'resource-link';
+      resourceLink.href = resource.url;
+      resourceLink.target = '_blank';
+      resourceLink.textContent = resource.title;
+      
+      resourceItem.innerHTML = `${typeIcon} `;
+      resourceItem.appendChild(resourceLink);
+      
+      // Add provider if available
+      if (resource.provider) {
+        const providerSpan = document.createElement('span');
+        providerSpan.style.cssText = 'color: #94a3b8; font-size: 0.9rem; margin-left: 0.5rem;';
+        providerSpan.textContent = `- ${resource.provider}`;
+        resourceItem.appendChild(providerSpan);
+      }
+      
+      // Add AI analysis button
+      const analyzeBtn = document.createElement('button');
+      analyzeBtn.className = 'ai-analyze-btn';
+      analyzeBtn.textContent = '🤖 Analisar';
+      analyzeBtn.style.cssText = `
+        background: rgba(59, 130, 246, 0.2);
+        border: 1px solid #3b82f6;
+        color: #3b82f6;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.375rem;
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      `;
+      analyzeBtn.onclick = () => analyzeResource(resource.title, resource.url, resource.type);
+      resourceItem.appendChild(analyzeBtn);
+      
+      resourcesList.appendChild(resourceItem);
+    });
+    
+    topicDiv.appendChild(resourcesList);
+  }
+  
+  // Add AI Quiz button
+  const quizBtn = document.createElement('button');
+  quizBtn.className = 'ai-quiz-btn';
+  quizBtn.textContent = '🧠 Quiz IA';
+  quizBtn.style.cssText = `
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid #10b981;
+    color: #10b981;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto;
+    display: inline-block;
+  `;
+  quizBtn.onclick = () => generateQuiz(topic.title);
+  topicDiv.appendChild(quizBtn);
+  
+  return topicDiv;
+}
+
+// Helper function to get resource type icons
+function getResourceIcon(type) {
+  const icons = {
+    'Curso': '📚',
+    'Livro': '📖',
+    'Vídeo': '🎥',
+    'Artigo': '📄',
+    'Documentação': '📋',
+    'Prática': '💻',
+    'Dataset': '📊',
+    'Template': '📝',
+    'Ferramenta': '🛠️',
+    'Certificação': '🏆',
+    'Galeria': '🎨',
+    'Inspiração': '💡',
+    'Referência': '📚',
+    'Tutorial': '🎯',
+    'Blog': '📰'
+  };
+  return icons[type] || '🔗';
+}
+</script>
 </body>
 </html>
