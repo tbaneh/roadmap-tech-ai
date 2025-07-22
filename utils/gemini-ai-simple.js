@@ -131,41 +131,258 @@ class SimpleGeminiAI {
     return await this.generateContent(prompt);
   }
 
-  // Gerar tarefa interativa com múltipla escolha - 5 perguntas + 3 dificuldades
-  async generateTask(topic, difficulty = 'intermediate', questionNumber = 1, totalQuestions = 5) {
+  // Gerar tarefa interativa com múltipla escolha - 5 perguntas + 3 dificuldades progressivas
+  async generateTask(topic, initialDifficulty = 'beginner') {
+    console.log(`🎯 Gerando 5 perguntas progressivas sobre: ${topic}`);
+    
     // Definir configurações por dificuldade
     const difficultyConfigs = {
       'beginner': {
         name: 'Iniciante',
         description: 'Conceitos fundamentais e definições básicas',
         complexity: 'Perguntas diretas sobre conceitos base, terminologia e princípios fundamentais',
-        scenarios: 'Situações simples do dia a dia profissional'
+        scenarios: 'Situações simples do dia a dia profissional',
+        color: '#10b981'
       },
       'intermediate': {
-        name: 'Intermediário', 
+        name: 'Intermediário',
         description: 'Aplicação prática e análise de cenários',
         complexity: 'Perguntas sobre implementação, análise de casos e tomada de decisões',
-        scenarios: 'Cenários reais de trabalho que exigem análise e aplicação de conhecimento'
+        scenarios: 'Cenários reais de trabalho que exigem análise e aplicação de conhecimento',
+        color: '#f59e0b'
       },
       'advanced': {
         name: 'Avançado',
         description: 'Estratégia, otimização e resolução de problemas complexos',
-        complexity: 'Perguntas sobre otimização, arquitetura, estratégia e resolução de problemas complexos',
-        scenarios: 'Situações enterprise, liderança técnica e decisões arquiteturais'
+        complexity: 'Perguntas sobre otimização, arquitetura, liderança técnica e resolução de problemas complexos',
+        scenarios: 'Desafios de alta complexidade, decisões estratégicas e cenários de liderança técnica',
+        color: '#ef4444'
+      }
+    };
+
+    // Gerar 5 perguntas progressivas (2 fáceis, 2 médias, 1 difícil)
+    const questionDistribution = [
+      { difficulty: 'beginner', number: 1 },
+      { difficulty: 'beginner', number: 2 },
+      { difficulty: 'intermediate', number: 3 },
+      { difficulty: 'intermediate', number: 4 },
+      { difficulty: 'advanced', number: 5 }
+    ];
+
+    try {
+      const questions = [];
+      
+      for (const questionConfig of questionDistribution) {
+        const { difficulty, number } = questionConfig;
+        const config = difficultyConfigs[difficulty];
+        
+        console.log(`📝 Gerando pergunta ${number}/5 (${config.name})...`);
+        
+        const prompt = `
+Crie UMA pergunta elaborada e desafiadora sobre: **${topic}**
+
+**NÍVEL:** ${config.name} (${config.description})
+**COMPLEXIDADE:** ${config.complexity}
+**CENÁRIO:** ${config.scenarios}
+
+**INSTRUÇÕES ESPECÍFICAS:**
+- Pergunta ${number} de 5 (progressão de dificuldade)
+- Crie uma pergunta que REALMENTE faça o usuário pensar
+- Use cenários práticos e realistas do mercado de trabalho
+- Alternativas devem ser plausíveis mas com apenas UMA correta
+- Evite perguntas óbvias ou muito diretas
+- Foque em aplicação prática e tomada de decisão
+
+**FORMATO EXATO DA RESPOSTA:**
+{
+  "question": "[Pergunta elaborada e contextualizada]",
+  "alternatives": [
+    "[Alternativa A - detalhada e plausível]",
+    "[Alternativa B - detalhada e plausível]", 
+    "[Alternativa C - detalhada e plausível]",
+    "[Alternativa D - detalhada e plausível]",
+    "[Alternativa E - detalhada e plausível]"
+  ],
+  "correct": [Índice da alternativa correta: 0, 1, 2, 3 ou 4],
+  "explanation": "[Explicação detalhada da resposta correta e por que as outras estão incorretas]",
+  "difficulty": "${difficulty}",
+  "questionNumber": ${number},
+  "topic": "${topic}"
+}
+
+**IMPORTANTE:** Responda APENAS com o JSON, sem texto adicional.
+`;
+        
+        const response = await this.generateContent(prompt);
+        
+        try {
+          // Extrair JSON da resposta
+          const jsonMatch = response.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const questionData = JSON.parse(jsonMatch[0]);
+            questions.push({
+              ...questionData,
+              difficulty,
+              difficultyConfig: config,
+              questionNumber: number,
+              totalQuestions: 5
+            });
+            console.log(`✅ Pergunta ${number} gerada com sucesso!`);
+          } else {
+            throw new Error('Formato JSON não encontrado na resposta');
+          }
+        } catch (parseError) {
+          console.warn(`⚠️ Erro ao processar pergunta ${number}, usando fallback...`);
+          // Fallback com pergunta básica
+          questions.push(this.generateFallbackQuestion(topic, difficulty, number));
+        }
+      }
+      
+      console.log(`🎉 Todas as 5 perguntas geradas com sucesso!`);
+      
+      return {
+        topic,
+        totalQuestions: 5,
+        questions,
+        difficultyProgression: ['Iniciante', 'Iniciante', 'Intermediário', 'Intermediário', 'Avançado'],
+        metadata: {
+          generatedAt: new Date().toISOString(),
+          version: '2.0',
+          type: 'progressive_quiz'
+        }
+      };
+      
+    } catch (error) {
+      console.error('❌ Erro ao gerar tarefas:', error);
+      // Retornar fallback completo
+      return this.generateFallbackTaskSet(topic);
+    }
+  }
+
+  // Gerar pergunta de fallback
+  generateFallbackQuestion(topic, difficulty, questionNumber) {
+    const difficultyConfigs = {
+      'beginner': { name: 'Iniciante', color: '#10b981' },
+      'intermediate': { name: 'Intermediário', color: '#f59e0b' },
+      'advanced': { name: 'Avançado', color: '#ef4444' }
+    };
+    
+    const config = difficultyConfigs[difficulty];
+    
+    const fallbackQuestions = {
+      beginner: {
+        question: `Qual é o conceito fundamental mais importante para entender ${topic}?`,
+        alternatives: [
+          `${topic} é uma metodologia de desenvolvimento ágil`,
+          `${topic} é uma ferramenta de análise de dados essencial para tomada de decisões`,
+          `${topic} é apenas uma tendência passageira do mercado`,
+          `${topic} é exclusivamente usado em grandes corporações`,
+          `${topic} é uma linguagem de programação avançada`
+        ],
+        correct: 1,
+        explanation: `${topic} é fundamentalmente uma ferramenta/conceito de análise que permite tomada de decisões baseada em dados, sendo aplicável em diversos contextos e tamanhos de empresa.`
+      },
+      intermediate: {
+        question: `Em um cenário real de trabalho, qual seria a melhor abordagem para implementar ${topic} em uma empresa de médio porte?`,
+        alternatives: [
+          `Implementar tudo de uma vez sem planejamento para acelerar o processo`,
+          `Começar com um projeto piloto, validar os resultados e depois escalar gradualmente`,
+          `Contratar apenas consultores externos sem envolver a equipe interna`,
+          `Focar apenas nos aspectos técnicos ignorando o impacto organizacional`,
+          `Aguardar que a concorrência implemente primeiro para copiar a estratégia`
+        ],
+        correct: 1,
+        explanation: `A melhor prática é sempre começar com um projeto piloto para ${topic}, validar os resultados, aprender com os desafios e então escalar gradualmente, envolvendo a equipe interna no processo.`
+      },
+      advanced: {
+        question: `Como líder técnico, qual estratégia você adotaria para otimizar ${topic} em larga escala em uma organização multinacional?`,
+        alternatives: [
+          `Padronizar uma única solução global ignorando diferenças regionais`,
+          `Permitir que cada região implemente sua própria solução sem coordenação`,
+          `Criar um framework flexível com padrões globais e adaptações locais específicas`,
+          `Terceirizar completamente a implementação para reduzir complexidade`,
+          `Adiar a implementação até que uma solução perfeita seja encontrada`
+        ],
+        correct: 2,
+        explanation: `Em organizações multinacionais, a melhor estratégia para ${topic} é criar um framework que balance padrões globais com flexibilidade para adaptações locais, garantindo consistência mas respeitando necessidades regionais específicas.`
+      }
+    };
+    
+    const fallback = fallbackQuestions[difficulty] || fallbackQuestions.intermediate;
+    
+    return {
+      ...fallback,
+      difficulty,
+      difficultyConfig: config,
+      questionNumber,
+      totalQuestions: 5,
+      topic,
+      isFallback: true
+    };
+  }
+
+  // Gerar conjunto completo de fallback
+  generateFallbackTaskSet(topic) {
+    console.log(`🔄 Gerando conjunto de fallback para: ${topic}`);
+    
+    const questions = [
+      this.generateFallbackQuestion(topic, 'beginner', 1),
+      this.generateFallbackQuestion(topic, 'beginner', 2),
+      this.generateFallbackQuestion(topic, 'intermediate', 3),
+      this.generateFallbackQuestion(topic, 'intermediate', 4),
+      this.generateFallbackQuestion(topic, 'advanced', 5)
+    ];
+    
+    return {
+      topic,
+      totalQuestions: 5,
+      questions,
+      difficultyProgression: ['Iniciante', 'Iniciante', 'Intermediário', 'Intermediário', 'Avançado'],
+      metadata: {
+        generatedAt: new Date().toISOString(),
+        version: '2.0',
+        type: 'progressive_quiz_fallback'
+      },
+      isFallback: true
+    };
+  }
+
+  // Método legacy mantido para compatibilidade (agora gera apenas 1 pergunta)
+  async generateSingleTask(topic, difficulty = 'intermediate', questionNumber = 1, totalQuestions = 5) {
+    console.log(`📝 Gerando pergunta individual: ${questionNumber}/${totalQuestions} sobre ${topic}`);
+    
+    const difficultyConfigs = {
+      'beginner': {
+        name: 'Iniciante',
+        description: 'Conceitos fundamentais e definições básicas',
+        complexity: 'Perguntas diretas sobre conceitos base e terminologia',
+        scenarios: 'Situações simples do dia a dia profissional'
+      },
+      'intermediate': {
+        name: 'Intermediário',
+        description: 'Aplicação prática e análise de cenários',
+        complexity: 'Perguntas sobre implementação e tomada de decisões',
+        scenarios: 'Cenários reais de trabalho com análise'
+      },
+      'advanced': {
+        name: 'Avançado',
+        description: 'Estratégia e resolução de problemas complexos',
+        complexity: 'Perguntas sobre otimização e liderança técnica',
+        scenarios: 'Desafios complexos e decisões estratégicas'
       }
     };
     
     const config = difficultyConfigs[difficulty] || difficultyConfigs['intermediate'];
     
     const prompt = `
-    Crie uma tarefa prática sobre: ${topic}
-    
-    **Configurações:**
-    - Dificuldade: ${config.name} (${config.description})
-    - Tipo: Múltipla escolha com 5 alternativas (A, B, C, D, E)
-    - Questão: ${questionNumber} de ${totalQuestions}
-    - Complexidade: ${config.complexity}
-    - Foco: ${config.scenarios}
+Crie uma tarefa prática sobre: ${topic}
+
+**Configurações:**
+- Dificuldade: ${config.name} (${config.description})
+- Tipo: Múltipla escolha com 5 alternativas (A, B, C, D, E)
+- Questão: ${questionNumber} de ${totalQuestions}
+- Complexidade: ${config.complexity}
+- Foco: ${config.scenarios}
     
     **IMPORTANTE: Responda APENAS com um JSON válido no formato exato abaixo:**
     

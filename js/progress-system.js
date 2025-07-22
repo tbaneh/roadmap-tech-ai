@@ -120,6 +120,117 @@ class UserProgressSystem {
                     ).length;
                     return availableRoadmaps > 0 && completedRoadmaps === availableRoadmaps;
                 }
+            },
+            // NOVOS BADGES MOTIVACIONAIS
+            {
+                id: 'speed_learner',
+                title: 'Aprendiz Veloz',
+                desc: 'Complete 5 tópicos em um dia',
+                icon: '⚡',
+                condition: () => this.checkDailyTopics(5)
+            },
+            {
+                id: 'consistency_king',
+                title: 'Rei da Consistência',
+                desc: 'Estude por 7 dias consecutivos',
+                icon: '🔥',
+                condition: () => this.checkConsecutiveDays(7)
+            },
+            {
+                id: 'quiz_champion',
+                title: 'Campeão dos Quizzes',
+                desc: 'Acerte 10 questões seguidas',
+                icon: '🏆',
+                condition: () => this.progress.correctStreak >= 10
+            },
+            {
+                id: 'morning_warrior',
+                title: 'Guerreiro Matinal',
+                desc: 'Estude antes das 9h por 5 dias',
+                icon: '🌅',
+                condition: () => this.checkMorningStudy(5)
+            },
+            {
+                id: 'night_owl',
+                title: 'Coruja Noturna',
+                desc: 'Estude depois das 22h por 5 dias',
+                icon: '🦉',
+                condition: () => this.checkNightStudy(5)
+            },
+            {
+                id: 'resource_explorer',
+                title: 'Explorador de Recursos',
+                desc: 'Analise 20 recursos com IA',
+                icon: '🔍',
+                condition: () => this.progress.resourcesAnalyzed >= 20
+            },
+            {
+                id: 'mentor_seeker',
+                title: 'Buscador de Mentoria',
+                desc: 'Faça 15 perguntas ao Mentor IA',
+                icon: '🎓',
+                condition: () => this.progress.mentorQuestions >= 15
+            },
+            {
+                id: 'task_master',
+                title: 'Mestre das Tarefas',
+                desc: 'Complete 50 tarefas IA',
+                icon: '💪',
+                condition: () => this.progress.tasksCompleted >= 50
+            },
+            {
+                id: 'hardcore_learner',
+                title: 'Aprendiz Hardcore',
+                desc: 'Acumule 100 horas de estudo',
+                icon: '💀',
+                condition: () => this.progress.studyHours >= 100
+            },
+            {
+                id: 'elite_student',
+                title: 'Estudante Elite',
+                desc: 'Complete 100 tópicos',
+                icon: '⭐',
+                condition: () => this.progress.completedTopics.length >= 100
+            },
+            {
+                id: 'difficulty_master',
+                title: 'Mestre das Dificuldades',
+                desc: 'Complete tarefas em todos os níveis',
+                icon: '🎯',
+                condition: () => this.checkAllDifficultiesCompleted()
+            },
+            {
+                id: 'comeback_king',
+                title: 'Rei do Retorno',
+                desc: 'Volte a estudar após 7 dias parado',
+                icon: '🔄',
+                condition: () => this.checkComebackAfterBreak(7)
+            },
+            {
+                id: 'weekend_warrior',
+                title: 'Guerreiro de Fim de Semana',
+                desc: 'Estude em 4 fins de semana seguidos',
+                icon: '🏋️',
+                condition: () => this.checkWeekendStudy(4)
+            },
+            {
+                id: 'big_tech_dreamer',
+                title: 'Sonhador Big Tech',
+                desc: 'Complete 50% de qualquer roadmap',
+                icon: '🌟',
+                condition: () => this.checkRoadmapHalfway()
+            },
+            {
+                id: 'certification_hunter',
+                title: 'Caçador de Certificação',
+                desc: 'Complete um roadmap completo',
+                icon: '🏅',
+                condition: () => {
+                    const completed = Object.keys(this.progress.roadmaps).filter(id => 
+                        this.isRoadmapCompleted(id)
+                    );
+                    return completed.length >= 1;
+                }
             }
         ];
     }
@@ -397,6 +508,136 @@ class UserProgressSystem {
         this.progress.questionsAnswered += 1;
         this.saveProgress();
         this.checkNewBadges();
+    }
+
+    // NOVAS FUNÇÕES AUXILIARES PARA BADGES AVANÇADOS
+    checkDailyTopics(required) {
+        const today = new Date().toDateString();
+        const todayTopics = this.progress.dailyTopics || {};
+        return (todayTopics[today] || 0) >= required;
+    }
+
+    checkConsecutiveDays(required) {
+        const studyDates = this.progress.studyDates || [];
+        if (studyDates.length < required) return false;
+        
+        const sortedDates = studyDates.sort((a, b) => new Date(b) - new Date(a));
+        let consecutive = 1;
+        
+        for (let i = 1; i < sortedDates.length && consecutive < required; i++) {
+            const current = new Date(sortedDates[i-1]);
+            const previous = new Date(sortedDates[i]);
+            const diffDays = Math.floor((current - previous) / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) {
+                consecutive++;
+            } else {
+                break;
+            }
+        }
+        
+        return consecutive >= required;
+    }
+
+    checkMorningStudy(required) {
+        const morningStudy = this.progress.morningStudyDays || [];
+        return morningStudy.length >= required;
+    }
+
+    checkNightStudy(required) {
+        const nightStudy = this.progress.nightStudyDays || [];
+        return nightStudy.length >= required;
+    }
+
+    checkAllDifficultiesCompleted() {
+        const difficulties = this.progress.completedDifficulties || {};
+        return difficulties.easy && difficulties.medium && difficulties.hard;
+    }
+
+    checkComebackAfterBreak(days) {
+        const lastStudy = this.progress.lastStudyDate;
+        if (!lastStudy) return false;
+        
+        const daysSinceLastStudy = Math.floor((new Date() - new Date(lastStudy)) / (1000 * 60 * 60 * 24));
+        return daysSinceLastStudy >= days && this.progress.hasComeback;
+    }
+
+    checkWeekendStudy(required) {
+        const weekendStudy = this.progress.weekendStudyDays || [];
+        return weekendStudy.length >= required;
+    }
+
+    checkRoadmapHalfway() {
+        for (const roadmapId in this.progress.roadmaps) {
+            const roadmap = this.progress.roadmaps[roadmapId];
+            const sections = roadmap.sections || {};
+            const totalSections = Object.keys(sections).length;
+            const completedSections = Object.values(sections).filter(s => s.completed).length;
+            
+            if (totalSections > 0 && (completedSections / totalSections) >= 0.5) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ATUALIZAR PROGRESSO COM NOVOS CAMPOS
+    initializeNewProgressFields() {
+        if (!this.progress.dailyTopics) this.progress.dailyTopics = {};
+        if (!this.progress.studyDates) this.progress.studyDates = [];
+        if (!this.progress.morningStudyDays) this.progress.morningStudyDays = [];
+        if (!this.progress.nightStudyDays) this.progress.nightStudyDays = [];
+        if (!this.progress.completedDifficulties) this.progress.completedDifficulties = {};
+        if (!this.progress.weekendStudyDays) this.progress.weekendStudyDays = [];
+        if (!this.progress.correctStreak) this.progress.correctStreak = 0;
+        if (!this.progress.resourcesAnalyzed) this.progress.resourcesAnalyzed = 0;
+        if (!this.progress.mentorQuestions) this.progress.mentorQuestions = 0;
+        if (!this.progress.hasComeback) this.progress.hasComeback = false;
+    }
+
+    // REGISTRAR ATIVIDADE DE ESTUDO
+    recordStudyActivity() {
+        const now = new Date();
+        const today = now.toDateString();
+        const hour = now.getHours();
+        
+        // Registrar data de estudo
+        if (!this.progress.studyDates.includes(today)) {
+            this.progress.studyDates.push(today);
+        }
+        
+        // Registrar estudo matinal (antes das 9h)
+        if (hour < 9 && !this.progress.morningStudyDays.includes(today)) {
+            this.progress.morningStudyDays.push(today);
+        }
+        
+        // Registrar estudo noturno (após 22h)
+        if (hour >= 22 && !this.progress.nightStudyDays.includes(today)) {
+            this.progress.nightStudyDays.push(today);
+        }
+        
+        // Registrar estudo de fim de semana
+        const dayOfWeek = now.getDay();
+        if ((dayOfWeek === 0 || dayOfWeek === 6) && !this.progress.weekendStudyDays.includes(today)) {
+            this.progress.weekendStudyDays.push(today);
+        }
+        
+        // Incrementar tópicos do dia
+        if (!this.progress.dailyTopics[today]) {
+            this.progress.dailyTopics[today] = 0;
+        }
+        this.progress.dailyTopics[today]++;
+        
+        // Detectar retorno após pausa
+        if (this.progress.lastStudyDate) {
+            const daysSinceLastStudy = Math.floor((now - new Date(this.progress.lastStudyDate)) / (1000 * 60 * 60 * 24));
+            if (daysSinceLastStudy >= 7) {
+                this.progress.hasComeback = true;
+            }
+        }
+        
+        this.progress.lastStudyDate = now.toISOString();
+        this.saveProgress();
     }
 
     isTopicCompleted(roadmapId, sectionId, topicId) {
