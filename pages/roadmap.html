@@ -15,7 +15,7 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       line-height: 1.6;
       color: #ffffff;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 60%, #1e293b 85%, #0f172a 100%);
       min-height: 100vh;
     }
 
@@ -959,6 +959,74 @@
     // Global variables
     let geminiAI = null;
     let currentRoadmap = null;
+    let loadingModal = null;
+    
+    // CRITICAL: Implementar funções de loading que estavam faltando
+    function showLoadingModal(title, message) {
+      // Remove existing loading modal
+      if (loadingModal) {
+        loadingModal.remove();
+      }
+      
+      loadingModal = document.createElement('div');
+      loadingModal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      `;
+      
+      loadingModal.innerHTML = `
+        <div style="
+          background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+          border-radius: 20px;
+          padding: 2rem;
+          text-align: center;
+          max-width: 400px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        ">
+          <div style="
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+          "></div>
+          <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.2rem;">${title}</h3>
+          <p style="color: rgba(255, 255, 255, 0.8); margin: 0; font-size: 0.9rem;">${message}</p>
+        </div>
+      `;
+      
+      document.body.appendChild(loadingModal);
+      
+      // Add spin animation if not exists
+      if (!document.getElementById('spin-animation')) {
+        const style = document.createElement('style');
+        style.id = 'spin-animation';
+        style.textContent = `
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+    
+    function closeLoadingModal() {
+      if (loadingModal) {
+        loadingModal.remove();
+        loadingModal = null;
+      }
+    }
     
     document.addEventListener('DOMContentLoaded', async function() {
       console.log('🚀 Iniciando carregamento da página roadmap...');
@@ -1380,29 +1448,23 @@
           }
           
           const topic = currentRoadmap?.title || 'Tecnologia';
-          console.log(`🎯 Gerando 5 perguntas progressivas sobre: ${topic}`);
-          
-          // Show loading state
-          const originalContent = taskCard.innerHTML;
-          taskCard.style.opacity = '0.7';
-          taskCard.style.pointerEvents = 'none';
+          const difficulty = currentRoadmap?.title?.includes('BI') ? 'intermediate' : 'advanced';
           
           try {
-            // Generate 5 progressive questions using new system
-            const taskData = await geminiAI.generateTask(topic);
-            console.log('✅ Sistema de 5 perguntas progressivas gerado:', taskData);
+            // BUG FIX: LOADING IMEDIATO
+            showLoadingModal('🎯 Gerando Tarefa IA', `Criando 5 perguntas progressivas sobre ${topic}...`);
             
-            // Show modal with 5 progressive questions
-            showProgressiveQuestionsModal(topic, taskData);
+            // BUG FIX: GARANTIR UNICIDADE - Adicionar timestamp para evitar cache
+            const timestamp = Date.now();
+            const uniquePrompt = `${topic} - ${difficulty} - ${timestamp}`;
+            const task = await geminiAI.generateTask(uniquePrompt, difficulty);
+            closeLoadingModal();
+            showProgressiveQuestionsModal(topic, task);
             
           } catch (error) {
-            console.error('❌ Erro ao gerar tarefas IA:', error);
-            alert('🤖 Não foi possível gerar as tarefas. Tente novamente.');
-          } finally {
-            // Restore card state
-            taskCard.innerHTML = originalContent;
-            taskCard.style.opacity = '1';
-            taskCard.style.pointerEvents = 'auto';
+            console.error('❌ Erro ao gerar tarefa:', error);
+            closeLoadingModal();
+            alert('🤖 Não foi possível gerar a tarefa. Tente novamente.');
           }
         });
         
@@ -1418,8 +1480,6 @@
         });
         
         console.log('✅ Card Tarefas IA configurado!');
-      } else {
-        console.warn('⚠️ Card Tarefas IA não encontrado!');
       }
       
       // Card Mentor IA
@@ -1444,13 +1504,33 @@
         console.log('✅ Card Mentor IA configurado!');
       }
       
-      // Card Quiz IA
+      // Card Quiz IA - BUG FIX: ESTAVA FALTANDO!
       const quizCard = document.querySelector('[data-card="ai-quiz"]');
       if (quizCard) {
         quizCard.addEventListener('click', async () => {
           console.log('🧠 Card Quiz IA clicado!');
+          
+          if (!geminiAI) {
+            alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+            return;
+          }
+          
           const topic = currentRoadmap?.title || 'Tecnologia';
-          await generateAITask(topic, 'intermediate', quizCard);
+          
+          try {
+            showLoadingModal('🧠 Gerando Quiz IA', `Criando quiz inteligente sobre ${topic}...`);
+            
+            // Generate unique quiz with timestamp
+            const timestamp = Date.now();
+            const quiz = await geminiAI.generateQuiz(`${topic} - Quiz - ${timestamp}`);
+            closeLoadingModal();
+            showAIModal('🧠 Quiz IA Gerado', quiz);
+            
+          } catch (error) {
+            console.error('❌ Erro ao gerar quiz:', error);
+            closeLoadingModal();
+            alert('🤖 Não foi possível gerar o quiz. Tente novamente.');
+          }
         });
         
         // Add hover effects
@@ -1467,12 +1547,36 @@
         console.log('✅ Card Quiz IA configurado!');
       }
       
-      // Card Análise de Recursos
+      // Card Análise de Recursos  
       const analysisCard = document.querySelector('[data-card="ai-analysis"]');
       if (analysisCard) {
-        analysisCard.addEventListener('click', () => {
+        analysisCard.addEventListener('click', async () => {
           console.log('🔍 Card Análise de Recursos clicado!');
-          alert('🔍 Clique em qualquer recurso (link) para análise IA automática!');
+          
+          if (!geminiAI) {
+            alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+            return;
+          }
+          
+          // Exemplo de recurso para análise
+          const sampleResource = {
+            title: 'Machine Learning Course - Coursera',
+            url: 'https://www.coursera.org/learn/machine-learning',
+            type: 'Curso',
+            provider: 'Coursera'
+          };
+          
+          try {
+            showLoadingModal('🔍 Analisando Recurso', 'Gerando análise detalhada com IA...');
+            const analysis = await geminiAI.analyzeResource(sampleResource);
+            closeLoadingModal();
+            showAIModal('📊 Análise de Recurso IA', analysis);
+            
+          } catch (error) {
+            console.error('❌ Erro ao analisar recurso:', error);
+            closeLoadingModal();
+            alert('🤖 Não foi possível analisar o recurso. Tente novamente.');
+          }
         });
         
         // Add hover effects
