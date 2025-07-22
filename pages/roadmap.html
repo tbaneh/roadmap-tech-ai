@@ -386,8 +386,98 @@
         </div>
       </div>
 
+      <!-- AI Cards Section -->
+      <div class="ai-cards-section" style="margin-bottom: 2rem;">
+        <h2 style="color: #ffffff; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          🤖 Assistente IA - Sistema de 5 Perguntas Progressivas
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+          <!-- Card Tarefas IA -->
+          <div class="ai-card" data-card-type="ai" data-card="ai-task" style="
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          ">
+            <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); pointer-events: none;"></div>
+            <div style="position: relative; z-index: 2;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+              <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.1rem;">Tarefas IA</h3>
+              <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.4;">5 perguntas progressivas com dificuldades graduais</p>
+              <div style="display: flex; gap: 0.25rem; margin-top: 0.75rem;">
+                <span style="background: rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.7rem; color: white;">Iniciante</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.7rem; color: white;">Intermediário</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.7rem; color: white;">Avançado</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Card Mentor IA -->
+          <div class="ai-card" data-card-type="ai" data-card="ai-mentor" style="
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          ">
+            <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); pointer-events: none;"></div>
+            <div style="position: relative; z-index: 2;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤖</div>
+              <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.1rem;">Mentor IA</h3>
+              <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.4;">Consultoria personalizada e orientação para sua carreira</p>
+            </div>
+          </div>
+          
+          <!-- Card Quiz IA -->
+          <div class="ai-card" data-card-type="ai" data-card="ai-quiz" style="
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          ">
+            <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); pointer-events: none;"></div>
+            <div style="position: relative; z-index: 2;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
+              <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.1rem;">Quiz IA</h3>
+              <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.4;">Teste seus conhecimentos com perguntas inteligentes</p>
+            </div>
+          </div>
+          
+          <!-- Card Análise de Recursos -->
+          <div class="ai-card" data-card-type="ai" data-card="ai-analysis" style="
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          ">
+            <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); pointer-events: none;"></div>
+            <div style="position: relative; z-index: 2;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔍</div>
+              <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.1rem;">Analisar Recursos</h3>
+              <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.4;">IA analisa e explica recursos de aprendizado</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Roadmap Sections -->
-      <div id="roadmap-content">
+      <div id="roadmap-content" class="roadmap-content">
         <!-- Default Data Scientist Content -->
         <div id="data-scientist-content">
           <div class="roadmap-section">
@@ -883,8 +973,13 @@
         const { getSimpleGeminiAI } = await import('../utils/gemini-ai-simple.js');
         geminiAI = getSimpleGeminiAI();
         console.log('🤖 IA Gemini inicializada com sucesso!');
+        
+        // Setup AI card event listeners
+        setupAICardListeners();
       } catch (error) {
         console.warn('⚠️ IA Gemini não disponível:', error);
+        // Setup basic fallback even without AI
+        setupAICardListeners();
       }
       
       // Get roadmap ID from URL parameters
@@ -1053,6 +1148,440 @@
         button.disabled = false;
       }
     };
+    
+    // Setup AI Card Event Listeners
+    function setupAICardListeners() {
+      console.log('🎯 Configurando event listeners para cards de IA...');
+      
+      // Card Tarefas IA - Sistema de 5 Perguntas Progressivas
+      const taskCard = document.querySelector('[data-card="ai-task"]');
+      if (taskCard) {
+        taskCard.addEventListener('click', async () => {
+          console.log('🎯 Card Tarefas IA clicado!');
+          
+          if (!geminiAI) {
+            alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+            return;
+          }
+          
+          const topic = currentRoadmap?.title || 'Tecnologia';
+          console.log(`🎯 Gerando 5 perguntas progressivas sobre: ${topic}`);
+          
+          // Show loading state
+          const originalContent = taskCard.innerHTML;
+          taskCard.style.opacity = '0.7';
+          taskCard.style.pointerEvents = 'none';
+          
+          try {
+            // Generate 5 progressive questions using new system
+            const taskData = await geminiAI.generateTask(topic);
+            console.log('✅ Sistema de 5 perguntas progressivas gerado:', taskData);
+            
+            // Show modal with 5 progressive questions
+            showProgressiveQuestionsModal(topic, taskData);
+            
+          } catch (error) {
+            console.error('❌ Erro ao gerar tarefas IA:', error);
+            alert('🤖 Não foi possível gerar as tarefas. Tente novamente.');
+          } finally {
+            // Restore card state
+            taskCard.innerHTML = originalContent;
+            taskCard.style.opacity = '1';
+            taskCard.style.pointerEvents = 'auto';
+          }
+        });
+        
+        // Add hover effects
+        taskCard.addEventListener('mouseenter', () => {
+          taskCard.style.transform = 'translateY(-4px)';
+          taskCard.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.3)';
+        });
+        
+        taskCard.addEventListener('mouseleave', () => {
+          taskCard.style.transform = 'translateY(0)';
+          taskCard.style.boxShadow = 'none';
+        });
+        
+        console.log('✅ Card Tarefas IA configurado!');
+      } else {
+        console.warn('⚠️ Card Tarefas IA não encontrado!');
+      }
+      
+      // Card Mentor IA
+      const mentorCard = document.querySelector('[data-card="ai-mentor"]');
+      if (mentorCard) {
+        mentorCard.addEventListener('click', () => {
+          console.log('🤖 Card Mentor IA clicado!');
+          askMentor();
+        });
+        
+        // Add hover effects
+        mentorCard.addEventListener('mouseenter', () => {
+          mentorCard.style.transform = 'translateY(-4px)';
+          mentorCard.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.3)';
+        });
+        
+        mentorCard.addEventListener('mouseleave', () => {
+          mentorCard.style.transform = 'translateY(0)';
+          mentorCard.style.boxShadow = 'none';
+        });
+        
+        console.log('✅ Card Mentor IA configurado!');
+      }
+      
+      // Card Quiz IA
+      const quizCard = document.querySelector('[data-card="ai-quiz"]');
+      if (quizCard) {
+        quizCard.addEventListener('click', async () => {
+          console.log('🧠 Card Quiz IA clicado!');
+          const topic = currentRoadmap?.title || 'Tecnologia';
+          await generateAITask(topic, 'intermediate', quizCard);
+        });
+        
+        // Add hover effects
+        quizCard.addEventListener('mouseenter', () => {
+          quizCard.style.transform = 'translateY(-4px)';
+          quizCard.style.boxShadow = '0 8px 25px rgba(139, 92, 246, 0.3)';
+        });
+        
+        quizCard.addEventListener('mouseleave', () => {
+          quizCard.style.transform = 'translateY(0)';
+          quizCard.style.boxShadow = 'none';
+        });
+        
+        console.log('✅ Card Quiz IA configurado!');
+      }
+      
+      // Card Análise de Recursos
+      const analysisCard = document.querySelector('[data-card="ai-analysis"]');
+      if (analysisCard) {
+        analysisCard.addEventListener('click', () => {
+          console.log('🔍 Card Análise de Recursos clicado!');
+          alert('🔍 Clique em qualquer recurso (link) para análise IA automática!');
+        });
+        
+        // Add hover effects
+        analysisCard.addEventListener('mouseenter', () => {
+          analysisCard.style.transform = 'translateY(-4px)';
+          analysisCard.style.boxShadow = '0 8px 25px rgba(245, 158, 11, 0.3)';
+        });
+        
+        analysisCard.addEventListener('mouseleave', () => {
+          analysisCard.style.transform = 'translateY(0)';
+          analysisCard.style.boxShadow = 'none';
+        });
+        
+        console.log('✅ Card Análise de Recursos configurado!');
+      }
+      
+      console.log('🎉 Todos os cards de IA configurados com sucesso!');
+    }
+    
+    // Progressive Questions Modal - Sistema de 5 Perguntas Progressivas
+    function showProgressiveQuestionsModal(topic, taskData) {
+      console.log('🎯 Abrindo modal de 5 perguntas progressivas:', taskData);
+      
+      // Remove existing modal
+      const existingModal = document.getElementById('progressive-questions-modal');
+      if (existingModal) {
+        existingModal.remove();
+      }
+      
+      // Create modal
+      const modal = document.createElement('div');
+      modal.id = 'progressive-questions-modal';
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 1rem;
+      `;
+      
+      let currentQuestionIndex = 0;
+      let userAnswers = [];
+      
+      function renderQuestion() {
+        const question = taskData.questions[currentQuestionIndex];
+        const difficultyColors = {
+          beginner: '#10b981',
+          intermediate: '#f59e0b', 
+          advanced: '#ef4444'
+        };
+        
+        modal.innerHTML = `
+          <div style="
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          ">
+            <!-- Header -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+              <h2 style="color: white; margin-bottom: 0.5rem; font-size: 1.5rem;">🎯 Sistema de 5 Perguntas Progressivas</h2>
+              <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">${topic}</p>
+              
+              <!-- Progress Bar -->
+              <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; margin-bottom: 1rem;">
+                <div style="background: ${difficultyColors[question.difficulty]}; height: 100%; width: ${((currentQuestionIndex + 1) / taskData.totalQuestions) * 100}%; border-radius: 4px; transition: all 0.3s ease;"></div>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Pergunta ${currentQuestionIndex + 1} de ${taskData.totalQuestions}</span>
+                <span style="background: ${difficultyColors[question.difficulty]}; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; text-transform: capitalize;">${question.difficultyConfig?.name || question.difficulty}</span>
+              </div>
+            </div>
+            
+            <!-- Question -->
+            <div style="margin-bottom: 2rem;">
+              <h3 style="color: white; margin-bottom: 1.5rem; line-height: 1.5;">${question.question}</h3>
+              
+              <!-- Alternatives -->
+              <div id="alternatives-container">
+                ${question.alternatives.map((alt, index) => `
+                  <div class="alternative-option" data-index="${index}" style="
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 2px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 12px;
+                    padding: 1rem;
+                    margin-bottom: 0.75rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    color: rgba(255, 255, 255, 0.9);
+                  " onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.1)'">
+                    <strong>${String.fromCharCode(65 + index)})</strong> ${alt}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            
+            <!-- Actions -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+              <button onclick="closeProgressiveModal()" style="
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+              ">❌ Fechar</button>
+              
+              <div>
+                ${currentQuestionIndex > 0 ? `
+                  <button onclick="previousQuestion()" style="
+                    background: rgba(255, 255, 255, 0.1);
+                    color: white;
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    margin-right: 0.5rem;
+                    transition: all 0.3s ease;
+                  ">⬅️ Anterior</button>
+                ` : ''}
+                
+                <button id="next-button" onclick="nextQuestion()" style="
+                  background: ${difficultyColors[question.difficulty]};
+                  color: white;
+                  border: none;
+                  padding: 0.75rem 1.5rem;
+                  border-radius: 8px;
+                  cursor: pointer;
+                  opacity: 0.5;
+                  transition: all 0.3s ease;
+                " disabled>${currentQuestionIndex === taskData.totalQuestions - 1 ? '🎉 Finalizar' : '➡️ Próxima'}</button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // Setup alternative selection
+        document.querySelectorAll('.alternative-option').forEach(option => {
+          option.addEventListener('click', () => {
+            // Remove previous selection
+            document.querySelectorAll('.alternative-option').forEach(opt => {
+              opt.style.background = 'rgba(255, 255, 255, 0.05)';
+              opt.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+              opt.style.color = 'rgba(255, 255, 255, 0.9)';
+            });
+            
+            // Highlight selected
+            option.style.background = `${difficultyColors[question.difficulty]}40`;
+            option.style.borderColor = difficultyColors[question.difficulty];
+            option.style.color = 'white';
+            
+            // Enable next button
+            const nextButton = document.getElementById('next-button');
+            nextButton.disabled = false;
+            nextButton.style.opacity = '1';
+            
+            // Store answer
+            userAnswers[currentQuestionIndex] = parseInt(option.dataset.index);
+          });
+        });
+        
+        // Restore previous answer if exists
+        if (userAnswers[currentQuestionIndex] !== undefined) {
+          const selectedOption = document.querySelector(`[data-index="${userAnswers[currentQuestionIndex]}"]`);
+          if (selectedOption) {
+            selectedOption.click();
+          }
+        }
+      }
+      
+      // Navigation functions
+      window.nextQuestion = () => {
+        if (currentQuestionIndex < taskData.totalQuestions - 1) {
+          currentQuestionIndex++;
+          renderQuestion();
+        } else {
+          // Show final results
+          showFinalResults();
+        }
+      };
+      
+      window.previousQuestion = () => {
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex--;
+          renderQuestion();
+        }
+      };
+      
+      window.closeProgressiveModal = () => {
+        modal.remove();
+        // Cleanup global functions
+        delete window.nextQuestion;
+        delete window.previousQuestion;
+        delete window.closeProgressiveModal;
+      };
+      
+      function showFinalResults() {
+        let correctAnswers = 0;
+        const results = taskData.questions.map((question, index) => {
+          const userAnswer = userAnswers[index];
+          const isCorrect = userAnswer === question.correct;
+          if (isCorrect) correctAnswers++;
+          
+          return {
+            question: question.question,
+            userAnswer: userAnswer,
+            correctAnswer: question.correct,
+            isCorrect,
+            explanation: question.explanation,
+            difficulty: question.difficulty
+          };
+        });
+        
+        const score = Math.round((correctAnswers / taskData.totalQuestions) * 100);
+        const difficultyColors = {
+          beginner: '#10b981',
+          intermediate: '#f59e0b', 
+          advanced: '#ef4444'
+        };
+        
+        modal.innerHTML = `
+          <div style="
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          ">
+            <!-- Results Header -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+              <h2 style="color: white; margin-bottom: 1rem; font-size: 1.8rem;">🎉 Resultados do Quiz Progressivo</h2>
+              <div style="
+                background: linear-gradient(135deg, ${score >= 70 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444'} 0%, ${score >= 70 ? '#059669' : score >= 50 ? '#d97706' : '#dc2626'} 100%);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 16px;
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+                font-weight: bold;
+              ">
+                ${score}% (${correctAnswers}/${taskData.totalQuestions})
+              </div>
+              <p style="color: rgba(255,255,255,0.8);">${
+                score >= 90 ? '🏆 Excelente! Domínio excepcional do tópico!' :
+                score >= 70 ? '✅ Muito bom! Conhecimento sólido!' :
+                score >= 50 ? '👍 Bom trabalho! Continue estudando!' :
+                '📚 Continue praticando! Você vai conseguir!'
+              }</p>
+            </div>
+            
+            <!-- Detailed Results -->
+            <div style="margin-bottom: 2rem;">
+              ${results.map((result, index) => `
+                <div style="
+                  background: rgba(255, 255, 255, 0.05);
+                  border-left: 4px solid ${result.isCorrect ? '#10b981' : '#ef4444'};
+                  border-radius: 8px;
+                  padding: 1.5rem;
+                  margin-bottom: 1rem;
+                ">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <div style="flex: 1;">
+                      <h4 style="color: white; margin-bottom: 0.5rem;">Pergunta ${index + 1}</h4>
+                      <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 0.5rem;">${result.question}</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                      <span style="background: ${difficultyColors[result.difficulty]}; color: white; padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.7rem; text-transform: capitalize;">${taskData.questions[index].difficultyConfig?.name || result.difficulty}</span>
+                      <span style="font-size: 1.2rem;">${result.isCorrect ? '✅' : '❌'}</span>
+                    </div>
+                  </div>
+                  
+                  ${!result.isCorrect ? `
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                      <strong>Sua resposta:</strong> ${String.fromCharCode(65 + result.userAnswer)} - ${taskData.questions[index].alternatives[result.userAnswer]}
+                    </div>
+                    <div style="color: #10b981; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                      <strong>Resposta correta:</strong> ${String.fromCharCode(65 + result.correctAnswer)} - ${taskData.questions[index].alternatives[result.correctAnswer]}
+                    </div>
+                  ` : ''}
+                  
+                  <div style="color: rgba(255,255,255,0.8); font-size: 0.85rem; font-style: italic;">
+                    <strong>Explicação:</strong> ${result.explanation}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            
+            <!-- Actions -->
+            <div style="text-align: center;">
+              <button onclick="closeProgressiveModal()" style="
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 12px;
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: bold;
+                transition: all 0.3s ease;
+              ">🎯 Concluir Quiz</button>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Add modal to DOM and render first question
+      document.body.appendChild(modal);
+      renderQuestion();
+    }
     
     // AI Mentor function
     window.askMentor = async function() {
