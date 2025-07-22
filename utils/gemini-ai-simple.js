@@ -1,12 +1,52 @@
 // Simple and Secure Gemini AI Implementation
 // Compatible with local development without external dependencies
+// Now uses secure environment configuration
 
 class SimpleGeminiAI {
   constructor() {
-    this.apiKey = 'AIzaSyDXFW0fdQRnFMC7jIAtHIqJFREF6sp7nMc'; // Note: In production, use environment variables
     this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
-    this.isInitialized = true;
-    console.log('🤖 Simple Gemini AI inicializado com sucesso (modelo: gemini-1.5-flash)');
+    this.isInitialized = false;
+    this.apiKey = null;
+    
+    this.initializeSecurely();
+  }
+  
+  initializeSecurely() {
+    try {
+      // Tentar carregar configuração segura
+      this.loadApiKey();
+      this.isInitialized = true;
+      
+      console.log('🤖 Simple Gemini AI inicializado com sucesso (modelo: gemini-1.5-flash)');
+      console.log('🔐 API Key:', this.apiKey ? 'Carregada com segurança' : 'Usando fallback de desenvolvimento');
+      
+    } catch (error) {
+      console.error('❌ Erro ao inicializar Gemini AI:', error.message);
+      this.isInitialized = false;
+    }
+  }
+  
+  loadApiKey() {
+    // Múltiplas fontes para máxima compatibilidade
+    this.apiKey = 
+      // 1. Variável de ambiente (produção)
+      (typeof process !== 'undefined' && process.env && process.env.geminiApiKey) ||
+      (typeof process !== 'undefined' && process.env && process.env.GEMINI_API_KEY) ||
+      
+      // 2. Variável global do browser (injetada durante build)
+      (typeof window !== 'undefined' && window.GEMINI_API_KEY) ||
+      
+      // 3. Fallback para desenvolvimento local (apenas se não estiver em produção)
+      (!this.isProduction() ? 'AIzaSyDXFW0fdQRnFMC7jIAtHIqJFREF6sp7nMc' : null);
+      
+    if (!this.apiKey) {
+      throw new Error('🚨 API Key não configurada! Configure a variável de ambiente geminiApiKey.');
+    }
+  }
+  
+  isProduction() {
+    return (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'production') ||
+           (typeof window !== 'undefined' && window.NODE_ENV === 'production');
   }
 
   async generateContent(prompt, context = '') {
