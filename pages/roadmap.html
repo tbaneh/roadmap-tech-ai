@@ -1599,7 +1599,8 @@
     }
     
     // Input Modal - BUG FIX: Substituir prompt() duplicado
-    function showInputModal(title, callback) {
+    // Tornar função global para compatibilidade com testes
+    window.showInputModal = function(title, callback) {
       const modal = document.createElement('div');
       modal.style.cssText = `
         position: fixed;

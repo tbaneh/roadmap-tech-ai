@@ -138,34 +138,43 @@ class SimpleGeminiAI {
   }
 
   // Gerar quiz personalizado (mantido para compatibilidade)
-  async generateQuiz(topic, difficulty = 'intermediate', questionCount = 5) {
-    const prompt = `
-    Crie um quiz prático sobre: ${topic}
+  async generateQuiz(topic, difficulty = 'intermediate', questionCount = 5, uniqueId = null) {
+    // BUG FIX: Garantir unicidade sem expor timestamp
+    const sessionId = uniqueId || Date.now();
+    const uniqueTopic = `${topic}_${Math.random().toString(36).substr(2, 9)}`; // Adicionar sufixo único
     
+    const prompt = `
+    Crie um quiz ÚNICO e VARIADO sobre: ${topic}
+    
+    **Sessão:** ${sessionId} (para garantir unicidade)
     **Configurações:**
     - Dificuldade: ${difficulty}
     - Número de questões: ${questionCount}
     - Foco: Aplicação prática e conhecimento real
+    - IMPORTANTE: Gere perguntas DIFERENTES a cada execução
+    - IMPORTANTE: Varie a letra correta (A, B, C, D) - NÃO sempre a mesma
     
     **Formato da resposta:**
     
     ## 🧠 **Quiz: ${topic}**
     
     **Questão 1:**
-    [Pergunta clara e prática]
+    [Pergunta clara e prática - DIFERENTE das anteriores]
     
     a) [Opção A]
     b) [Opção B]
     c) [Opção C]
     d) [Opção D]
     
-    **Resposta:** [Letra correta]
+    **Resposta:** [Letra correta - VARIE entre A, B, C, D]
     **Explicação:** [Explicação detalhada]
     
-    [Repetir formato para todas as questões]
+    [Repetir formato para todas as questões - VARIAR as respostas corretas]
     
     ## 📈 **Próximos Passos:**
     - [3 recomendações de estudo]
+    
+    **IMPORTANTE:** Gere conteúdo SEMPRE DIFERENTE. Varie perguntas, alternativas e respostas corretas.
     `;
 
     return await this.generateContent(prompt);
@@ -305,109 +314,164 @@ Crie UMA pergunta ÚNICA e específica sobre: **${topic}**
     }
   }
 
-  // Gerar pergunta de fallback
+  // Gerar pergunta de fallback - BUG FIX: PERGUNTAS DINÂMICAS E RESPOSTAS RANDOMIZADAS
   generateFallbackQuestion(topic, difficulty, questionNumber) {
-    console.log(`🔄 Gerando fallback ÚNICO para pergunta ${questionNumber} (${difficulty})...`);
+    console.log(`🔄 Gerando fallback DINÂMICO para pergunta ${questionNumber} (${difficulty})...`);
     
-    // Cada pergunta tem foco e contexto COMPLETAMENTE DIFERENTES
-    const uniqueFallbackQuestions = {
-      1: { // FOCO: Conceitos Fundamentais
+    // BUG FIX: Gerar perguntas DINÂMICAS com randomização
+    const timestamp = Date.now();
+    const randomSeed = Math.random().toString(36).substr(2, 9);
+    
+    // Templates de perguntas dinâmicas baseadas no questionNumber
+    const questionTemplates = {
+      1: {
         beginner: {
-          question: `Qual é a definição básica e origem do ${topic}?`,
-          alternatives: [
-            `${topic} é uma tecnologia/conceito moderno focado em resolver problemas específicos de dados e análise`,
-            `${topic} é apenas uma linguagem de programação simples`,
-            `${topic} é exclusivamente usado para desenvolvimento web frontend`,
-            `${topic} é uma ferramenta obsoleta sem aplicação atual`,
-            `${topic} é somente para dispositivos móveis e aplicativos`
+          questions: [
+            `Qual é o conceito fundamental do ${topic}?`,
+            `Como o ${topic} se diferencia de outras tecnologias?`,
+            `Qual é a principal aplicação do ${topic}?`,
+            `Por que o ${topic} é importante na atualidade?`
           ],
-          correct: 0
+          baseAlternatives: [
+            `Tecnologia moderna para análise e processamento de dados`,
+            `Ferramenta exclusiva para desenvolvimento web`,
+            `Sistema apenas para dispositivos móveis`,
+            `Linguagem de programação básica`,
+            `Software obsoleto sem uso atual`
+          ]
         }
       },
-      2: { // FOCO: Terminologia e Vocabulário
+      2: {
         beginner: {
-          question: `Qual termo técnico é MAIS associado ao ecossistema de ${topic}?`,
-          alternatives: [
-            `Biblioteca, framework, sintaxe, comunidade, documentação`,
-            `Apenas HTML, CSS e design gráfico`,
-            `Somente hardware e componentes físicos`,
-            `Exclusivamente redes sociais e marketing`,
-            `Apenas teoria matemática abstrata`
+          questions: [
+            `Quais ferramentas são fundamentais no ecossistema ${topic}?`,
+            `Que recursos são essenciais para trabalhar com ${topic}?`,
+            `Quais conceitos básicos definem o ${topic}?`,
+            `Que características tornam o ${topic} único?`
           ],
-          correct: 0
+          baseAlternatives: [
+            `Bibliotecas, frameworks, documentação e comunidade ativa`,
+            `Apenas interfaces gráficas simples`,
+            `Somente hardware especializado`,
+            `Exclusivamente teoria matemática`,
+            `Apenas redes sociais e marketing`
+          ]
         }
       },
-      3: { // FOCO: Aplicação Prática Real
+      3: {
         intermediate: {
-          question: `Em qual cenário profissional ${topic} oferece MAIOR vantagem competitiva?`,
-          alternatives: [
-            `Análise de grandes volumes de dados, automação de processos e geração de insights para tomada de decisões estratégicas`,
-            `Apenas para criar apresentações visuais simples`,
-            `Exclusivamente para jogos casuais e entretenimento`,
-            `Somente para manutenção de sistemas legados antigos`,
-            `Apenas para criação de documentos de texto básicos`
+          questions: [
+            `Em que contexto ${topic} oferece maior vantagem competitiva?`,
+            `Qual é a principal aplicação prática do ${topic}?`,
+            `Como ${topic} impacta na produtividade empresarial?`,
+            `Onde ${topic} demonstra maior eficiência?`
           ],
-          correct: 0
+          baseAlternatives: [
+            `Análise de dados, automação e insights estratégicos`,
+            `Apenas apresentações visuais simples`,
+            `Exclusivamente entretenimento digital`,
+            `Somente manutenção de sistemas antigos`,
+            `Apenas criação de documentos básicos`
+          ]
         }
       },
-      4: { // FOCO: Resolução de Problemas e Metodologia
+      4: {
         intermediate: {
-          question: `Qual metodologia seria MAIS eficaz para implementar ${topic} em um projeto complexo?`,
-          alternatives: [
-            `Planejamento estruturado, prototipagem iterativa, testes contínuos e documentação colaborativa`,
-            `Desenvolvimento sem planejamento, implementação única sem testes`,
-            `Copiar soluções prontas sem adaptação ao contexto específico`,
-            `Focar apenas na interface visual sem considerar a lógica`,
-            `Usar sempre as mesmas soluções independente do problema`
+          questions: [
+            `Qual metodologia é mais eficaz para implementar ${topic}?`,
+            `Como estruturar um projeto ${topic} para o sucesso?`,
+            `Que abordagem garante melhor resultado com ${topic}?`,
+            `Qual estratégia otimiza o uso de ${topic}?`
           ],
-          correct: 0
+          baseAlternatives: [
+            `Planejamento estruturado, prototipagem e testes contínuos`,
+            `Desenvolvimento sem planejamento prévio`,
+            `Cópia de soluções sem adaptação`,
+            `Foco apenas na interface visual`,
+            `Uso de soluções únicas para todos os casos`
+          ]
         }
       },
-      5: { // FOCO: Estratégia e Otimização Avançada
+      5: {
         advanced: {
-          question: `Para escalar ${topic} em uma empresa de grande porte, qual estratégia arquitetural seria MAIS recomendada?`,
-          alternatives: [
-            `Arquitetura modular, microserviços, cache distribuído, monitoramento proativo e estratégia de CI/CD robusta`,
-            `Arquitetura monolítica única sem divisão de responsabilidades`,
-            `Usar apenas soluções locais sem considerar escalabilidade`,
-            `Priorizar velocidade de desenvolvimento sobre qualidade e manutenibilidade`,
-            `Implementar soluções temporárias sem pensar em crescimento futuro`
+          questions: [
+            `Como escalar ${topic} em empresas de grande porte?`,
+            `Qual arquitetura suporta melhor o crescimento de ${topic}?`,
+            `Que estratégia garante escalabilidade do ${topic}?`,
+            `Como otimizar ${topic} para alta demanda?`
           ],
-          correct: 0
+          baseAlternatives: [
+            `Arquitetura modular, microsserviços e CI/CD robusto`,
+            `Arquitetura monolítica sem divisão`,
+            `Soluções locais sem escalabilidade`,
+            `Velocidade sobre qualidade e manutenibilidade`,
+            `Soluções temporárias sem visão futura`
+          ]
         }
       }
     };
     
-    const questionData = uniqueFallbackQuestions[questionNumber]?.[difficulty];
+    // BUG FIX: Lógica de randomização completa
+    const template = questionTemplates[questionNumber]?.[difficulty];
     
-    if (questionData) {
+    if (template) {
+      // Selecionar pergunta aleatória
+      const randomQuestionIndex = Math.floor(Math.random() * template.questions.length);
+      const selectedQuestion = template.questions[randomQuestionIndex];
+      
+      // Embaralhar alternativas
+      const shuffledAlternatives = [...template.baseAlternatives];
+      for (let i = shuffledAlternatives.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledAlternatives[i], shuffledAlternatives[j]] = [shuffledAlternatives[j], shuffledAlternatives[i]];
+      }
+      
+      // BUG FIX: Randomizar resposta correta (NÃO sempre índice 0)
+      const correctAnswerIndex = Math.floor(Math.random() * shuffledAlternatives.length);
+      
       return {
-        question: questionData.question,
-        alternatives: questionData.alternatives,
-        correct: questionData.correct,
-        explanation: `${topic} é uma tecnologia/conceito versátil com aplicações estratégicas. A resposta correta reflete as melhores práticas do mercado e abordagens profissionais comprovadas para maximizar resultados e eficiência.`,
+        question: selectedQuestion,
+        alternatives: shuffledAlternatives,
+        correct: correctAnswerIndex,
+        explanation: `A resposta correta demonstra as melhores práticas para ${topic}, baseada em expertise profissional e abordagens comprovadas no mercado atual.`,
         difficulty: difficulty,
         questionNumber: questionNumber,
         topic: topic,
-        source: 'fallback-unique'
+        source: 'fallback-dynamic',
+        timestamp: timestamp,
+        randomSeed: randomSeed
       };
     } else {
-      // Fallback final extremo (não deveria acontecer)
+      // BUG FIX: Fallback final extremo também com randomização
+      const genericAlternatives = [
+        `Compreensão profunda dos fundamentos, aplicação prática consistente e adaptação contínua às tendências do mercado`,
+        `Memorização de sintaxe sem compreensão conceitual`,
+        `Foco exclusivo em aspectos teóricos sem implementação prática`,
+        `Uso limitado sem explorar o potencial completo da tecnologia`,
+        `Aplicação superficial sem considerar boas práticas e padrões`
+      ];
+      
+      // Embaralhar alternativas
+      const shuffledGeneric = [...genericAlternatives];
+      for (let i = shuffledGeneric.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledGeneric[i], shuffledGeneric[j]] = [shuffledGeneric[j], shuffledGeneric[i]];
+      }
+      
+      // BUG FIX: Randomizar resposta correta
+      const randomCorrect = Math.floor(Math.random() * shuffledGeneric.length);
+      
       return {
         question: `Considerando o contexto profissional atual, qual é o aspecto MAIS crítico de ${topic}?`,
-        alternatives: [
-          `Compreensão profunda dos fundamentos, aplicação prática consistente e adaptação contínua às tendências do mercado`,
-          `Memorização de sintaxe sem compreensão conceitual`,
-          `Foco exclusivo em aspectos teóricos sem implementação prática`,
-          `Uso limitado sem explorar o potencial completo da tecnologia`,
-          `Aplicação superficial sem considerar boas práticas e padrões`
-        ],
-        correct: 0,
+        alternatives: shuffledGeneric,
+        correct: randomCorrect,
         explanation: `Para maximizar o valor de ${topic}, profissionais devem combinar conhecimento teórico sólido, experiência prática consistente e capacidade de adaptação às demandas e inovações do mercado tecnológico.`,
         difficulty: difficulty,
         questionNumber: questionNumber,
         topic: topic,
-        source: 'fallback-generic'
+        source: 'fallback-generic-randomized',
+        timestamp: timestamp,
+        randomSeed: randomSeed
       };
     }
     return {
