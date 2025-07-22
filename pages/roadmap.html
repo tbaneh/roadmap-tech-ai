@@ -1631,10 +1631,13 @@
               opt.style.color = 'rgba(255, 255, 255, 0.9)';
             });
             
-            // Highlight selected
-            option.style.background = `${difficultyColors[question.difficulty]}40`;
+            // Highlight selected com efeito visual mais forte
+            option.style.background = `linear-gradient(135deg, ${difficultyColors[question.difficulty]}80, ${difficultyColors[question.difficulty]}60)`;
             option.style.borderColor = difficultyColors[question.difficulty];
             option.style.color = 'white';
+            option.style.fontWeight = 'bold';
+            option.style.transform = 'scale(1.02)';
+            option.style.boxShadow = `0 4px 12px ${difficultyColors[question.difficulty]}40`;
             
             // Enable next button
             const nextButton = document.getElementById('next-button');

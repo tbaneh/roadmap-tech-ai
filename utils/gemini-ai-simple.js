@@ -200,38 +200,40 @@ class SimpleGeminiAI {
       }
     };
 
-    // Gerar 5 perguntas progressivas (2 fáceis, 2 médias, 1 difícil)
+    // Gerar 5 perguntas ÚNICAS com subtópicos específicos
     const questionDistribution = [
-      { difficulty: 'beginner', number: 1 },
-      { difficulty: 'beginner', number: 2 },
-      { difficulty: 'intermediate', number: 3 },
-      { difficulty: 'intermediate', number: 4 },
-      { difficulty: 'advanced', number: 5 }
+      { difficulty: 'beginner', number: 1, focus: 'conceitos-basicos', aspect: 'definições fundamentais' },
+      { difficulty: 'beginner', number: 2, focus: 'terminologia', aspect: 'vocabulário técnico' },
+      { difficulty: 'intermediate', number: 3, focus: 'aplicacao-pratica', aspect: 'implementação no trabalho' },
+      { difficulty: 'intermediate', number: 4, focus: 'resolucao-problemas', aspect: 'análise de cenários' },
+      { difficulty: 'advanced', number: 5, focus: 'estrategia-otimizacao', aspect: 'decisões arquiteturais' }
     ];
 
     try {
       const questions = [];
       
       for (const questionConfig of questionDistribution) {
-        const { difficulty, number } = questionConfig;
+        const { difficulty, number, focus, aspect } = questionConfig;
         const config = difficultyConfigs[difficulty];
         
         console.log(`📝 Gerando pergunta ${number}/5 (${config.name})...`);
         
         const prompt = `
-Crie UMA pergunta elaborada e desafiadora sobre: **${topic}**
+Crie UMA pergunta ÚNICA e específica sobre: **${topic}**
 
 **NÍVEL:** ${config.name} (${config.description})
+**FOCO ESPECÍFICO:** ${questionConfig.focus} - ${questionConfig.aspect}
 **COMPLEXIDADE:** ${config.complexity}
 **CENÁRIO:** ${config.scenarios}
 
-**INSTRUÇÕES ESPECÍFICAS:**
-- Pergunta ${number} de 5 (progressão de dificuldade)
-- Crie uma pergunta que REALMENTE faça o usuário pensar
-- Use cenários práticos e realistas do mercado de trabalho
-- Alternativas devem ser plausíveis mas com apenas UMA correta
-- Evite perguntas óbvias ou muito diretas
-- Foque em aplicação prática e tomada de decisão
+**INSTRUÇÕES CRÍTICAS PARA UNICIDADE:**
+- Pergunta ${number} de 5 - DEVE ser COMPLETAMENTE DIFERENTE das outras
+- Foque EXCLUSIVAMENTE em: ${questionConfig.aspect}
+- Use um ângulo específico: ${questionConfig.focus}
+- Varie o contexto: ${number <= 2 ? 'conceitual/teórico' : number <= 4 ? 'prático/aplicado' : 'estratégico/avançado'}
+- NUNCA repita conceitos ou estruturas de perguntas anteriores
+- Cada pergunta deve abordar um aspecto DISTINTO do tópico
+- Use cenários e exemplos específicos para esta perspectiva
 
 **FORMATO EXATO DA RESPOSTA:**
 {
