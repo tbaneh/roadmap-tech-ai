@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha de Tecnologia - Roadmap Tech</title>
+  <style>
+    :root {
+      /* Dark theme variables */
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #1a1a1a;
+      --bg-tertiary: #2a2a2a;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --text-muted: #808080;
+      --accent-primary: #6366f1;
+      --accent-secondary: #8b5cf6;
+      --accent-tertiary: #06b6d4;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #e2e8f0;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --glass-bg: rgba(0, 0, 0, 0.05);
+      --glass-border: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navigation */
+    .nav {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      font-size: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-primary);
+    }
+
+    .theme-toggle {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background: var(--glass-border);
+      transform: scale(1.1);
+    }
+
+    .theme-toggle-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Track Header */
+    .track-header {
+      padding: 3rem 0 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .track-icon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    .track-title {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .track-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .track-description {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .track-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .meta-icon {
+      font-size: 1.1rem;
+    }
+
+    /* Progress Overview */
+    .progress-overview {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .progress-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .progress-percentage {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: 6px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .stat-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Sections */
+    .sections {
+      margin: 3rem 0;
+    }
+
+    .section {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 2rem;
+      border-bottom: 1px solid var(--glass-border);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .section-header:hover {
+      background: var(--glass-border);
+    }
+
+    .section-header.active {
+      background: var(--glass-border);
+    }
+
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .section-toggle {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .section-toggle.active {
+      transform: rotate(180deg);
+    }
+
+    .section-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .section-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .badge-duration {
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--accent-primary);
+    }
+
+    .badge-difficulty {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+    }
+
+    .section-content {
+      display: none;
+      padding: 0 2rem 2rem;
+    }
+
+    .section-content.active {
+      display: block;
+    }
+
+    .section-description {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    /* Topics */
+    .topics {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .topic {
+      background: var(--bg-secondary);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .topic:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .topic-header {
+      display: flex;
+      justify-content: between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .topic-info {
+      flex: 1;
+    }
+
+    .topic-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .topic-description {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .topic-hours {
+      background: var(--glass-bg);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--accent-primary);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .topic-resources {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .resource {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .resource:hover {
+      background: var(--glass-border);
+      transform: translateY(-1px);
+    }
+
+    .resource-icon {
+      font-size: 1.1rem;
+    }
+
+    .resource-title {
+      flex: 1;
+      font-weight: 500;
+    }
+
+    /* Light theme adjustments */
+    [data-theme="light"] .logo {
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="light"] .logo-icon {
+      color: var(--accent-primary) !important;
+    }
+    
+    [data-theme="light"] .nav-link {
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="light"] .nav-link:hover {
+      color: var(--accent-primary) !important;
+    }
+    
+    [data-theme="light"] .theme-toggle {
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="light"] .theme-toggle:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    [data-theme="light"] .theme-toggle-icon {
+      color: var(--text-primary) !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .track-title {
+        font-size: 2rem;
+      }
+      
+      .track-meta {
+        gap: 1rem;
+      }
+      
+      .progress-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .topic-resources {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">🚀</div>
+          Roadmap Tech
+        </a>
+        
+        <div class="nav-links">
+          <a href="./roadmaps.html" class="nav-link">Roadmaps</a>
+          <a href="./tech-tracks.html" class="nav-link">Trilhas Tech</a>
+          <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
+          <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+            <span class="theme-toggle-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Track Header -->
+  <main>
+    <section class="track-header">
+      <div class="container">
+        <div class="track-icon" id="track-icon">🗄️</div>
+        <h1 class="track-title" id="track-title">Trilha SQL</h1>
+        <p class="track-subtitle" id="track-subtitle">Do Básico ao Avançado</p>
+        <p class="track-description" id="track-description">
+          Domine SQL desde consultas básicas até análises complexas e otimização de performance
+        </p>
+        
+        <div class="track-meta" id="track-meta">
+          <!-- Meta items will be populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Overview -->
+    <section class="progress-overview">
+      <div class="container">
+        <div class="progress-header">
+          <h2 class="progress-title">Seu Progresso</h2>
+          <div class="progress-percentage" id="progress-percentage">15%</div>
+        </div>
+        
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 15%;"></div>
+        </div>
+        
+        <div class="progress-stats">
+          <div class="stat">
+            <div class="stat-value" id="completed-topics">3</div>
+            <div class="stat-label">Tópicos Concluídos</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="total-hours">25</div>
+            <div class="stat-label">Horas Estudadas</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="current-section">1</div>
+            <div class="stat-label">Seção Atual</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="estimated-completion">3 sem</div>
+            <div class="stat-label">Para Conclusão</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sections -->
+    <section class="sections">
+      <div class="container">
+        <div id="sections-container">
+          <!-- Sections will be populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import techTracks from '../js/tech-tracks.js';
+
+    // Theme management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.querySelector('.theme-toggle-icon');
+      icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    }
+
+    // Get track from URL
+    function getTrackFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('track') || 'sql';
+    }
+
+    // Render track details
+    function renderTrack() {
+      const trackId = getTrackFromURL();
+      const track = techTracks[trackId];
+      
+      if (!track) {
+        console.error('Track not found:', trackId);
+        return;
+      }
+
+      // Update header
+      document.getElementById('track-icon').textContent = track.icon;
+      document.getElementById('track-title').textContent = track.title;
+      document.getElementById('track-subtitle').textContent = track.subtitle;
+      document.getElementById('track-description').textContent = track.description;
+      document.title = `${track.title} - Roadmap Tech`;
+
+      // Update meta
+      const metaContainer = document.getElementById('track-meta');
+      metaContainer.innerHTML = `
+        <div class="meta-item">
+          <span class="meta-icon">⏱️</span>
+          <span>${track.duration}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">📈</span>
+          <span>${track.difficulty}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">📋</span>
+          <span>${track.prerequisites}</span>
+        </div>
+      `;
+
+      // Render sections
+      renderSections(track.sections);
+    }
+
+    function renderSections(sections) {
+      const container = document.getElementById('sections-container');
+      
+      sections.forEach((section, index) => {
+        const sectionElement = document.createElement('div');
+        sectionElement.className = 'section';
+        
+        sectionElement.innerHTML = `
+          <div class="section-header" onclick="toggleSection(${index})">
+            <div class="section-title-row">
+              <h3 class="section-title">${section.title}</h3>
+              <span class="section-toggle" id="toggle-${index}">▼</span>
+            </div>
+            <div class="section-meta">
+              <span class="section-badge badge-duration">${section.duration}</span>
+              <span class="section-badge badge-difficulty">${section.difficulty}</span>
+            </div>
+          </div>
+          <div class="section-content" id="content-${index}">
+            <p class="section-description">${section.description}</p>
+            <div class="topics">
+              ${section.topics.map(topic => `
+                <div class="topic">
+                  <div class="topic-header">
+                    <div class="topic-info">
+                      <h4 class="topic-title">${topic.title}</h4>
+                      <p class="topic-description">${topic.description}</p>
+                    </div>
+                    <div class="topic-hours">${topic.estimatedHours}h</div>
+                  </div>
+                  <div class="topic-resources">
+                    ${topic.resources.map(resource => `
+                      <a href="${resource.url}" target="_blank" class="resource">
+                        <span class="resource-icon">${getResourceIcon(resource.type)}</span>
+                        <span class="resource-title">${resource.title}</span>
+                        <span>↗</span>
+                      </a>
+                    `).join('')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(sectionElement);
+      });
+    }
+
+    function getResourceIcon(type) {
+      const icons = {
+        video: '🎥',
+        article: '📄',
+        practice: '💻',
+        book: '📚',
+        course: '🎓'
+      };
+      return icons[type] || '🔗';
+    }
+
+    // Toggle section
+    window.toggleSection = function(index) {
+      const content = document.getElementById(`content-${index}`);
+      const toggle = document.getElementById(`toggle-${index}`);
+      const header = content.previousElementSibling;
+      
+      if (content.classList.contains('active')) {
+        content.classList.remove('active');
+        toggle.classList.remove('active');
+        header.classList.remove('active');
+      } else {
+        content.classList.add('active');
+        toggle.classList.add('active');
+        header.classList.add('active');
+      }
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderTrack();
+      
+      document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    });
+  </script>
+</body>
+</html>
