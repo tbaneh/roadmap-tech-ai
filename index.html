@@ -292,6 +292,81 @@
       opacity: 1;
     }
 
+    /* Tech Tracks Section */
+    .tech-tracks {
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .tech-tracks h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .tech-tracks p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tracks-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .track-preview {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .track-preview:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border-color: #6366f1;
+    }
+
+    .track-preview-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .track-preview h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .track-preview p {
+      opacity: 0.8;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .track-duration {
+      background: rgba(99, 102, 241, 0.2);
+      color: #6366f1;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .tracks-cta {
+      margin-top: 2rem;
+    }
+
     @media (max-width: 768px) {
       .nav-content {
         flex-direction: column;
@@ -379,6 +454,43 @@
             <div class="stat-dot" style="background: #f59e0b;"></div>
             <span>IA Integrada</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Tracks Section -->
+    <section id="tech-tracks" class="tech-tracks">
+      <div class="container">
+        <h2>Trilhas de <span style="color: #6366f1;">Tecnologia</span></h2>
+        <p>Domine tecnologias específicas com trilhas estruturadas e progressivas. Do básico ao avançado.</p>
+        
+        <div class="tracks-preview">
+          <div class="track-preview">
+            <div class="track-preview-icon">🗄️</div>
+            <h3>SQL</h3>
+            <p>Do básico ao avançado</p>
+            <span class="track-duration">4-6 meses</span>
+          </div>
+          
+          <div class="track-preview">
+            <div class="track-preview-icon">🐍</div>
+            <h3>Python</h3>
+            <p>Programação completa</p>
+            <span class="track-duration">6-8 meses</span>
+          </div>
+          
+          <div class="track-preview">
+            <div class="track-preview-icon">📊</div>
+            <h3>Power BI</h3>
+            <p>Business Intelligence</p>
+            <span class="track-duration">3-4 meses</span>
+          </div>
+        </div>
+        
+        <div class="tracks-cta">
+          <a href="./pages/tech-tracks.html" class="btn btn-secondary">
+            🚀 Ver Todas as Trilhas
+          </a>
         </div>
       </div>
     </section>
