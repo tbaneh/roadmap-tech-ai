@@ -11,12 +11,46 @@
       box-sizing: border-box;
     }
 
+    /* CSS Variables para Temas */
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #1d4ed8;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-medium: rgba(0, 0, 0, 0.2);
+      --shadow-heavy: rgba(0, 0, 0, 0.3);
+    }
+    
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #f1f5f9;
+      --bg-tertiary: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #1d4ed8;
+      --glass-bg: rgba(255, 255, 255, 0.8);
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --shadow-light: rgba(0, 0, 0, 0.05);
+      --shadow-medium: rgba(0, 0, 0, 0.1);
+      --shadow-heavy: rgba(0, 0, 0, 0.15);
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       line-height: 1.6;
-      color: #ffffff;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 60%, #1e293b 85%, #0f172a 100%);
+      color: var(--text-primary);
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 30%, var(--bg-tertiary) 60%, var(--bg-secondary) 85%, var(--bg-primary) 100%);
       min-height: 100vh;
+      transition: all 0.3s ease;
     }
 
     .container {
@@ -26,15 +60,18 @@
     }
 
     .nav {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      background: var(--glass-bg);
+      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--glass-border);
       padding: 1rem 0;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 100;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px var(--shadow-light);
     }
 
     .nav-content {
@@ -49,19 +86,48 @@
       gap: 0.5rem;
       font-weight: bold;
       font-size: 1.25rem;
-      color: white;
+      color: var(--text-primary);
       text-decoration: none;
+      transition: all 0.3s ease;
     }
 
     .logo-icon {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    /* Theme Toggle Button */
+    .theme-toggle {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      padding: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      transition: all 0.3s ease;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+    
+    .theme-toggle:hover {
+      background: var(--glass-border);
+      transform: scale(1.05);
+    }
+    
+    .theme-toggle-icon {
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
     }
 
     .nav-links {
@@ -71,15 +137,17 @@
     }
 
     .nav-link {
-      color: white;
+      color: var(--text-primary);
       text-decoration: none;
-      transition: opacity 0.3s;
+      transition: all 0.3s ease;
       padding: 0.5rem 1rem;
-      border-radius: 6px;
+      border-radius: 8px;
+      font-weight: 500;
     }
 
     .nav-link:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--glass-border);
+      transform: translateY(-1px);
     }
 
     main {
@@ -152,12 +220,20 @@
     }
 
     .roadmap-section {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
-      padding: 2rem;
+      background: var(--glass-bg);
+      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2.5rem;
       margin-bottom: 2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 32px var(--shadow-light);
+    }
+    
+    .roadmap-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px var(--shadow-medium);
     }
 
     .section-title {
@@ -168,11 +244,19 @@
     }
 
     .topic-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px var(--shadow-light);
+    }
+    
+    .topic-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px var(--shadow-medium);
+      border-color: var(--accent-primary);
     }
 
     .topic-header {
@@ -340,6 +424,9 @@
         
         <div class="nav-links">
           <a href="./roadmaps.html" class="nav-link">← Voltar aos Roadmaps</a>
+          <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+            <span class="theme-toggle-icon">🌙</span>
+          </button>
         </div>
       </div>
     </div>
@@ -2375,14 +2462,161 @@ function getResourceIcon(type) {
   return icons[type] || '🔗';
 }
 
+// Theme Toggle System
+function initializeThemeSystem() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = themeToggle?.querySelector('.theme-toggle-icon');
+  
+  // Get saved theme or default to dark
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  
+  // Apply theme
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      if (themeIcon) themeIcon.textContent = '☀️';
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      if (themeIcon) themeIcon.textContent = '🌙';
+    }
+    localStorage.setItem('theme', theme);
+  }
+  
+  // Apply saved theme
+  applyTheme(savedTheme);
+  
+  // Toggle theme on click
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+      
+      // Add click animation
+      themeToggle.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        themeToggle.style.transform = 'scale(1)';
+      }, 150);
+    });
+  }
+}
+
+// Enhanced Animations and Microinteractions
+function initializeAnimations() {
+  // Add scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+  
+  // Observe all cards and sections
+  document.querySelectorAll('.roadmap-section, .topic-card, .ai-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'all 0.6s ease';
+    observer.observe(el);
+  });
+  
+  // Add ripple effect to buttons
+  document.querySelectorAll('button, .btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x}px;
+        top: ${y}px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
+      `;
+      
+      this.style.position = 'relative';
+      this.style.overflow = 'hidden';
+      this.appendChild(ripple);
+      
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+  
+  // Add CSS for ripple animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple {
+      to {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+    
+    /* Smooth transitions for theme switching */
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    
+    /* Enhanced hover effects */
+    .ai-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 60px var(--shadow-heavy);
+    }
+    
+    /* Loading states */
+    .loading {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 // CRITICAL: Initialize AI Card Event Listeners on page load
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🚀 Página carregada, inicializando event listeners dos cards de IA...');
+  console.log('🚀 Página carregada, inicializando melhorias de UX/UI...');
+  
+  // Initialize theme system
+  initializeThemeSystem();
+  
+  // Initialize animations
+  initializeAnimations();
   
   // Wait for content to be fully rendered
   setTimeout(() => {
     setupAICardListeners();
     console.log('✅ Event listeners dos cards de IA inicializados!');
+    console.log('🎨 Sistema de temas e animações inicializados!');
   }, 1000);
 });
 

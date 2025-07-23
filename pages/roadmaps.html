@@ -602,6 +602,9 @@
           <a href="./roadmaps.html" class="nav-link active">Roadmaps</a>
           <a href="../index.html#features" class="nav-link">Recursos</a>
           <a href="../index.html#about" class="nav-link">Sobre</a>
+          <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+            <span class="theme-toggle-icon">🌙</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1481,6 +1484,228 @@
       
       document.body.appendChild(modal);
     }
+
+    // Theme Toggle System
+    function initializeThemeSystem() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = themeToggle?.querySelector('.theme-toggle-icon');
+      
+      // Get saved theme or default to dark
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      
+      // Apply theme
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          if (themeIcon) themeIcon.textContent = '☀️';
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          if (themeIcon) themeIcon.textContent = '🌙';
+        }
+        localStorage.setItem('theme', theme);
+      }
+      
+      // Apply saved theme
+      applyTheme(savedTheme);
+      
+      // Toggle theme on click
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          const currentTheme = localStorage.getItem('theme') || 'dark';
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          applyTheme(newTheme);
+          
+          // Add click animation
+          themeToggle.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            themeToggle.style.transform = 'scale(1)';
+          }, 150);
+        });
+      }
+    }
+
+    // Enhanced Animations and Microinteractions
+    function initializeAnimations() {
+      // Add scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all cards and sections
+      document.querySelectorAll('.roadmap-card, .ai-features-section, .search-section').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+      });
+      
+      // Add ripple effect to buttons and cards
+      document.querySelectorAll('button, .btn, .roadmap-card').forEach(element => {
+        element.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+          `;
+          
+          this.style.position = 'relative';
+          this.style.overflow = 'hidden';
+          this.appendChild(ripple);
+          
+          setTimeout(() => ripple.remove(), 600);
+        });
+      });
+      
+      // Add CSS for enhanced animations
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes ripple {
+          to {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+        
+        /* Smooth transitions for theme switching */
+        * {
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* Enhanced hover effects for roadmap cards */
+        .roadmap-card:hover {
+          transform: translateY(-12px) scale(1.03);
+          box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Enhanced AI features section */
+        .ai-features-section:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 15px 50px rgba(59, 130, 246, 0.2);
+        }
+        
+        /* Loading states */
+        .loading {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .loading::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+        
+        /* Theme toggle button styling */
+        .theme-toggle {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-left: 1rem;
+        }
+        
+        .theme-toggle:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.1);
+        }
+        
+        .theme-toggle-icon {
+          font-size: 1.2rem;
+        }
+        
+        /* Light theme variables */
+        [data-theme="light"] {
+          --bg-primary: #f8fafc;
+          --bg-secondary: #ffffff;
+          --text-primary: #1e293b;
+          --text-secondary: #64748b;
+          --accent-primary: #3b82f6;
+          --glass-bg: rgba(255, 255, 255, 0.8);
+          --glass-border: rgba(0, 0, 0, 0.1);
+          --shadow-light: rgba(0, 0, 0, 0.1);
+          --shadow-medium: rgba(0, 0, 0, 0.15);
+          --shadow-heavy: rgba(0, 0, 0, 0.25);
+        }
+        
+        [data-theme="light"] body {
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%);
+          color: var(--text-primary);
+        }
+        
+        [data-theme="light"] .nav {
+          background: rgba(255, 255, 255, 0.9);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="light"] .roadmap-card {
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
+          color: var(--text-primary);
+        }
+        
+        [data-theme="light"] .theme-toggle {
+          background: rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        
+        [data-theme="light"] .theme-toggle:hover {
+          background: rgba(0, 0, 0, 0.2);
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Initialize enhanced UX/UI features
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('🎨 Inicializando melhorias de UX/UI na página de roadmaps...');
+      
+      // Initialize theme system
+      initializeThemeSystem();
+      
+      // Initialize animations
+      initializeAnimations();
+      
+      console.log('✅ Sistema de temas e animações inicializados!');
+    });
   </script>
 
 </body>
