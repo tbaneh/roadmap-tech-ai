@@ -1769,13 +1769,28 @@
           color: var(--text-primary) !important;
         }
         
+        [data-theme="light"] .logo-icon {
+          color: var(--accent-primary) !important;
+          filter: none !important;
+        }
+        
+        [data-theme="light"] .card-icon {
+          color: var(--accent-primary) !important;
+          filter: none !important;
+        }
+        
         [data-theme="light"] .theme-toggle {
           background: rgba(0, 0, 0, 0.1);
           border: 1px solid rgba(0, 0, 0, 0.2);
+          color: var(--text-primary) !important;
         }
         
         [data-theme="light"] .theme-toggle:hover {
           background: rgba(0, 0, 0, 0.2);
+        }
+        
+        [data-theme="light"] .theme-toggle-icon {
+          color: var(--text-primary) !important;
         }
       `;
       document.head.appendChild(style);
