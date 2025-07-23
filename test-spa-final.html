@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPA Final Test - Roadmap Tech</title>
+  <style>
+    body { 
+      font-family: system-ui; 
+      background: #0f172a; 
+      color: white; 
+      padding: 2rem; 
+      line-height: 1.5;
+    }
+    .test-result { 
+      margin: 1rem 0; 
+      padding: 1rem; 
+      border-radius: 8px; 
+      border: 1px solid #334155;
+    }
+    .success { background: rgba(16, 185, 129, 0.1); border-color: #10b981; }
+    .error { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
+    .warning { background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; }
+    .test-btn { 
+      background: #3b82f6; 
+      color: white; 
+      border: none; 
+      padding: 0.75rem 1.5rem; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      margin: 0.5rem; 
+    }
+    .test-btn:hover { background: #2563eb; }
+    iframe { 
+      width: 100%; 
+      height: 600px; 
+      border: 1px solid #334155; 
+      border-radius: 8px; 
+      margin: 1rem 0; 
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 SPA Final Validation Test</h1>
+  <p>Teste completo do sistema SPA migrado para validar todas as funcionalidades críticas.</p>
+
+  <div class="test-controls">
+    <button class="test-btn" onclick="loadSPA()">🚀 Carregar SPA</button>
+    <button class="test-btn" onclick="testNavigation()">🧭 Testar Navegação</button>
+    <button class="test-btn" onclick="testAICards()">🤖 Testar Cards IA</button>
+    <button class="test-btn" onclick="testSearch()">🔍 Testar Busca</button>
+    <button class="test-btn" onclick="runAllTests()">✅ Executar Todos os Testes</button>
+  </div>
+
+  <div id="test-results"></div>
+
+  <iframe id="spa-frame" src="" style="display:none;"></iframe>
+
+  <script>
+    const results = document.getElementById('test-results');
+    const frame = document.getElementById('spa-frame');
+
+    function logResult(type, message) {
+      const div = document.createElement('div');
+      div.className = `test-result ${type}`;
+      div.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+      results.appendChild(div);
+      results.scrollTop = results.scrollHeight;
+    }
+
+    function loadSPA() {
+      logResult('success', '🚀 Carregando SPA...');
+      frame.src = './pages/roadmaps.html';
+      frame.style.display = 'block';
+      
+      frame.onload = () => {
+        logResult('success', '✅ SPA carregada com sucesso');
+        
+        // Check if router is loaded
+        setTimeout(() => {
+          try {
+            const frameDoc = frame.contentDocument || frame.contentWindow.document;
+            const hasRouter = frameDoc.querySelector('script[src*="spa-router"]') !== null;
+            const hasListView = frameDoc.getElementById('list-view') !== null;
+            const hasDetailView = frameDoc.getElementById('roadmap-detail') !== null;
+            
+            if (hasRouter && hasListView && hasDetailView) {
+              logResult('success', '✅ Estrutura SPA validada: Router, List View e Detail View encontrados');
+            } else {
+              logResult('error', '❌ Estrutura SPA incompleta');
+            }
+          } catch (e) {
+            logResult('warning', '⚠️ Não foi possível acessar conteúdo do iframe (CORS)');
+          }
+        }, 1000);
+      };
+    }
+
+    function testNavigation() {
+      logResult('success', '🧭 Testando navegação SPA...');
+      
+      const testRoutes = [
+        '#/',
+        '#/roadmap/data-scientist',
+        '#/roadmap/bi-analyst',
+        '#/roadmap/data-analyst',
+        '#/roadmap/software-engineer-google'
+      ];
+      
+      let currentRoute = 0;
+      
+      function testNextRoute() {
+        if (currentRoute >= testRoutes.length) {
+          logResult('success', '✅ Todos os testes de navegação concluídos');
+          return;
+        }
+        
+        const route = testRoutes[currentRoute];
+        logResult('success', `🔄 Testando rota: ${route}`);
+        
+        try {
+          const frameWindow = frame.contentWindow;
+          frameWindow.location.hash = route;
+          
+          setTimeout(() => {
+            logResult('success', `✅ Navegação para ${route} executada`);
+            currentRoute++;
+            testNextRoute();
+          }, 500);
+        } catch (e) {
+          logResult('error', `❌ Erro na navegação para ${route}: ${e.message}`);
+          currentRoute++;
+          testNextRoute();
+        }
+      }
+      
+      testNextRoute();
+    }
+
+    function testAICards() {
+      logResult('success', '🤖 Testando Cards de IA...');
+      
+      // Navigate to detail view first
+      try {
+        const frameWindow = frame.contentWindow;
+        frameWindow.location.hash = '#/roadmap/data-scientist';
+        
+        setTimeout(() => {
+          try {
+            const frameDoc = frame.contentDocument || frame.contentWindow.document;
+            const aiCards = frameDoc.querySelectorAll('.ai-card');
+            
+            if (aiCards.length >= 4) {
+              logResult('success', `✅ Cards de IA encontrados: ${aiCards.length} cards`);
+              
+              // Test specific cards
+              const taskCard = frameDoc.querySelector('[data-card="ai-task"]');
+              const mentorCard = frameDoc.querySelector('[data-card="ai-mentor"]');
+              const quizCard = frameDoc.querySelector('[data-card="ai-quiz"]');
+              const analysisCard = frameDoc.querySelector('[data-card="ai-analysis"]');
+              
+              if (taskCard && mentorCard && quizCard && analysisCard) {
+                logResult('success', '✅ Todos os cards de IA específicos encontrados');
+              } else {
+                logResult('warning', '⚠️ Alguns cards de IA podem estar ausentes');
+              }
+            } else {
+              logResult('error', '❌ Cards de IA não encontrados ou incompletos');
+            }
+          } catch (e) {
+            logResult('warning', '⚠️ Não foi possível verificar cards de IA (CORS)');
+          }
+        }, 1000);
+      } catch (e) {
+        logResult('error', `❌ Erro ao testar cards de IA: ${e.message}`);
+      }
+    }
+
+    function testSearch() {
+      logResult('success', '🔍 Testando sistema de busca...');
+      
+      // Navigate back to list view
+      try {
+        const frameWindow = frame.contentWindow;
+        frameWindow.location.hash = '#/';
+        
+        setTimeout(() => {
+          try {
+            const frameDoc = frame.contentDocument || frame.contentWindow.document;
+            const searchInput = frameDoc.getElementById('search-input');
+            const roadmapCards = frameDoc.querySelectorAll('.roadmap-card');
+            
+            if (searchInput && roadmapCards.length > 0) {
+              logResult('success', `✅ Sistema de busca encontrado: ${roadmapCards.length} cards disponíveis`);
+              
+              // Test search functionality
+              searchInput.value = 'data';
+              searchInput.dispatchEvent(new Event('input'));
+              
+              setTimeout(() => {
+                logResult('success', '✅ Teste de busca executado');
+              }, 500);
+            } else {
+              logResult('error', '❌ Sistema de busca não encontrado');
+            }
+          } catch (e) {
+            logResult('warning', '⚠️ Não foi possível testar busca (CORS)');
+          }
+        }, 1000);
+      } catch (e) {
+        logResult('error', `❌ Erro ao testar busca: ${e.message}`);
+      }
+    }
+
+    function runAllTests() {
+      logResult('success', '🧪 Iniciando bateria completa de testes...');
+      results.innerHTML = '';
+      
+      loadSPA();
+      
+      setTimeout(() => testNavigation(), 2000);
+      setTimeout(() => testAICards(), 8000);
+      setTimeout(() => testSearch(), 12000);
+      
+      setTimeout(() => {
+        logResult('success', '🎉 Bateria de testes concluída!');
+        logResult('success', '📊 Verifique os resultados acima para identificar eventuais problemas.');
+      }, 15000);
+    }
+
+    // Auto-start basic test
+    window.onload = () => {
+      logResult('success', '🧪 Teste SPA Final iniciado. Clique nos botões para executar testes específicos.');
+    };
+  </script>
+</body>
+</html>

@@ -111,7 +111,7 @@ class AITaskSystemTester {
   // TESTE 2: Navegar para roadmap específico
   async testRoadmapNavigation(roadmapId) {
     await this.test(`Navegação para roadmap ${roadmapId}`, async () => {
-      const roadmapUrl = `${TEST_CONFIG.prodUrl}/pages/roadmap.html?id=${roadmapId}`;
+      const roadmapUrl = `${TEST_CONFIG.prodUrl}/pages/roadmaps.html#/roadmap/${roadmapId}`;
       await this.page.goto(roadmapUrl, { waitUntil: 'networkidle2' });
       
       // Verificar se carregou corretamente

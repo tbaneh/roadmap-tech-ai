@@ -707,9 +707,15 @@
         </div>
       </div>
 
-      <!-- Roadmaps Grid -->
-      <div class="roadmaps-grid" id="roadmaps-container">
-        <!-- Data Science Roadmap -->
+      <!-- Roadmaps Grid (List View) -->
+      <div id="list-view">
+        <div class="roadmaps-grid" id="roadmaps-container">
+          <!-- Dynamic content will be inserted here by search functionality -->
+        </div>
+        
+        <!-- Static Roadmap Cards -->
+        <div class="roadmaps-grid">
+          <!-- Data Science Roadmap -->
         <div class="roadmap-card" data-difficulty="intermediate">
           <div class="card-header">
             <div class="card-icon">📊</div>
@@ -731,7 +737,7 @@
           
           <div class="card-footer">
             <span class="difficulty-badge difficulty-intermediate">Intermediário</span>
-            <a href="./roadmap.html?id=data-scientist" class="start-btn">Começar</a>
+            <a href="#/roadmap/data-scientist" class="start-btn">Começar</a>
           </div>
         </div>
 
@@ -757,7 +763,7 @@
           
           <div class="card-footer">
             <span class="difficulty-badge difficulty-beginner">Iniciante</span>
-            <a href="./roadmap.html?id=bi-analyst" class="start-btn">Começar</a>
+            <a href="#/roadmap/bi-analyst" class="start-btn">Começar</a>
           </div>
         </div>
 
@@ -783,7 +789,7 @@
           
           <div class="card-footer">
             <span class="difficulty-badge difficulty-beginner">Iniciante</span>
-            <a href="./roadmap.html?id=data-analyst" class="start-btn">Começar</a>
+            <a href="#/roadmap/data-analyst" class="start-btn">Começar</a>
           </div>
         </div>
 
@@ -809,12 +815,14 @@
           
           <div class="card-footer">
             <span class="difficulty-badge difficulty-advanced">Avançado</span>
-            <a href="./roadmap.html?id=software-engineer-google" class="start-btn">Começar</a>
+            <a href="#/roadmap/software-engineer-google" class="start-btn">Começar</a>
           </div>
         </div>
       </div>
     </div>
-  </main>
+  <!-- Detail View container injected by router -->
+      <div id="roadmap-detail" style="display:none;"></div>
+    </main>
 
   <!-- Footer -->
   <footer class="footer">
@@ -842,7 +850,8 @@
         this.categoryFilter = document.getElementById('category-filter');
         this.resultsCount = document.getElementById('results-count');
         this.clearBtn = document.getElementById('clear-filters');
-        this.roadmapCards = document.querySelectorAll('.roadmap-card');
+        // Target roadmap cards in the static grid (not the dynamic search container)
+        this.roadmapCards = document.querySelectorAll('#list-view .roadmaps-grid:not(#roadmaps-container) .roadmap-card');
         
         this.initializeEventListeners();
         this.setupCardMetadata();
@@ -1812,5 +1821,7 @@
     });
   </script>
 
+  <!-- SPA Router -->
+  <script type="module" src="../js/spa-router.js"></script>
 </body>
 </html>

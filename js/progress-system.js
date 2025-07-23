@@ -349,7 +349,7 @@ class UserProgressSystem {
             `;
             
             progressItem.addEventListener('click', () => {
-                window.location.href = `roadmap.html?id=${roadmapId}`;
+                window.location.hash = `#/roadmap/${roadmapId}`;
             });
             
             container.appendChild(progressItem);
