@@ -8,15 +8,42 @@ class UserProgressSystem {
 
     loadProgress() {
         const saved = localStorage.getItem('userProgress');
-        return saved ? JSON.parse(saved) : {
-            roadmaps: {},
-            completedTopics: [],
-            studyHours: 0,
-            badgesEarned: [],
-            lastStudyDate: null,
-            tasksCompleted: 0,
-            questionsAnswered: 0
+        if (saved) {
+            return JSON.parse(saved);
+        }
+        
+        // Dados demonstrativos iniciais para melhor experiência
+        const demoData = {
+            roadmaps: {
+                'data-scientist': {
+                    progress: 25,
+                    completedSections: ['Fundamentos', 'Python Básico'],
+                    totalSections: 8
+                },
+                'bi-analyst': {
+                    progress: 40,
+                    completedSections: ['Power BI Básico', 'Excel Avançado'],
+                    totalSections: 5
+                }
+            },
+            completedTopics: [
+                'data-scientist.fundamentos.introducao-data-science',
+                'data-scientist.python.variaveis-tipos',
+                'data-scientist.python.estruturas-dados',
+                'bi-analyst.power-bi.interface-navegacao',
+                'bi-analyst.power-bi.conectar-dados',
+                'bi-analyst.excel.tabelas-dinamicas'
+            ],
+            studyHours: 12,
+            badgesEarned: ['first_steps', 'quick_learner'],
+            lastStudyDate: new Date().toISOString(),
+            tasksCompleted: 8,
+            questionsAnswered: 15
         };
+        
+        // Salvar dados demo para próximas visitas
+        localStorage.setItem('userProgress', JSON.stringify(demoData));
+        return demoData;
     }
 
     saveProgress() {
@@ -31,6 +58,13 @@ class UserProgressSystem {
                 desc: 'Complete seu primeiro tópico',
                 icon: '🚀',
                 condition: () => this.progress.completedTopics.length >= 1
+            },
+            {
+                id: 'quick_learner',
+                title: 'Aprendiz Rápido',
+                desc: 'Complete 5 tópicos',
+                icon: '⚡',
+                condition: () => this.progress.completedTopics.length >= 5
             },
             {
                 id: 'dedicated_learner',
