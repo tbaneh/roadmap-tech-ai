@@ -1,15 +1,498 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecionando...</title>
-  <script>
-    // Redirect to SPA
-    window.location.href = '/#tech-tracks';
-  </script>
+  <title>Trilhas de Tecnologia - Roadmap Tech</title>
+  <style>
+    :root {
+      /* Dark theme variables */
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #1a1a1a;
+      --bg-tertiary: #2a2a2a;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --text-muted: #808080;
+      --accent-primary: #6366f1;
+      --accent-secondary: #8b5cf6;
+      --accent-tertiary: #06b6d4;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #e2e8f0;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --glass-bg: rgba(0, 0, 0, 0.05);
+      --glass-border: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navigation */
+    .nav {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      font-size: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-primary);
+    }
+
+    .theme-toggle {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background: var(--glass-border);
+      transform: scale(1.1);
+    }
+
+    .theme-toggle-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 4rem 0 2rem;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Tech Tracks Grid */
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+
+    .track-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .track-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border-color: var(--accent-primary);
+    }
+
+    .track-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .track-icon {
+      font-size: 3rem;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      background: var(--glass-bg);
+      border: 2px solid var(--glass-border);
+    }
+
+    .track-info h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .track-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .track-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .track-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .track-progress {
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .track-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--glass-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--glass-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--glass-border);
+    }
+
+    /* Light theme adjustments */
+    [data-theme="light"] .logo {
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="light"] .logo-icon {
+      color: var(--accent-primary) !important;
+    }
+    
+    [data-theme="light"] .nav-link {
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="light"] .nav-link:hover {
+      color: var(--accent-primary) !important;
+    }
+    
+    [data-theme="light"] .theme-toggle {
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      color: var(--text-primary) !important;
+    }
+    
+    [data-theme="light"] .theme-toggle:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    [data-theme="light"] .theme-toggle-icon {
+      color: var(--text-primary) !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .tracks-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+      
+      .track-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <p>Redirecionando para a página principal...</p>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">🚀</div>
+          Roadmap Tech
+        </a>
+        
+        <div class="nav-links">
+          <a href="./roadmaps.html" class="nav-link">Roadmaps</a>
+          <a href="./tech-tracks.html" class="nav-link">Trilhas Tech</a>
+          <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
+          <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+            <span class="theme-toggle-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <main>
+    <section class="header">
+      <div class="container">
+        <h1>Trilhas de Tecnologia</h1>
+        <p>
+          Domine tecnologias específicas com trilhas estruturadas e progressivas.
+          Do básico ao avançado, com projetos práticos e recursos curados.
+        </p>
+      </div>
+    </section>
+
+    <!-- Tech Tracks -->
+    <section class="tracks-section">
+      <div class="container">
+        <div class="tracks-grid" id="tracks-grid">
+          <!-- Tracks will be populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import techTracks from '../js/tech-tracks.js';
+
+    // Theme management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.querySelector('.theme-toggle-icon');
+      icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    }
+
+    // Render tech tracks
+    function renderTracks() {
+      const grid = document.getElementById('tracks-grid');
+      
+      Object.values(techTracks).forEach(track => {
+        const progress = Math.floor(Math.random() * 30); // Simulate progress
+        
+        const trackCard = document.createElement('div');
+        trackCard.className = 'track-card';
+        trackCard.style.setProperty('--track-color', track.color);
+        
+        trackCard.innerHTML = `
+          <div class="track-header">
+            <div class="track-icon" style="border-color: ${track.color};">
+              ${track.icon}
+            </div>
+            <div class="track-info">
+              <h3>${track.title}</h3>
+              <div class="track-subtitle">${track.subtitle}</div>
+            </div>
+          </div>
+          
+          <p class="track-description">${track.description}</p>
+          
+          <div class="track-stats">
+            <div class="stat">
+              <div class="stat-value">${track.duration}</div>
+              <div class="stat-label">Duração</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">${track.difficulty}</div>
+              <div class="stat-label">Nível</div>
+            </div>
+          </div>
+          
+          <div class="track-progress">
+            <div class="progress-label">
+              <span>Progresso</span>
+              <span>${progress}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${progress}%; background: ${track.color};"></div>
+            </div>
+          </div>
+          
+          <div class="track-actions">
+            <a href="./tech-track.html?track=${track.id}" class="btn btn-primary">
+              🚀 Iniciar Trilha
+            </a>
+            <a href="#" class="btn btn-secondary">
+              📋 Ver Detalhes
+            </a>
+          </div>
+        `;
+        
+        grid.appendChild(trackCard);
+      });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderTracks();
+      
+      document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    });
+  </script>
 </body>
 </html>
