@@ -48,6 +48,127 @@ class SimpleGeminiAI {
     return (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'production') ||
            (typeof window !== 'undefined' && window.NODE_ENV === 'production');
   }
+  
+  // ENHANCED RANDOMIZATION: Gerar seed dinâmico com múltiplas camadas
+  generateDynamicSeed() {
+    const timestamp = Date.now();
+    const random1 = Math.random().toString(36).substr(2, 9);
+    const random2 = Math.random().toString(36).substr(2, 9);
+    const entropy = Math.floor(Math.random() * 100) + 1;
+    
+    // Combinar diferentes fontes de aleatoriedade
+    const combinedSeed = `${timestamp}_${random1}_${random2}`;
+    const hash = this.simpleHash(combinedSeed);
+    
+    return {
+      seed: hash,
+      entropy: entropy,
+      timestamp: timestamp
+    };
+  }
+  
+  // Helper: Gerar hash simples para aumentar aleatoriedade
+  simpleHash(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Converter para 32 bits
+    }
+    return Math.abs(hash).toString(36).substr(0, 8);
+  }
+  
+  // CONTEXTUAL VARIATION: Gerar variações contextuais para o tópico
+  getContextualVariation(topic) {
+    const perspectives = [
+      {
+        name: 'industry-focused',
+        perspective: 'Foco na indústria',
+        context: 'aplicações industriais e casos de uso reais',
+        angle: 'Como empresas líderes utilizam esta tecnologia'
+      },
+      {
+        name: 'career-oriented',
+        perspective: 'Orientação de carreira',
+        context: 'desenvolvimento profissional e oportunidades',
+        angle: 'Competências valorizadas no mercado de trabalho'
+      },
+      {
+        name: 'practical-implementation',
+        perspective: 'Implementação prática',
+        context: 'implementação hands-on e projetos reais',
+        angle: 'Desafios e soluções na prática'
+      },
+      {
+        name: 'problem-solving',
+        perspective: 'Resolução de problemas',
+        context: 'análise de problemas e tomada de decisões',
+        angle: 'Abordagens estratégicas para superar obstáculos'
+      },
+      {
+        name: 'innovation-trends',
+        perspective: 'Inovação e tendências',
+        context: 'tecnologias emergentes e futuro da área',
+        angle: 'Evolução tecnológica e direcionamentos futuros'
+      },
+      {
+        name: 'best-practices',
+        perspective: 'Melhores práticas',
+        context: 'metodologias comprovadas e padrões de qualidade',
+        angle: 'Técnicas e abordagens recomendadas pela comunidade'
+      }
+    ];
+    
+    // Selecionar perspectiva aleatória
+    const randomIndex = Math.floor(Math.random() * perspectives.length);
+    const selectedPerspective = perspectives[randomIndex];
+    
+    // Adicionar contexto específico do tópico
+    const topicSpecificContext = this.getTopicSpecificContext(topic);
+    
+    return {
+      ...selectedPerspective,
+      topicContext: topicSpecificContext,
+      uniqueModifier: Math.random().toString(36).substr(2, 5)
+    };
+  }
+  
+  // Gerar contexto específico baseado no tópico
+  getTopicSpecificContext(topic) {
+    const lowerTopic = topic.toLowerCase();
+    
+    if (lowerTopic.includes('sql') || lowerTopic.includes('banco')) {
+      return {
+        domain: 'Banco de Dados',
+        scenarios: ['consultas complexas', 'otimização de performance', 'modelagem de dados'],
+        tools: ['PostgreSQL', 'MySQL', 'SQL Server', 'Oracle']
+      };
+    } else if (lowerTopic.includes('python') || lowerTopic.includes('programação')) {
+      return {
+        domain: 'Programação',
+        scenarios: ['automação de processos', 'análise de dados', 'desenvolvimento de aplicações'],
+        tools: ['Pandas', 'NumPy', 'Jupyter', 'VS Code']
+      };
+    } else if (lowerTopic.includes('power bi') || lowerTopic.includes('visualização')) {
+      return {
+        domain: 'Business Intelligence',
+        scenarios: ['dashboards executivos', 'análise de KPIs', 'storytelling com dados'],
+        tools: ['Power BI', 'Tableau', 'QlikView', 'Looker']
+      };
+    } else if (lowerTopic.includes('excel') || lowerTopic.includes('planilha')) {
+      return {
+        domain: 'Análise de Dados',
+        scenarios: ['tabelas dinâmicas', 'automação com VBA', 'análise financeira'],
+        tools: ['Excel', 'Google Sheets', 'VBA', 'Power Query']
+      };
+    } else {
+      return {
+        domain: 'Tecnologia',
+        scenarios: ['implementação empresarial', 'otimização de processos', 'inovação tecnológica'],
+        tools: ['ferramentas especializadas', 'plataformas integradas', 'soluções personalizadas']
+      };
+    }
+  }
 
   async generateContent(prompt, context = '') {
     if (!this.isInitialized) {
@@ -182,9 +303,14 @@ class SimpleGeminiAI {
 
   // Gerar tarefa interativa com múltipla escolha - 5 perguntas + 3 dificuldades progressivas
   async generateTask(topic, initialDifficulty = 'beginner', uniqueId = null) {
-    // BUG FIX: Usar uniqueId para unicidade sem expor no prompt
+    // ENHANCED RANDOMIZATION: Múltiplas camadas de variação
     const sessionId = uniqueId || Date.now();
-    console.log(`🎯 Gerando 5 perguntas progressivas sobre: ${topic} (ID: ${sessionId})`);
+    const dynamicSeed = this.generateDynamicSeed();
+    const contextVariation = this.getContextualVariation(topic);
+    
+    console.log(`🎯 Gerando 5 perguntas ÚNICAS sobre: ${topic} (Seed: ${dynamicSeed})`);
+    console.log(`🔄 Contexto variável: ${contextVariation.perspective}`);
+    console.log(`🎲 Aleatoriedade: ${dynamicSeed.entropy}%`);
     
     // Definir configurações por dificuldade
     const difficultyConfigs = {
@@ -230,23 +356,32 @@ class SimpleGeminiAI {
         console.log(`📝 Gerando pergunta ${number}/5 (${config.name})...`);
         
         const prompt = `
-Crie UMA pergunta ÚNICA e específica sobre: **${topic}**
+Crie UMA pergunta COMPLETAMENTE ÚNICA sobre: **${topic}**
 
-**SESSÃO:** ${sessionId} (para garantir unicidade absoluta)
-**NÍVEL:** ${config.name} (${config.description})
-**FOCO ESPECÍFICO:** ${questionConfig.focus} - ${questionConfig.aspect}
-**COMPLEXIDADE:** ${config.complexity}
-**CENÁRIO:** ${config.scenarios}
+**🎲 CONTEXTO DINÂMICO:**
+- **Perspectiva:** ${contextVariation.perspective}
+- **Ângulo:** ${contextVariation.angle}
+- **Domínio:** ${contextVariation.topicContext.domain}
+- **Cenário Aplicado:** ${contextVariation.topicContext.scenarios[Math.floor(Math.random() * contextVariation.topicContext.scenarios.length)]}
+- **Ferramenta/Contexto:** ${contextVariation.topicContext.tools[Math.floor(Math.random() * contextVariation.topicContext.tools.length)]}
 
-**INSTRUÇÕES CRÍTICAS PARA UNICIDADE:**
-- Pergunta ${number} de 5 - DEVE ser COMPLETAMENTE DIFERENTE das outras
-- Foque EXCLUSIVAMENTE em: ${questionConfig.aspect}
-- Use um ângulo específico: ${questionConfig.focus}
-- Varie o contexto: ${number <= 2 ? 'conceitual/teórico' : number <= 4 ? 'prático/aplicado' : 'estratégico/avançado'}
-- NUNCA repita conceitos ou estruturas de perguntas anteriores
-- Cada pergunta deve abordar um aspecto DISTINTO do tópico
-- Use cenários e exemplos específicos para esta perspectiva
-- RANDOMIZE a alternativa correta (NÃO sempre A): deve variar entre A, B, C, D ou E
+**🔢 CONFIGURAÇÃO DA PERGUNTA:**
+- **Nível:** ${config.name} (${config.description})
+- **Foco Específico:** ${questionConfig.focus} - ${questionConfig.aspect}
+- **Pergunta:** ${number}/5
+- **Seed Único:** ${dynamicSeed.seed} (Entropia: ${dynamicSeed.entropy}%)
+- **Modificador:** ${contextVariation.uniqueModifier}
+
+**⚡ INSTRUÇÕES CRÍTICAS PARA MÁXIMA VARIABILIDADE:**
+- Esta é a pergunta ${number} de 5 - DEVE ser RADICALMENTE DIFERENTE de qualquer pergunta anterior
+- Use EXCLUSIVAMENTE a perspectiva: ${contextVariation.perspective}
+- Aplique o contexto: ${contextVariation.context}
+- Cenário obrigatório: ${contextVariation.topicContext.scenarios[Math.floor(Math.random() * contextVariation.topicContext.scenarios.length)]}
+- Abordagem específica: ${number <= 2 ? 'conceitos fundamentais e terminologia' : number <= 4 ? 'aplicação prática e casos reais' : 'estratégia avançada e otimização'}
+- Use exemplos do contexto: ${contextVariation.topicContext.domain}
+- RANDOMIZE completamente a alternativa correta: ${['A', 'B', 'C', 'D', 'E'][Math.floor(Math.random() * 5)]}
+- Incorpore ferramentas específicas: ${contextVariation.topicContext.tools.join(', ')}
+- NEVER repita estruturas, conceitos ou abordagens de outras perguntas
 
 **FORMATO EXATO DA RESPOSTA:**
 {
