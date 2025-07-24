@@ -2568,23 +2568,62 @@ function initializeAnimations() {
 // 🤖 GEMINI AI INITIALIZATION
 // ================================
 
-// Environment configuration for API Key
-const geminiApiKey = 
-  // 1. Try environment variable (production)
-  (typeof process !== 'undefined' && process.env && process.env.geminiApiKey) ||
-  (typeof process !== 'undefined' && process.env && process.env.GEMINI_API_KEY) ||
-  
-  // 2. Try global variable (injected during build)
-  (typeof window !== 'undefined' && window.GEMINI_API_KEY) ||
-  
-  // 3. Fallback for development (only if not production)
-  'AIzaSyDXFW0fdQRnFMC7jIAtHIqJFREF6sp7nMc';
+// CRITICAL: Secure API Key fetch from Vercel API route
+let geminiApiKey = null;
 
-// Export to global scope for accessibility
-window.geminiApiKey = geminiApiKey;
+// Function to securely fetch API Key from our API route
+async function initializeGeminiAI() {
+  try {
+    console.log('🔑 Buscando API Key do Gemini de forma segura...');
+    
+    // Fetch API Key from our secure API route
+    const response = await fetch('/api/config', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const config = await response.json();
+    
+    if (!config.success || !config.geminiApiKey) {
+      throw new Error('API Key não encontrada na resposta');
+    }
+    
+    geminiApiKey = config.geminiApiKey;
+    
+    // Export to global scope for accessibility
+    window.geminiApiKey = geminiApiKey;
+    
+    console.log('✅ API Key do Gemini carregada com sucesso!');
+    
+    // Initialize Gemini AI with the fetched API Key
+    await setupGeminiAI();
+    
+  } catch (error) {
+    console.error('❌ Erro ao carregar API Key do Gemini:', error);
+    console.warn('⚠️ Usando fallback de desenvolvimento...');
+    
+    // Fallback para desenvolvimento local
+    geminiApiKey = 'AIzaSyDXFW0fdQRnFMC7jIAtHIqJFREF6sp7nMc';
+    window.geminiApiKey = geminiApiKey;
+    
+    // Initialize with fallback
+    await setupGeminiAI();
+  }
+}
 
-// Initialize Gemini AI
-if (geminiApiKey) {
+// Function to setup Gemini AI after API Key is loaded
+async function setupGeminiAI() {
+  if (!geminiApiKey) {
+    console.warn('⚠️ API Key do Gemini não encontrada');
+    return;
+  }
+
   try {
     // Simple Gemini AI class inline for compatibility
     class SimpleGeminiAI {
@@ -2729,8 +2768,6 @@ Crie um sistema de 5 perguntas progressivas sobre: ${topic}
   } catch (error) {
     console.error('❌ Erro ao inicializar Gemini AI:', error);
   }
-} else {
-  console.warn('⚠️ API Key do Gemini não encontrada');
 }
 
     </script>
@@ -2797,10 +2834,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize animations
   initializeAnimations();
   
+  // CRITICAL: Initialize Gemini AI with secure API route
+  initializeGeminiAI();
+  
   // Wait for content to be fully rendered
   setTimeout(() => {
-    setupAICardListeners();
-    console.log('✅ Event listeners dos cards de IA inicializados!');
+    // setupAICardListeners will be called from initializeGeminiAI after API key is loaded
     console.log('🎨 Sistema de temas e animações inicializados!');
   }, 1000);
 });
