@@ -237,6 +237,96 @@
       line-height: 1.6;
     }
 
+    /* About Section */
+    .about {
+      padding: 6rem 0;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .about h2 {
+      text-align: center;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 3rem;
+      font-weight: bold;
+    }
+
+    .about-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+
+    .about-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text strong {
+      color: #fbbf24;
+      font-weight: 600;
+    }
+
+    .about-features {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .about-feature {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .about-feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .about-feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .about-feature h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #fbbf24;
+      font-weight: 600;
+    }
+
+    .about-feature p {
+      opacity: 0.8;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about {
+        padding: 4rem 0;
+      }
+    }
+
     .cta {
       padding: 4rem 0;
       text-align: center;
@@ -536,6 +626,54 @@
   </main>
 
   <!-- Footer -->
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="container">
+      <h2>Sobre o <span style="color: #fbbf24;">Roadmap Tech</span></h2>
+      <div class="about-content">
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              O <strong>Roadmap Tech</strong> é uma plataforma criada para acelerar carreiras em tecnologia 
+              através de roadmaps estruturados e inteligência artificial integrada.
+            </p>
+            <p>
+              Nossa missão é democratizar o acesso ao conhecimento de qualidade em áreas como 
+              <strong>Data Science</strong>, <strong>Business Intelligence</strong>, 
+              <strong>Data Analytics</strong> e tecnologias emergentes.
+            </p>
+            <p>
+              Desenvolvido com base em dados reais do mercado e experiências de profissionais 
+              em <strong>Big Tech</strong>, oferecemos trilhas práticas que conectam teoria e aplicação.
+            </p>
+          </div>
+          <div class="about-features">
+            <div class="about-feature">
+              <div class="about-feature-icon">🎯</div>
+              <h4>Foco em Resultados</h4>
+              <p>Roadmaps baseados em vagas reais e demandas do mercado</p>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">🤖</div>
+              <h4>IA Integrada</h4>
+              <p>Aprendizado personalizado com quizzes e exercícios adaptativos</p>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">📈</div>
+              <h4>Progresso Visual</h4>
+              <p>Acompanhe sua evolução com métricas detalhadas e gamificação</p>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">👥</div>
+              <h4>Comunidade Ativa</h4>
+              <p>Conecte-se com outros profissionais e compartilhe experiências</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
