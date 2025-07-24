@@ -1049,7 +1049,7 @@
     window.loadingModal = null;
     
     // Local references for convenience
-    let geminiAI = window.geminiAI;
+    // Note: geminiAI will be initialized by the main script
     let currentRoadmap = window.currentRoadmap;
     let loadingModal = window.loadingModal;
     
@@ -2770,9 +2770,56 @@ Crie um sistema de 5 perguntas progressivas sobre: ${topic}
   }
 }
 
-    </script>
-  </body>
-</html>
+// CRITICAL: Add CSS for animations and UX improvements
+function initializeAnimations() {
+  // Add scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+  
+  // Observe all cards and sections
+  document.querySelectorAll('.roadmap-section, .topic-card, .ai-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'all 0.6s ease';
+    observer.observe(el);
+  });
+  
+  // Add ripple effect to buttons
+  document.querySelectorAll('button, .btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x}px;
+        top: ${y}px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+        pointer-events: none;
+      `;
+      
+      this.style.position = 'relative';
+      this.style.overflow = 'hidden';
+      this.appendChild(ripple);
       
       setTimeout(() => ripple.remove(), 600);
     });
@@ -2845,15 +2892,181 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Also setup immediately if DOM is already loaded
+// =============================================================================
+// FUNÇÕES CRÍTICAS DA IA GEMINI - RESTAURADAS
+// =============================================================================
+
+// Global AI instance
+let geminiAI = null;
+let isGeminiInitialized = false;
+
+// Initialize Gemini AI
+async function initializeGeminiAI() {
+  if (isGeminiInitialized) {
+    console.log('🔄 Gemini AI já inicializada, reutilizando instância');
+    return geminiAI;
+  }
+
+  try {
+    console.log('🚀 Inicializando Gemini AI...');
+    
+    // Check for API key from environment
+    let apiKey = null;
+    
+    // Try multiple sources for API key
+    if (typeof process !== 'undefined' && process.env) {
+      apiKey = process.env.geminiApiKey || process.env.GEMINI_API_KEY;
+    }
+    
+    if (!apiKey && typeof window !== 'undefined') {
+      apiKey = window.GEMINI_API_KEY || window.geminiApiKey;
+    }
+    
+    // Fallback for local development only
+    if (!apiKey) {
+      console.warn('⚠️ Gemini API Key não encontrada nas variáveis de ambiente');
+      // Don't expose API key in source code for security
+      throw new Error('API Key necessária para funcionamento da IA Gemini');
+    }
+
+    // Initialize Gemini AI
+    const { GoogleGenerativeAI } = await import('https://esm.run/@google/generative-ai');
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    
+    geminiAI = {
+      model,
+      apiKey: '***KEY_LOADED***' // Never log actual key
+    };
+    
+    isGeminiInitialized = true;
+    window.geminiAI = geminiAI; // Export to global scope
+    
+    console.log('✅ Gemini AI inicializada com sucesso!');
+    return geminiAI;
+    
+  } catch (error) {
+    console.error('❌ Erro ao inicializar Gemini AI:', error);
+    // Set fallback system
+    geminiAI = {
+      model: null,
+      apiKey: null,
+      fallback: true
+    };
+    window.geminiAI = geminiAI;
+    return geminiAI;
+  }
+}
+
+// Setup AI Card Listeners
+function setupAICardListeners() {
+  console.log('🎯 Configurando event listeners para cards de IA...');
+  
+  // AI Task Cards
+  const aiTaskCards = document.querySelectorAll('[data-card="ai-task"], [data-card-type="ai"]');
+  console.log(`🔍 Encontrados ${aiTaskCards.length} cards de Tarefas IA`);
+  
+  aiTaskCards.forEach(card => {
+    card.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const topicTitle = card.closest('.topic-card')?.querySelector('h4')?.textContent || 'Tópico';
+      console.log(`🎯 Clique em Tarefa IA: ${topicTitle}`);
+      
+      await showProgressiveQuestionsModal(topicTitle);
+    });
+    
+    card.style.cursor = 'pointer';
+  });
+  
+  // AI Mentor Cards
+  const aiMentorCards = document.querySelectorAll('[data-card="ai-mentor"]');
+  console.log(`🔍 Encontrados ${aiMentorCards.length} cards de Mentor IA`);
+  
+  aiMentorCards.forEach(card => {
+    card.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const topicTitle = card.closest('.topic-card')?.querySelector('h4')?.textContent || 'Tópico';
+      console.log(`🤖 Clique em Mentor IA: ${topicTitle}`);
+      
+      const question = prompt(`💡 Qual é sua dúvida sobre "${topicTitle}"?`);
+      if (question) {
+        await showMentorResponse(topicTitle, question);
+      }
+    });
+    
+    card.style.cursor = 'pointer';
+  });
+  
+  // AI Quiz Cards
+  const aiQuizCards = document.querySelectorAll('[data-card="ai-quiz"]');
+  console.log(`🔍 Encontrados ${aiQuizCards.length} cards de Quiz IA`);
+  
+  aiQuizCards.forEach(card => {
+    card.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const topicTitle = card.closest('.topic-card')?.querySelector('h4')?.textContent || 'Tópico';
+      console.log(`🧠 Clique em Quiz IA: ${topicTitle}`);
+      
+      await showQuizModal(topicTitle);
+    });
+    
+    card.style.cursor = 'pointer';
+  });
+  
+  // AI Analysis Cards
+  const aiAnalysisCards = document.querySelectorAll('[data-card="ai-analysis"]');
+  console.log(`🔍 Encontrados ${aiAnalysisCards.length} cards de Análise IA`);
+  
+  aiAnalysisCards.forEach(card => {
+    card.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const topicTitle = card.closest('.topic-card')?.querySelector('h4')?.textContent || 'Tópico';
+      const resourceUrl = card.closest('.resource-item')?.href || '';
+      console.log(`🔍 Clique em Análise IA: ${topicTitle}`);
+      
+      await showResourceAnalysis(topicTitle, resourceUrl);
+    });
+    
+    card.style.cursor = 'pointer';
+  });
+  
+  console.log('✅ Event listeners configurados para todos os cards de IA!');
+}
+
+// Export functions to global scope
+window.initializeGeminiAI = initializeGeminiAI;
+window.setupAICardListeners = setupAICardListeners;
+
+// =============================================================================
+// INICIALIZAÇÃO AUTOMÁTICA
+// =============================================================================
+
 if (document.readyState === 'loading') {
   // DOM is still loading
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initializeGeminiAI();
+    setTimeout(() => {
+      setupAICardListeners();
+      console.log('✅ Event listeners dos cards de IA configurados (DOMContentLoaded)!');
+    }, 500);
+  });
 } else {
   // DOM already loaded
-  setTimeout(() => {
+  setTimeout(async () => {
+    await initializeGeminiAI();
     setupAICardListeners();
     console.log('✅ Event listeners dos cards de IA configurados (DOM já carregado)!');
   }, 500);
 }
-</script>
-</body>
+
+    </script>
+  </body>
 </html>
