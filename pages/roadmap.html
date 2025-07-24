@@ -1043,10 +1043,15 @@
 
   <!-- JavaScript -->
   <script>
-    // Global variables
-    let geminiAI = null;
-    let currentRoadmap = null;
-    let loadingModal = null;
+    // Global variables - explicitly export to window for global access
+    window.geminiAI = null;
+    window.currentRoadmap = null;
+    window.loadingModal = null;
+    
+    // Local references for convenience
+    let geminiAI = window.geminiAI;
+    let currentRoadmap = window.currentRoadmap;
+    let loadingModal = window.loadingModal;
     
     // CRITICAL: Implementar funções de loading que estavam faltando
     function showLoadingModal(title, message) {
@@ -2575,6 +2580,9 @@ const geminiApiKey =
   // 3. Fallback for development (only if not production)
   'AIzaSyDXFW0fdQRnFMC7jIAtHIqJFREF6sp7nMc';
 
+// Export to global scope for accessibility
+window.geminiApiKey = geminiApiKey;
+
 // Initialize Gemini AI
 if (geminiApiKey) {
   try {
@@ -2709,8 +2717,9 @@ Crie um sistema de 5 perguntas progressivas sobre: ${topic}
       }
     }
     
-    // Initialize AI
+    // Initialize AI and export to global scope
     geminiAI = new SimpleGeminiAI(geminiApiKey);
+    window.geminiAI = geminiAI;
     
     // Setup AI card listeners after initialization
     setTimeout(() => {
