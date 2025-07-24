@@ -186,17 +186,10 @@
             margin-bottom: 4px;
         }
 
-        .nav-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
         .nav-back {
             display: inline-block;
+            margin-bottom: 20px;
             background: rgba(255, 255, 255, 0.1);
-            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
@@ -499,12 +492,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="nav-header">
-            <a href="../index.html" class="nav-back">← Voltar ao Início</a>
-            <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
-                <span class="theme-toggle-icon">🌙</span>
-            </button>
-        </div>
+        <a href="../index.html" class="nav-back">← Voltar ao Início</a>
         
         <div class="header">
             <h1>📊 Dashboard de Progresso</h1>
@@ -772,7 +760,7 @@
                     `;
                     
                     progressElement.addEventListener('click', () => {
-                        window.location.href = `#/roadmap/${roadmapId}`;
+                        window.location.href = `roadmap.html?id=${roadmapId}`;
                     });
                     
                     container.appendChild(progressElement);
@@ -1136,205 +1124,9 @@
         `;
         document.head.appendChild(style);
 
-        // Theme Toggle System
-        function initializeThemeSystem() {
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = themeToggle?.querySelector('.theme-toggle-icon');
-            
-            // Get saved theme or default to dark
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            
-            // Apply theme
-            function applyTheme(theme) {
-                if (theme === 'light') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    if (themeIcon) themeIcon.textContent = '☀️';
-                } else {
-                    document.documentElement.removeAttribute('data-theme');
-                    if (themeIcon) themeIcon.textContent = '🌙';
-                }
-                localStorage.setItem('theme', theme);
-            }
-            
-            // Apply saved theme
-            applyTheme(savedTheme);
-            
-            // Toggle theme on click
-            if (themeToggle) {
-                themeToggle.addEventListener('click', () => {
-                    const currentTheme = localStorage.getItem('theme') || 'dark';
-                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    applyTheme(newTheme);
-                    
-                    // Add click animation
-                    themeToggle.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        themeToggle.style.transform = 'scale(1)';
-                    }, 150);
-                });
-            }
-        }
-
-        // Add theme toggle styles and light theme support
-        const themeStyle = document.createElement('style');
-        themeStyle.textContent = `
-            /* Theme toggle button styling */
-            .theme-toggle {
-                background: rgba(255, 255, 255, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                color: #fff;
-            }
-            
-            .theme-toggle:hover {
-                background: rgba(255, 255, 255, 0.2);
-                transform: scale(1.1);
-            }
-            
-            .theme-toggle-icon {
-                font-size: 1.2rem;
-            }
-            
-            /* Light theme variables and styles */
-            [data-theme="light"] {
-                --bg-primary: #f8fafc;
-                --bg-secondary: #ffffff;
-                --text-primary: #1e293b;
-                --text-secondary: #64748b;
-                --accent-primary: #3b82f6;
-                --glass-bg: rgba(255, 255, 255, 0.8);
-                --glass-border: rgba(0, 0, 0, 0.1);
-                --shadow-light: rgba(0, 0, 0, 0.1);
-                --shadow-medium: rgba(0, 0, 0, 0.15);
-                --shadow-heavy: rgba(0, 0, 0, 0.25);
-            }
-            
-            [data-theme="light"] body {
-                background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 25%, #81d4fa 50%, #4fc3f7 75%, #29b6f6 100%);
-                color: var(--text-primary);
-            }
-            
-            [data-theme="light"] .stat-card {
-                background: var(--glass-bg);
-                border: 1px solid var(--glass-border);
-                color: var(--text-primary);
-                box-shadow: 0 8px 32px var(--shadow-light);
-            }
-            
-            [data-theme="light"] .card {
-                background: var(--glass-bg);
-                border: 1px solid var(--glass-border);
-                color: var(--text-primary);
-                box-shadow: 0 8px 32px var(--shadow-light);
-            }
-            
-            [data-theme="light"] .nav-back {
-                background: var(--glass-bg);
-                border: 1px solid var(--glass-border);
-                color: var(--text-primary);
-            }
-            
-            [data-theme="light"] .theme-toggle {
-                background: rgba(0, 0, 0, 0.1);
-                border: 1px solid rgba(0, 0, 0, 0.2);
-                color: var(--text-primary);
-            }
-            
-            [data-theme="light"] .theme-toggle:hover {
-                background: rgba(0, 0, 0, 0.2);
-            }
-            
-            [data-theme="light"] .theme-toggle-icon {
-                color: var(--text-primary) !important;
-            }
-            
-            [data-theme="light"] .header h1 {
-                background: linear-gradient(45deg, var(--text-primary), var(--accent-primary));
-                background-clip: text;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            
-            [data-theme="light"] .header p {
-                color: var(--text-secondary);
-            }
-            
-            [data-theme="light"] .stat-value {
-                color: var(--accent-primary);
-            }
-            
-            [data-theme="light"] .stat-label {
-                color: var(--text-secondary);
-            }
-            
-            [data-theme="light"] .card h3 {
-                color: var(--text-primary);
-            }
-            
-            [data-theme="light"] .progress-bar {
-                background: rgba(0, 0, 0, 0.1);
-            }
-            
-            [data-theme="light"] .progress-fill {
-                background: linear-gradient(90deg, var(--accent-primary), #1e88e5);
-            }
-            
-            [data-theme="light"] .badge {
-                background: var(--glass-bg);
-                border: 1px solid var(--glass-border);
-                color: var(--text-primary);
-            }
-            
-            [data-theme="light"] .badge.available {
-                background: linear-gradient(135deg, #4caf50, #66bb6a);
-                color: white;
-                box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
-            }
-            
-            [data-theme="light"] .activity-item {
-                background: var(--glass-bg);
-                border: 1px solid var(--glass-border);
-                color: var(--text-primary);
-            }
-            
-            [data-theme="light"] .goal-item {
-                background: var(--glass-bg);
-                border: 1px solid var(--glass-border);
-                color: var(--text-primary);
-            }
-            
-            [data-theme="light"] .goal-progress {
-                background: rgba(0, 0, 0, 0.1);
-            }
-            
-            [data-theme="light"] .goal-progress-fill {
-                background: linear-gradient(90deg, var(--accent-primary), #1e88e5);
-            }
-            
-            /* Fix Safari backdrop-filter support for all elements */
-            .stat-card, .card, .nav-back {
-                -webkit-backdrop-filter: blur(10px);
-                backdrop-filter: blur(10px);
-            }
-        `;
-        document.head.appendChild(themeStyle);
-
         // Inicializar Dashboard quando DOM estiver pronto
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize theme system
-            initializeThemeSystem();
-            
-            // Initialize dashboard
             window.dashboardManager = new DashboardManager();
-            
-            console.log('🎨 Sistema de temas inicializado no dashboard!');
         });
     </script>
 </body>

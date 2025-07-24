@@ -3,13 +3,1710 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecionando...</title>
-  <script>
-    // Redirect to SPA
-    window.location.href = '/#roadmaps';
-  </script>
+  <title>Roadmaps - Roadmap Tech</title>
+  <meta name="description" content="Explore todos os roadmaps de carreira em tecnologia. Data Science, BI, Analytics e muito mais.">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .nav {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link.active {
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+    }
+
+    main {
+      padding-top: 5rem;
+      min-height: 100vh;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem 0;
+    }
+
+    .header h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .header .highlight {
+      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .search-filter {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+    }
+
+    .filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: rgba(59, 130, 246, 0.3);
+      border-color: #3b82f6;
+    }
+
+    .roadmaps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .roadmap-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .roadmap-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .card-description {
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    .card-stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      opacity: 0.7;
+    }
+
+    .difficulty-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .difficulty-beginner {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .difficulty-intermediate {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .difficulty-advanced {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .start-btn {
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .stats-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #3b82f6;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      opacity: 0.8;
+    }
+
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer p {
+      opacity: 0.6;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      opacity: 0.6;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    /* Advanced Search Styles */
+    .search-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .search-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-input:focus {
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .search-filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .search-select {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .search-select:focus {
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .search-select option {
+      background: #1e293b;
+      color: #ffffff;
+    }
+
+    .search-results-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .results-count {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .clear-btn {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .clear-btn:hover {
+      background: rgba(220, 38, 38, 0.2);
+      border-color: #dc2626;
+    }
+
+    /* AI Features Styles */
+    .ai-features-section {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .ai-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .ai-header h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ai-header p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+    }
+
+    .ai-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .ai-feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .ai-feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .ai-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .ai-feature-card h3 {
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .ai-feature-card p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 0;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      main {
+        padding-top: 7rem;
+      }
+
+      .roadmaps-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .filters {
+        justify-content: center;
+      }
+
+      .card-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .search-filters {
+        flex-direction: column;
+      }
+      
+      .search-select {
+        min-width: 100%;
+      }
+      
+      .search-results-info {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <p>Redirecionando para a página principal...</p>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">🚀</div>
+          Roadmap Tech
+        </a>
+        
+        <div class="nav-links">
+          <a href="./roadmaps.html" class="nav-link active">Roadmaps</a>
+          <a href="../index.html#features" class="nav-link">Recursos</a>
+          <a href="../index.html#about" class="nav-link">Sobre</a>
+          <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+            <span class="theme-toggle-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>
+          Escolha seu 
+          <span class="gradient-text">Roadmap</span>
+        </h1>
+        <p>Explore trilhas de carreira curadas especialmente para você alcançar suas metas em tecnologia</p>
+      </div>
+      
+      <!-- Advanced Search -->
+      <search class="search-container" aria-label="Buscar e filtrar roadmaps">
+        <div class="search-header">
+          <h2>🔍 Encontre seu Roadmap Ideal</h2>
+        </div>
+        <div class="search-controls">
+          <div class="search-input-group">
+            <input 
+              type="search" 
+              id="search-input" 
+              placeholder="🔍 Buscar por nome ou tecnologia..." 
+              class="search-input"
+              autocomplete="off"
+            />
+          </div>
+          <div class="search-filters">
+            <select id="difficulty-filter" class="search-select">
+              <option value="">📊 Todas as Dificuldades</option>
+              <option value="beginner">🟢 Iniciante</option>
+              <option value="intermediate">🟡 Intermediário</option>
+              <option value="advanced">🔴 Avançado</option>
+            </select>
+            <select id="category-filter" class="search-select">
+              <option value="">🎯 Todas as Áreas</option>
+              <option value="data">📊 Data & Analytics</option>
+              <option value="engineering">⚙️ Software Engineering</option>
+              <option value="business">💼 Business Intelligence</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-results-info">
+          <span id="results-count" class="results-count">Mostrando todos os roadmaps</span>
+          <button id="clear-filters" class="clear-btn" style="display: none;">✖️ Limpar Filtros</button>
+        </div>
+      </search>
+
+      <!-- Stats -->
+      <div class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">4</div>
+            <div class="stat-label">Trilhas de Carreira</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100+</div>
+            <div class="stat-label">Recursos Curados</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Tópicos Essenciais</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">∞</div>
+            <div class="stat-label">Possibilidades</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Features Section -->
+      <div id="ai-features" class="ai-features-section" style="display: none;">
+        <div class="ai-header">
+          <h2>🤖 Recursos de IA</h2>
+          <p>Potencialize seu aprendizado com inteligência artificial</p>
+        </div>
+        <div class="ai-features-grid">
+          <div class="ai-feature-card" onclick="askGlobalMentor()">
+            <div class="ai-icon">🎓</div>
+            <h3>Mentor IA</h3>
+            <p>Tire dúvidas sobre carreira em tech</p>
+          </div>
+          <div class="ai-feature-card" onclick="generateCareerInsights()">
+            <div class="ai-icon">📊</div>
+            <h3>Insights de Carreira</h3>
+            <p>Análise personalizada do mercado</p>
+          </div>
+          <div class="ai-feature-card" onclick="suggestLearningPath()">
+            <div class="ai-icon">🎯</div>
+            <h3>Trilha Personalizada</h3>
+            <p>Roadmap customizado para seu perfil</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roadmaps Grid -->
+      <div class="roadmaps-grid" id="roadmaps-container">
+        <!-- Data Science Roadmap -->
+        <div class="roadmap-card" data-difficulty="intermediate">
+          <div class="card-header">
+            <div class="card-icon">📊</div>
+            <div>
+              <div class="card-title">Data Scientist</div>
+              <div class="card-subtitle">Análise de dados e IA</div>
+            </div>
+          </div>
+          
+          <div class="card-description">
+            Torne-se um cientista de dados completo. Aprenda Python, machine learning, estatística e como resolver problemas reais com dados.
+          </div>
+          
+          <div class="card-stats">
+            <div class="stat">⏱️ 8-12 meses</div>
+            <div class="stat">📚 20 tópicos</div>
+            <div class="stat">🎯 15 projetos</div>
+          </div>
+          
+          <div class="card-footer">
+            <span class="difficulty-badge difficulty-intermediate">Intermediário</span>
+            <a href="./roadmap.html?id=data-scientist" class="start-btn">Começar</a>
+          </div>
+        </div>
+
+        <!-- BI Analyst Roadmap -->
+        <div class="roadmap-card" data-difficulty="beginner">
+          <div class="card-header">
+            <div class="card-icon">📈</div>
+            <div>
+              <div class="card-title">BI Analyst</div>
+              <div class="card-subtitle">Business Intelligence</div>
+            </div>
+          </div>
+          
+          <div class="card-description">
+            Especialize-se em Business Intelligence. Domine Power BI, SQL, Excel avançado e transforme dados em insights de negócio.
+          </div>
+          
+          <div class="card-stats">
+            <div class="stat">⏱️ 4-6 meses</div>
+            <div class="stat">📚 15 tópicos</div>
+            <div class="stat">🎯 10 projetos</div>
+          </div>
+          
+          <div class="card-footer">
+            <span class="difficulty-badge difficulty-beginner">Iniciante</span>
+            <a href="./roadmap.html?id=bi-analyst" class="start-btn">Começar</a>
+          </div>
+        </div>
+
+        <!-- Data Analyst Roadmap -->
+        <div class="roadmap-card" data-difficulty="beginner">
+          <div class="card-header">
+            <div class="card-icon">🔍</div>
+            <div>
+              <div class="card-title">Data Analyst</div>
+              <div class="card-subtitle">Análise de dados</div>
+            </div>
+          </div>
+          
+          <div class="card-description">
+            Inicie sua carreira em dados. Aprenda SQL, Python básico, visualização de dados e como extrair insights valiosos.
+          </div>
+          
+          <div class="card-stats">
+            <div class="stat">⏱️ 3-5 meses</div>
+            <div class="stat">📚 12 tópicos</div>
+            <div class="stat">🎯 8 projetos</div>
+          </div>
+          
+          <div class="card-footer">
+            <span class="difficulty-badge difficulty-beginner">Iniciante</span>
+            <a href="./roadmap.html?id=data-analyst" class="start-btn">Começar</a>
+          </div>
+        </div>
+
+        <!-- Software Engineer Roadmap -->
+        <div class="roadmap-card" data-difficulty="advanced">
+          <div class="card-header">
+            <div class="card-icon">💻</div>
+            <div>
+              <div class="card-title">Software Engineer</div>
+              <div class="card-subtitle">Desenvolvimento de software</div>
+            </div>
+          </div>
+          
+          <div class="card-description">
+            Prepare-se para Big Tech. Algoritmos, estruturas de dados, design de sistemas e práticas de desenvolvimento para Google, Meta, etc.
+          </div>
+          
+          <div class="card-stats">
+            <div class="stat">⏱️ 12-18 meses</div>
+            <div class="stat">📚 25 tópicos</div>
+            <div class="stat">🎯 20 projetos</div>
+          </div>
+          
+          <div class="card-footer">
+            <span class="difficulty-badge difficulty-advanced">Avançado</span>
+            <a href="./roadmap.html?id=software-engineer-google" class="start-btn">Começar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="logo-icon">🚀</div>
+        <span class="logo">Roadmap Tech</span>
+      </div>
+      <p>Transformando carreiras através da educação em tecnologia.</p>
+      <div class="footer-links">
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Advanced Search Functionality -->
+  <script>
+    // Advanced Search Functionality
+    class RoadmapSearch {
+      constructor() {
+        this.searchInput = document.getElementById('search-input');
+        this.difficultyFilter = document.getElementById('difficulty-filter');
+        this.categoryFilter = document.getElementById('category-filter');
+        this.resultsCount = document.getElementById('results-count');
+        this.clearBtn = document.getElementById('clear-filters');
+        this.roadmapCards = document.querySelectorAll('.roadmap-card');
+        
+        this.initializeEventListeners();
+        this.setupCardMetadata();
+      }
+      
+      initializeEventListeners() {
+        // Real-time search
+        this.searchInput.addEventListener('input', () => this.performSearch());
+        
+        // Filter changes
+        this.difficultyFilter.addEventListener('change', () => this.performSearch());
+        this.categoryFilter.addEventListener('change', () => this.performSearch());
+        
+        // Clear filters
+        this.clearBtn.addEventListener('click', () => this.clearFilters());
+      }
+      
+      setupCardMetadata() {
+        // Add searchable metadata to each roadmap card
+        const roadmapData = {
+          'data-scientist': {
+            keywords: ['data science', 'machine learning', 'python', 'sql', 'analytics', 'ai', 'artificial intelligence'],
+            category: 'data',
+            difficulty: 'intermediate'
+          },
+          'bi-analyst': {
+            keywords: ['business intelligence', 'bi', 'power bi', 'tableau', 'excel', 'sql', 'dashboard'],
+            category: 'business', 
+            difficulty: 'intermediate'
+          },
+          'software-engineer': {
+            keywords: ['software', 'programming', 'development', 'backend', 'frontend', 'fullstack', 'engineer'],
+            category: 'engineering',
+            difficulty: 'intermediate'
+          },
+          'data-analyst': {
+            keywords: ['data analysis', 'analyst', 'excel', 'sql', 'statistics', 'reporting'],
+            category: 'data',
+            difficulty: 'beginner'
+          }
+        };
+        
+        this.roadmapCards.forEach(card => {
+          const cardTitle = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
+          const cardDesc = card.querySelector('.card-description')?.textContent.toLowerCase() || '';
+          
+          // Try to match with known roadmap data
+          let metadata = null;
+          Object.entries(roadmapData).forEach(([key, data]) => {
+            if (cardTitle.includes(key.replace('-', ' ')) || 
+                data.keywords.some(keyword => cardTitle.includes(keyword))) {
+              metadata = data;
+            }
+          });
+          
+          if (metadata) {
+            card.dataset.keywords = metadata.keywords.join(' ');
+            card.dataset.category = metadata.category;
+            if (!card.dataset.difficulty) {
+              card.dataset.difficulty = metadata.difficulty;
+            }
+          }
+        });
+      }
+      
+      performSearch() {
+        const searchTerm = this.searchInput.value.toLowerCase().trim();
+        const selectedDifficulty = this.difficultyFilter.value;
+        const selectedCategory = this.categoryFilter.value;
+        
+        let visibleCount = 0;
+        
+        this.roadmapCards.forEach(card => {
+          const cardTitle = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
+          const cardDesc = card.querySelector('.card-description')?.textContent.toLowerCase() || '';
+          const cardKeywords = card.dataset.keywords || '';
+          const cardDifficulty = card.dataset.difficulty || '';
+          const cardCategory = card.dataset.category || '';
+          
+          // Search matching
+          const matchesSearch = !searchTerm || 
+            cardTitle.includes(searchTerm) || 
+            cardDesc.includes(searchTerm) ||
+            cardKeywords.includes(searchTerm);
+          
+          // Filter matching
+          const matchesDifficulty = !selectedDifficulty || cardDifficulty === selectedDifficulty;
+          const matchesCategory = !selectedCategory || cardCategory === selectedCategory;
+          
+          const shouldShow = matchesSearch && matchesDifficulty && matchesCategory;
+          
+          if (shouldShow) {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+          }
+        });
+        
+        this.updateResultsCount(visibleCount);
+        this.toggleClearButton(searchTerm || selectedDifficulty || selectedCategory);
+      }
+      
+      updateResultsCount(count) {
+        const total = this.roadmapCards.length;
+        if (count === total) {
+          this.resultsCount.textContent = 'Mostrando todos os roadmaps';
+        } else {
+          this.resultsCount.textContent = `Mostrando ${count} de ${total} roadmaps`;
+        }
+      }
+      
+      toggleClearButton(hasFilters) {
+        this.clearBtn.style.display = hasFilters ? 'block' : 'none';
+      }
+      
+      clearFilters() {
+        this.searchInput.value = '';
+        this.difficultyFilter.value = '';
+        this.categoryFilter.value = '';
+        this.performSearch();
+      }
+    }
+    
+    // Global flag to prevent multiple initializations
+    window.geminiAIInitialized = false;
+    
+    // Initialize search and AI when DOM is loaded
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Initialize search functionality
+      new RoadmapSearch();
+      
+      // Initialize AI (prevent multiple initializations with robust check)
+      if (!window.geminiAIInitialized && !window.geminiAI) {
+        window.geminiAIInitialized = true;
+        await initializeGeminiAI();
+      }
+    });
+    
+    async function initializeGeminiAI() {
+      // Double check to prevent race conditions
+      if (window.geminiAI) {
+        console.log('🔄 IA Gemini já inicializada, pulando...');
+        return;
+      }
+      
+      try {
+        console.log('🚀 Inicializando IA Gemini...');
+        const { getSimpleGeminiAI } = await import('../utils/gemini-ai-simple.js');
+        window.geminiAI = getSimpleGeminiAI();
+        console.log('🤖 IA Gemini inicializada com sucesso!');
+        
+        // Show AI features
+        const aiFeatures = document.getElementById('ai-features');
+        if (aiFeatures) {
+          aiFeatures.style.display = 'block';
+        }
+      } catch (error) {
+        console.warn('⚠️ IA Gemini não disponível:', error);
+        window.geminiAIInitialized = false; // Reset flag on error
+      }
+    }
+    
+    // AI Functions
+    window.askGlobalMentor = async function() {
+      console.log('🔍 DEBUG: askGlobalMentor foi chamada!');
+      if (!window.geminiAI) {
+        alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+        return;
+      }
+      
+      // Show custom input modal instead of prompt
+      showInputModal('🎯 Qual é sua dúvida sobre carreira em tech?', async (question) => {
+        if (!question || question.trim() === '') return;
+        
+        // Show loading
+        const loadingModal = showLoadingModal('🤖 Consultando mentor IA...');
+        
+        try {
+          const userContext = 'Usuário explorando roadmaps de carreira em tecnologia';
+          const advice = await window.geminiAI.getMentorAdvice(question, userContext);
+          
+          // Hide loading and show result
+          hideLoadingModal(loadingModal);
+          showAIModal('🎓 Mentor IA', advice);
+          
+        } catch (error) {
+          console.error('❌ Erro ao consultar mentor:', error);
+          hideLoadingModal(loadingModal);
+          showAIModal('❌ Erro', 'Não foi possível consultar o mentor. Tente novamente.');
+        }
+      });
+    };
+    
+    window.generateCareerInsights = async function() {
+      console.log('🔍 DEBUG: generateCareerInsights foi chamada!');
+      if (!window.geminiAI) {
+        alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+        return;
+      }
+      
+      // Show loading
+      const loadingModal = showLoadingModal('📊 Gerando insights de carreira...');
+      
+      try {
+        const prompt = `
+        Forneça insights atuais sobre o mercado de tecnologia em 2024:
+        
+        ## 📊 **Análise do Mercado Tech 2024**
+        
+        **🔥 Áreas em Alta:**
+        - [Top 5 áreas mais promissoras]
+        
+        **💰 Faixas Salariais:**
+        - [Salários por área no Brasil]
+        
+        **🎯 Skills Mais Demandadas:**
+        - [Top 10 tecnologias em demanda]
+        
+        **🚀 Tendências Emergentes:**
+        - [Novas tecnologias e oportunidades]
+        
+        **💡 Dicas para Destaque:**
+        - [Como se destacar no mercado atual]
+        `;
+        
+        const insights = await window.geminiAI.generateContent(prompt);
+        
+        // Hide loading and show result
+        hideLoadingModal(loadingModal);
+        showAIModal('📊 Insights de Carreira 2024', insights);
+        
+      } catch (error) {
+        console.error('❌ Erro ao gerar insights:', error);
+        hideLoadingModal(loadingModal);
+        showAIModal('❌ Erro', 'Não foi possível gerar insights. Tente novamente.');
+      }
+    };
+    
+    window.suggestLearningPath = async function() {
+      console.log('🔍 DEBUG: suggestLearningPath foi chamada!');
+      if (!window.geminiAI) {
+        alert('🤖 IA não disponível no momento. Tente novamente mais tarde.');
+        return;
+      }
+      
+      // Show custom questionnaire modal
+      showQuestionnaireModal(async (preferences) => {
+        if (!preferences) return;
+        
+        // Show loading
+        const loadingModal = showLoadingModal('🎯 Criando sua trilha personalizada...');
+        
+        try {
+          const prompt = `
+          Crie um plano de estudos personalizado:
+          
+          **Perfil:**
+          - Experiência: ${preferences.experience}
+          - Interesse: ${preferences.interest}
+          - Tempo disponível: ${preferences.timeline}
+          
+          **Forneça um roadmap detalhado:**
+          
+          ## 🎯 **Seu Roadmap Personalizado**
+          
+          **📅 Cronograma de 90 dias:**
+          
+          **Mês 1 - Fundamentos:**
+          - Semana 1: [Tópicos específicos]
+          - Semana 2: [Tópicos específicos]
+          - Semana 3: [Tópicos específicos]
+          - Semana 4: [Tópicos específicos]
+          
+          **Mês 2 - Prática:**
+          - [Detalhes do segundo mês]
+          
+          **Mês 3 - Especialização:**
+          - [Detalhes do terceiro mês]
+          
+          **🛠️ Ferramentas Recomendadas:**
+          - [Lista de ferramentas essenciais]
+          
+          **📚 Recursos Curados:**
+          - [Cursos, livros, projetos específicos]
+          
+          **🎯 Metas Mensais:**
+          - [Objetivos claros para cada mês]
+          `;
+          
+          const path = await window.geminiAI.generateContent(prompt);
+          
+          // Hide loading and show result
+          hideLoadingModal(loadingModal);
+          showAIModal('🎯 Sua Trilha Personalizada', path);
+          
+        } catch (error) {
+          console.error('❌ Erro ao gerar trilha:', error);
+          hideLoadingModal(loadingModal);
+          showAIModal('❌ Erro', 'Não foi possível gerar a trilha. Tente novamente.');
+        }
+      });
+    };
+    
+    // Loading Modal Functions
+    function showLoadingModal(message) {
+      const modal = document.createElement('div');
+      modal.id = 'loading-modal';
+      modal.innerHTML = `
+        <div class="modal-overlay" style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 10000;
+        ">
+          <div class="loading-content" style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            width: 90%;
+          ">
+            <div class="loading-spinner" style="
+              width: 40px;
+              height: 40px;
+              border: 4px solid rgba(255, 255, 255, 0.3);
+              border-top: 4px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin: 0 auto 20px;
+            "></div>
+            <h3 style="color: white; margin: 0 0 10px 0; font-size: 18px;">${message}</h3>
+            <p style="color: rgba(255, 255, 255, 0.8); margin: 0; font-size: 14px;">Aguarde um momento...</p>
+          </div>
+        </div>
+        <style>
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        </style>
+      `;
+      document.body.appendChild(modal);
+      return modal;
+    }
+    
+    function hideLoadingModal(modal) {
+      if (modal && modal.parentNode) {
+        modal.parentNode.removeChild(modal);
+      }
+    }
+    
+    // Input Modal Function
+    function showInputModal(question, callback) {
+      const modal = document.createElement('div');
+      modal.innerHTML = `
+        <div class="modal-overlay" style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 10000;
+        ">
+          <div class="input-modal-content" style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 90%;
+          ">
+            <h3 style="color: white; margin: 0 0 20px 0; font-size: 20px;">${question}</h3>
+            <textarea id="modal-input" style="
+              width: 100%;
+              height: 100px;
+              padding: 15px;
+              border: none;
+              border-radius: 10px;
+              font-size: 16px;
+              background: rgba(255, 255, 255, 0.9);
+              color: #333;
+              resize: vertical;
+              margin-bottom: 20px;
+            " placeholder="Digite sua pergunta aqui..."></textarea>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+              <button onclick="this.closest('.modal-overlay').parentNode.remove()" style="
+                padding: 12px 24px;
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                border-radius: 8px;
+                color: white;
+                cursor: pointer;
+                font-size: 16px;
+              ">Cancelar</button>
+              <button id="submit-input" style="
+                padding: 12px 24px;
+                background: rgba(255, 255, 255, 0.9);
+                border: none;
+                border-radius: 8px;
+                color: #333;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+              ">Enviar</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      const input = modal.querySelector('#modal-input');
+      const submitBtn = modal.querySelector('#submit-input');
+      
+      input.focus();
+      
+      function submit() {
+        const value = input.value.trim();
+        modal.remove();
+        if (value) callback(value);
+      }
+      
+      submitBtn.onclick = submit;
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter' && e.ctrlKey) submit();
+      };
+    }
+    
+    // Questionnaire Modal Function
+    function showQuestionnaireModal(callback) {
+      const modal = document.createElement('div');
+      modal.innerHTML = `
+        <div class="modal-overlay" style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 10000;
+        ">
+          <div class="questionnaire-modal-content" style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+          ">
+            <h3 style="color: white; margin: 0 0 25px 0; font-size: 22px; text-align: center;">🎯 Crie Sua Trilha Personalizada</h3>
+            
+            <div class="question-group" style="margin-bottom: 25px;">
+              <label style="color: white; display: block; margin-bottom: 10px; font-size: 16px; font-weight: bold;">📚 Qual seu nível de experiência?</label>
+              <select id="experience-select" style="
+                width: 100%;
+                padding: 12px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+              ">
+                <option value="">Selecione...</option>
+                <option value="Iniciante">Iniciante (sem experiência)</option>
+                <option value="Intermediário">Intermediário (1-3 anos)</option>
+                <option value="Avançado">Avançado (3+ anos)</option>
+              </select>
+            </div>
+            
+            <div class="question-group" style="margin-bottom: 25px;">
+              <label style="color: white; display: block; margin-bottom: 10px; font-size: 16px; font-weight: bold;">🎯 Qual área mais te interessa?</label>
+              <select id="interest-select" style="
+                width: 100%;
+                padding: 12px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+              ">
+                <option value="">Selecione...</option>
+                <option value="Análise de Dados">Análise de Dados</option>
+                <option value="Desenvolvimento de Software">Desenvolvimento de Software</option>
+                <option value="Business Intelligence">Business Intelligence</option>
+                <option value="Ciência de Dados">Ciência de Dados</option>
+                <option value="Engenharia de Dados">Engenharia de Dados</option>
+                <option value="Outras">Outras</option>
+              </select>
+            </div>
+            
+            <div class="question-group" style="margin-bottom: 25px;">
+              <label style="color: white; display: block; margin-bottom: 10px; font-size: 16px; font-weight: bold;">⏰ Quanto tempo você tem disponível para estudar?</label>
+              <select id="timeline-select" style="
+                width: 100%;
+                padding: 12px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+              ">
+                <option value="">Selecione...</option>
+                <option value="1-2 horas por dia">1-2 horas por dia</option>
+                <option value="3-4 horas por dia">3-4 horas por dia</option>
+                <option value="5+ horas por dia">5+ horas por dia</option>
+                <option value="Finais de semana">Principalmente finais de semana</option>
+              </select>
+            </div>
+            
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px;">
+              <button onclick="this.closest('.modal-overlay').parentNode.remove()" style="
+                padding: 12px 24px;
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                border-radius: 8px;
+                color: white;
+                cursor: pointer;
+                font-size: 16px;
+              ">Cancelar</button>
+              <button id="submit-questionnaire" style="
+                padding: 12px 24px;
+                background: rgba(255, 255, 255, 0.9);
+                border: none;
+                border-radius: 8px;
+                color: #333;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+              ">Criar Trilha</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      const submitBtn = modal.querySelector('#submit-questionnaire');
+      const experienceSelect = modal.querySelector('#experience-select');
+      const interestSelect = modal.querySelector('#interest-select');
+      const timelineSelect = modal.querySelector('#timeline-select');
+      
+      submitBtn.onclick = () => {
+        const preferences = {
+          experience: experienceSelect.value,
+          interest: interestSelect.value,
+          timeline: timelineSelect.value
+        };
+        
+        if (!preferences.experience || !preferences.interest || !preferences.timeline) {
+          alert('Por favor, preencha todos os campos.');
+          return;
+        }
+        
+        modal.remove();
+        callback(preferences);
+      };
+    }
+    
+    // Modal for AI responses
+    function showAIModal(title, content) {
+      // Remove existing modal
+      const existingModal = document.getElementById('ai-modal');
+      if (existingModal) {
+        existingModal.remove();
+      }
+      
+      // Create modal
+      const modal = document.createElement('div');
+      modal.id = 'ai-modal';
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+      `;
+      
+      modal.innerHTML = `
+        <div style="
+          background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+          border-radius: 20px;
+          max-width: 800px;
+          max-height: 80vh;
+          overflow-y: auto;
+          padding: 30px;
+          margin: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        ">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="color: #fff; margin: 0; font-size: 1.5rem;">${title}</h2>
+            <button onclick="document.getElementById('ai-modal').remove()" 
+                    style="background: rgba(255, 255, 255, 0.1); color: #fff; border: none; 
+                           border-radius: 50%; width: 40px; height: 40px; cursor: pointer; 
+                           font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">×</button>
+          </div>
+          <div style="color: #e2e8f0; line-height: 1.6; white-space: pre-line;">${content}</div>
+        </div>
+      `;
+      
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+      
+      document.body.appendChild(modal);
+    }
+
+    // Theme Toggle System
+    function initializeThemeSystem() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = themeToggle?.querySelector('.theme-toggle-icon');
+      
+      // Get saved theme or default to dark
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      
+      // Apply theme
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          if (themeIcon) themeIcon.textContent = '☀️';
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          if (themeIcon) themeIcon.textContent = '🌙';
+        }
+        localStorage.setItem('theme', theme);
+      }
+      
+      // Apply saved theme
+      applyTheme(savedTheme);
+      
+      // Toggle theme on click
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          const currentTheme = localStorage.getItem('theme') || 'dark';
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          applyTheme(newTheme);
+          
+          // Add click animation
+          themeToggle.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            themeToggle.style.transform = 'scale(1)';
+          }, 150);
+        });
+      }
+    }
+
+    // Enhanced Animations and Microinteractions
+    function initializeAnimations() {
+      // Add scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all cards and sections
+      document.querySelectorAll('.roadmap-card, .ai-features-section, .search-section').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+      });
+      
+      // Add ripple effect to buttons and cards
+      document.querySelectorAll('button, .btn, .roadmap-card').forEach(element => {
+        element.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+          `;
+          
+          this.style.position = 'relative';
+          this.style.overflow = 'hidden';
+          this.appendChild(ripple);
+          
+          setTimeout(() => ripple.remove(), 600);
+        });
+      });
+      
+      // Add CSS for enhanced animations
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes ripple {
+          to {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+        
+        /* Smooth transitions for theme switching */
+        * {
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* Enhanced hover effects for roadmap cards */
+        .roadmap-card:hover {
+          transform: translateY(-12px) scale(1.03);
+          box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Enhanced AI features section */
+        .ai-features-section:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 15px 50px rgba(59, 130, 246, 0.2);
+        }
+        
+        /* Loading states */
+        .loading {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .loading::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+        
+        /* Theme toggle button styling */
+        .theme-toggle {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-left: 1rem;
+        }
+        
+        .theme-toggle:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.1);
+        }
+        
+        .theme-toggle-icon {
+          font-size: 1.2rem;
+        }
+        
+        /* Light theme variables */
+        [data-theme="light"] {
+          --bg-primary: #f8fafc;
+          --bg-secondary: #ffffff;
+          --text-primary: #1e293b;
+          --text-secondary: #64748b;
+          --accent-primary: #3b82f6;
+          --glass-bg: rgba(255, 255, 255, 0.8);
+          --glass-border: rgba(0, 0, 0, 0.1);
+          --shadow-light: rgba(0, 0, 0, 0.1);
+          --shadow-medium: rgba(0, 0, 0, 0.15);
+          --shadow-heavy: rgba(0, 0, 0, 0.25);
+        }
+        
+        [data-theme="light"] body {
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%);
+          color: var(--text-primary);
+        }
+        
+        [data-theme="light"] .nav {
+          background: rgba(255, 255, 255, 0.9);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="light"] .roadmap-card {
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
+          color: var(--text-primary);
+        }
+        
+        [data-theme="light"] .theme-toggle {
+          background: rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        
+        [data-theme="light"] .theme-toggle:hover {
+          background: rgba(0, 0, 0, 0.2);
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Initialize enhanced UX/UI features
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('🎨 Inicializando melhorias de UX/UI na página de roadmaps...');
+      
+      // Initialize theme system
+      initializeThemeSystem();
+      
+      // Initialize animations
+      initializeAnimations();
+      
+      console.log('✅ Sistema de temas e animações inicializados!');
+    });
+  </script>
+
 </body>
 </html>
