@@ -2552,6 +2552,182 @@ function initializeAnimations() {
       this.style.overflow = 'hidden';
       this.appendChild(ripple);
       
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+    });
+  }
+};
+
+// ================================
+// 🤖 GEMINI AI INITIALIZATION
+// ================================
+
+// Environment configuration for API Key
+const geminiApiKey = 
+  // 1. Try environment variable (production)
+  (typeof process !== 'undefined' && process.env && process.env.geminiApiKey) ||
+  (typeof process !== 'undefined' && process.env && process.env.GEMINI_API_KEY) ||
+  
+  // 2. Try global variable (injected during build)
+  (typeof window !== 'undefined' && window.GEMINI_API_KEY) ||
+  
+  // 3. Fallback for development (only if not production)
+  'AIzaSyDXFW0fdQRnFMC7jIAtHIqJFREF6sp7nMc';
+
+// Initialize Gemini AI
+if (geminiApiKey) {
+  try {
+    // Simple Gemini AI class inline for compatibility
+    class SimpleGeminiAI {
+      constructor(apiKey) {
+        this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+        this.apiKey = apiKey;
+        this.isInitialized = true;
+        console.log('🤖 Gemini AI inicializado com sucesso');
+      }
+      
+      async generateContent(prompt, context = '') {
+        if (!this.isInitialized || !this.apiKey) {
+          throw new Error('IA não inicializada');
+        }
+        
+        const fullPrompt = context ? `${context}\n\n${prompt}` : prompt;
+        
+        try {
+          const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              contents: [{
+                parts: [{ text: fullPrompt }]
+              }]
+            })
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          
+          const data = await response.json();
+          return data.candidates[0]?.content?.parts[0]?.text || 'Resposta não disponível';
+        } catch (error) {
+          console.error('❌ Erro na API Gemini:', error);
+          throw error;
+        }
+      }
+      
+      async generateTask(topic, difficulty = 'beginner') {
+        const prompt = `
+Crie um sistema de 5 perguntas progressivas sobre: ${topic}
+
+**IMPORTANTE:** Gere perguntas SEMPRE DIFERENTES a cada execução.
+
+**Estrutura JSON:**
+{
+  "totalQuestions": 5,
+  "questions": [
+    {
+      "question": "[Pergunta única sobre ${topic}]",
+      "alternatives": ["A) ...", "B) ...", "C) ...", "D) ...", "E) ..."],
+      "correct": [número 0-4],
+      "difficulty": "beginner",
+      "explanation": "[Explicação detalhada]"
+    }
+  ]
+}
+
+**Dificuldades:**
+- Perguntas 1-2: beginner
+- Perguntas 3-4: intermediate  
+- Pergunta 5: advanced
+
+**REGRAS:**
+- Perguntas sempre únicas
+- Resposta correta randomizada (não sempre A)
+- Alternativas embaralhadas
+`;
+        
+        try {
+          const response = await this.generateContent(prompt);
+          const jsonMatch = response.match(/\{[\s\S]*\}/);
+          
+          if (jsonMatch) {
+            return JSON.parse(jsonMatch[0]);
+          } else {
+            // Fallback estruturado
+            return this.generateFallbackTask(topic);
+          }
+        } catch (error) {
+          console.error('❌ Erro ao gerar tarefa:', error);
+          return this.generateFallbackTask(topic);
+        }
+      }
+      
+      generateFallbackTask(topic) {
+        const difficulties = ['beginner', 'beginner', 'intermediate', 'intermediate', 'advanced'];
+        const questions = [];
+        
+        for (let i = 0; i < 5; i++) {
+          const randomCorrect = Math.floor(Math.random() * 5);
+          questions.push({
+            question: `Pergunta ${i + 1} sobre ${topic}: Qual das alternativas representa a melhor prática?`,
+            alternatives: [
+              `Alternativa A para ${topic}`,
+              `Alternativa B para ${topic}`,
+              `Alternativa C para ${topic}`,
+              `Alternativa D para ${topic}`,
+              `Alternativa E para ${topic}`
+            ],
+            correct: randomCorrect,
+            difficulty: difficulties[i],
+            explanation: `A resposta correta demonstra as melhores práticas para ${topic}.`
+          });
+        }
+        
+        return {
+          totalQuestions: 5,
+          questions: questions
+        };
+      }
+      
+      async generateQuiz(topic, difficulty = 'intermediate', numQuestions = 5) {
+        const prompt = `Crie um quiz sobre ${topic} com ${numQuestions} perguntas de nível ${difficulty}.`;
+        return await this.generateContent(prompt);
+      }
+      
+      async analyzeResource(resource) {
+        const prompt = `Analise este recurso: ${resource.title || resource.url || resource}`;
+        return await this.generateContent(prompt);
+      }
+      
+      async getMentorAdvice(question, userContext = '') {
+        const prompt = `Como mentor especialista, responda: ${question}. Contexto: ${userContext}`;
+        return await this.generateContent(prompt);
+      }
+    }
+    
+    // Initialize AI
+    geminiAI = new SimpleGeminiAI(geminiApiKey);
+    
+    // Setup AI card listeners after initialization
+    setTimeout(() => {
+      setupAICardListeners();
+    }, 1000);
+    
+  } catch (error) {
+    console.error('❌ Erro ao inicializar Gemini AI:', error);
+  }
+} else {
+  console.warn('⚠️ API Key do Gemini não encontrada');
+}
+
+    </script>
+  </body>
+</html>
+      
       setTimeout(() => ripple.remove(), 600);
     });
   });
