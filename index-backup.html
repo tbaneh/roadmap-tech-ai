@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap Tech - Guia de Carreira em Tecnologia</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .nav {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .nav-link:hover {
+      opacity: 0.8;
+    }
+
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .hero .highlight {
+      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .stat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .features {
+      padding: 4rem 0;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .features p {
+      text-align: center;
+      font-size: 1.2rem;
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    .cta {
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer p {
+      opacity: 0.6;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      opacity: 0.6;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    /* Tech Tracks Section */
+    .tech-tracks {
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .tech-tracks h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .tech-tracks p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tracks-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .track-preview {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .track-preview:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border-color: #6366f1;
+    }
+
+    .track-preview-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .track-preview h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .track-preview p {
+      opacity: 0.8;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .track-duration {
+      background: rgba(99, 102, 241, 0.2);
+      color: #6366f1;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .tracks-cta {
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-content">
+        <a href="/" class="logo">
+          <div class="logo-icon">🚀</div>
+          Roadmap Tech
+        </a>
+        
+        <div class="nav-links">
+          <a href="./pages/roadmaps.html" class="nav-link">Roadmaps</a>
+          <a href="./pages/tech-tracks.html" class="nav-link">🚀 Trilhas Tech</a>
+          <a href="./pages/dashboard.html" class="nav-link">📊 Dashboard</a>
+          <a href="#features" class="nav-link">Recursos</a>
+          <a href="#about" class="nav-link">Sobre</a>
+          <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+            <span class="theme-toggle-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>
+          Acelere sua Carreira em
+          <span class="highlight">Tech</span>
+        </h1>
+        
+        <p>
+          Roadmaps estruturados para Data Science, BI, Analytics e mais.
+          Do iniciante ao especialista, com projetos reais e IA integrada.
+        </p>
+        
+        <div class="btn-group">
+          <a href="./pages/roadmaps.html" class="btn btn-primary">
+            🎯 Explorar Roadmaps
+          </a>
+          <a href="#features" class="btn btn-secondary">
+            ✨ Ver Recursos
+          </a>
+        </div>
+        
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-dot"></div>
+            <span>4 Trilhas de Carreira</span>
+          </div>
+          <div class="stat">
+            <div class="stat-dot" style="background: #3b82f6;"></div>
+            <span>100+ Recursos Curados</span>
+          </div>
+          <div class="stat">
+            <div class="stat-dot" style="background: #f59e0b;"></div>
+            <span>IA Integrada</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Tracks Section -->
+    <section id="tech-tracks" class="tech-tracks">
+      <div class="container">
+        <h2>Trilhas de <span style="color: #6366f1;">Tecnologia</span></h2>
+        <p>Domine tecnologias específicas com trilhas estruturadas e progressivas. Do básico ao avançado.</p>
+        
+        <div class="tracks-preview">
+          <div class="track-preview">
+            <div class="track-preview-icon">🗄️</div>
+            <h3>SQL</h3>
+            <p>Do básico ao avançado</p>
+            <span class="track-duration">4-6 meses</span>
+          </div>
+          
+          <div class="track-preview">
+            <div class="track-preview-icon">🐍</div>
+            <h3>Python</h3>
+            <p>Programação completa</p>
+            <span class="track-duration">6-8 meses</span>
+          </div>
+          
+          <div class="track-preview">
+            <div class="track-preview-icon">📊</div>
+            <h3>Power BI</h3>
+            <p>Business Intelligence</p>
+            <span class="track-duration">3-4 meses</span>
+          </div>
+        </div>
+        
+        <div class="tracks-cta">
+          <a href="./pages/tech-tracks.html" class="btn btn-secondary">
+            🚀 Ver Todas as Trilhas
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <div class="container">
+        <h2>Por que escolher nossos <span style="color: #fbbf24;">Roadmaps?</span></h2>
+        <p>Desenvolvidos com base em dados reais de mercado e experiências de profissionais em Big Tech.</p>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Roadmaps Estruturados</h3>
+            <p>Trilhas organizadas por dificuldade, com pré-requisitos claros e estimativas realistas de tempo.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>IA Integrada</h3>
+            <p>Quizzes personalizados e exercícios gerados por IA para acelerar seu aprendizado.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Progresso Visual</h3>
+            <p>Acompanhe seu progresso com métricas visuais e conquistas desbloqueáveis.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+      <div class="container">
+        <h2>Pronto para acelerar sua carreira?</h2>
+        <p>Junte-se a milhares de profissionais que já transformaram suas carreiras com nossos roadmaps.</p>
+        <a href="./pages/roadmaps.html" class="btn btn-primary">
+          🚀 Começar Agora - É Grátis
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="logo-icon">🚀</div>
+        <span class="logo">Roadmap Tech</span>
+      </div>
+      <p>Transformando carreiras através da educação em tecnologia.</p>
+      <div class="footer-links">
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme Toggle System
+    function initializeThemeSystem() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = themeToggle?.querySelector('.theme-toggle-icon');
+      
+      // Get saved theme or default to dark
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      
+      // Apply theme
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          if (themeIcon) themeIcon.textContent = '☀️';
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          if (themeIcon) themeIcon.textContent = '🌙';
+        }
+        localStorage.setItem('theme', theme);
+      }
+      
+      // Apply saved theme
+      applyTheme(savedTheme);
+      
+      // Toggle theme on click
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          const currentTheme = localStorage.getItem('theme') || 'dark';
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          applyTheme(newTheme);
+          
+          // Add click animation
+          themeToggle.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            themeToggle.style.transform = 'scale(1)';
+          }, 150);
+        });
+      }
+    }
+
+    // Enhanced Animations and Microinteractions
+    function initializeAnimations() {
+      // Add scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all sections and cards
+      document.querySelectorAll('.hero, .features, .cta, .feature-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+      });
+      
+      // Add ripple effect to buttons
+      document.querySelectorAll('button, .btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+          `;
+          
+          this.style.position = 'relative';
+          this.style.overflow = 'hidden';
+          this.appendChild(ripple);
+          
+          setTimeout(() => ripple.remove(), 600);
+        });
+      });
+      
+      // Add CSS for enhanced animations and theme support
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes ripple {
+          to {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+        
+        /* Smooth transitions for theme switching */
+        * {
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* Enhanced hover effects */
+        .feature-card:hover {
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Theme toggle button styling */
+        .theme-toggle {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-left: 1rem;
+        }
+        
+        .theme-toggle:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.1);
+        }
+        
+        .theme-toggle-icon {
+          font-size: 1.2rem;
+        }
+        
+        /* Light theme variables and styles */
+        [data-theme="light"] {
+          --bg-primary: #f8fafc;
+          --bg-secondary: #ffffff;
+          --text-primary: #1e293b;
+          --text-secondary: #64748b;
+          --accent-primary: #3b82f6;
+          --glass-bg: rgba(255, 255, 255, 0.8);
+          --glass-border: rgba(0, 0, 0, 0.1);
+          --shadow-light: rgba(0, 0, 0, 0.1);
+          --shadow-medium: rgba(0, 0, 0, 0.15);
+          --shadow-heavy: rgba(0, 0, 0, 0.25);
+        }
+        
+        [data-theme="light"] body {
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%);
+          color: var(--text-primary);
+        }
+        
+        [data-theme="light"] .nav {
+          background: rgba(255, 255, 255, 0.9);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+        }
+        
+        [data-theme="light"] .feature-card {
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
+          color: var(--text-primary);
+        }
+        
+        [data-theme="light"] .logo {
+          color: var(--text-primary) !important;
+        }
+        
+        [data-theme="light"] .logo-icon {
+          color: var(--accent-primary) !important;
+          filter: none !important;
+        }
+        
+        [data-theme="light"] .nav-link {
+          color: var(--text-primary) !important;
+        }
+        
+        [data-theme="light"] .nav-link:hover {
+          color: var(--accent-primary) !important;
+        }
+        
+        [data-theme="light"] .theme-toggle {
+          background: rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          color: var(--text-primary) !important;
+        }
+        
+        [data-theme="light"] .theme-toggle:hover {
+          background: rgba(0, 0, 0, 0.2);
+        }
+        
+        [data-theme="light"] .theme-toggle-icon {
+          color: var(--text-primary) !important;
+        }
+        
+        /* Fix icon visibility in light theme */
+        [data-theme="light"] .stat-dot {
+          border: 2px solid var(--text-primary) !important;
+        }
+        
+        [data-theme="light"] .btn {
+          color: white !important;
+        }
+        
+        [data-theme="light"] .btn-secondary {
+          background: var(--glass-bg) !important;
+          color: var(--text-primary) !important;
+          border: 1px solid var(--glass-border) !important;
+        }
+        
+        [data-theme="light"] .highlight {
+          color: var(--accent-primary) !important;
+        }
+        
+        /* Fix Safari backdrop-filter support */
+        .nav {
+          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+        }
+        
+        .feature-card {
+          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+        }
+        
+        /* Loading states */
+        .loading {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .loading::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Initialize enhanced UX/UI features
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('🎨 Inicializando melhorias de UX/UI na página principal...');
+      
+      // Initialize theme system
+      initializeThemeSystem();
+      
+      // Initialize animations
+      initializeAnimations();
+      
+      console.log('✅ Sistema de temas e animações inicializados!');
+    });
+  </script>
+</body>
+</html>
