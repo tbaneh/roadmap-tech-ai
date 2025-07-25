@@ -21,8 +21,94 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .theme-toggle-icon {
+            font-size: 1.2rem;
         }
 
         .header {
@@ -491,9 +577,30 @@
     </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../index.html" class="logo">
+                    <div class="logo-icon">🚀</div>
+                    Roadmap Tech
+                </a>
+                
+                <div class="nav-links">
+                    <a href="./roadmaps.html" class="nav-link">Roadmaps</a>
+                    <a href="./tech-tracks.html" class="nav-link">🚀 Trilhas Tech</a>
+                    <a href="./dashboard.html" class="nav-link active">📊 Dashboard</a>
+                    <a href="../index.html#features" class="nav-link">Recursos</a>
+                    <a href="../index.html#about" class="nav-link">Sobre</a>
+                    <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+                        <span class="theme-toggle-icon">🌙</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-        <a href="../index.html" class="nav-back">← Voltar ao Início</a>
-        
         <div class="header">
             <h1>📊 Dashboard de Progresso</h1>
             <p>Acompanhe sua jornada rumo ao sucesso em Big Tech</p>
