@@ -85,7 +85,7 @@ async function renderDetail(id) {
   </section>`);
 
   // Add AI Cards Section
-  htmlParts.push(renderAICards());
+
 
   roadmap.sections?.forEach(section => {
     htmlParts.push(`<section class="roadmap-section" style="margin:3rem auto;max-width:900px;">
@@ -106,8 +106,7 @@ async function renderDetail(id) {
     window.location.hash = '#/';
   });
 
-  // Setup AI card event listeners
-  setupAICardListeners();
+
 }
 
 function renderTopic(topic) {
@@ -129,149 +128,9 @@ function renderResources(resources = []) {
   </ul>`;
 }
 
-function renderAICards() {
-  return `<section style="margin:3rem auto;max-width:900px;">
-    <h2 style="color:var(--text-primary,#ffffff);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;">
-      🤖 Assistente IA - Sistema de 5 Perguntas Progressivas
-    </h2>
-    
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:2rem;">
-      <!-- Card Tarefas IA -->
-      <div class="ai-card" data-card-type="ai" data-card="ai-task" style="
-        background:linear-gradient(135deg,#10b981 0%,#059669 100%);
-        border:1px solid rgba(255,255,255,0.2);
-        border-radius:16px;
-        padding:1.5rem;
-        cursor:pointer;
-        transition:all 0.3s ease;
-        position:relative;
-        overflow:hidden;
-      ">
-        <div style="position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 70%);pointer-events:none;"></div>
-        <div style="position:relative;z-index:2;">
-          <div style="font-size:2rem;margin-bottom:0.5rem;">⚡</div>
-          <h3 style="color:white;margin-bottom:0.5rem;font-size:1.1rem;">Tarefas IA</h3>
-          <p style="color:rgba(255,255,255,0.9);font-size:0.9rem;line-height:1.4;">5 perguntas progressivas com feedback detalhado</p>
-        </div>
-      </div>
-      
-      <!-- Card Mentor IA -->
-      <div class="ai-card" data-card-type="ai" data-card="ai-mentor" style="
-        background:linear-gradient(135deg,#3b82f6 0%,#1d4ed8 100%);
-        border:1px solid rgba(255,255,255,0.2);
-        border-radius:16px;
-        padding:1.5rem;
-        cursor:pointer;
-        transition:all 0.3s ease;
-        position:relative;
-        overflow:hidden;
-      ">
-        <div style="position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 70%);pointer-events:none;"></div>
-        <div style="position:relative;z-index:2;">
-          <div style="font-size:2rem;margin-bottom:0.5rem;">🤖</div>
-          <h3 style="color:white;margin-bottom:0.5rem;font-size:1.1rem;">Mentor IA</h3>
-          <p style="color:rgba(255,255,255,0.9);font-size:0.9rem;line-height:1.4;">Consultoria personalizada e orientação para sua carreira</p>
-        </div>
-      </div>
-      
-      <!-- Card Quiz IA -->
-      <div class="ai-card" data-card-type="ai" data-card="ai-quiz" style="
-        background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 100%);
-        border:1px solid rgba(255,255,255,0.2);
-        border-radius:16px;
-        padding:1.5rem;
-        cursor:pointer;
-        transition:all 0.3s ease;
-        position:relative;
-        overflow:hidden;
-      ">
-        <div style="position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 70%);pointer-events:none;"></div>
-        <div style="position:relative;z-index:2;">
-          <div style="font-size:2rem;margin-bottom:0.5rem;">🧠</div>
-          <h3 style="color:white;margin-bottom:0.5rem;font-size:1.1rem;">Quiz IA</h3>
-          <p style="color:rgba(255,255,255,0.9);font-size:0.9rem;line-height:1.4;">Teste seus conhecimentos com perguntas inteligentes</p>
-        </div>
-      </div>
-      
-      <!-- Card Análise de Recursos -->
-      <div class="ai-card" data-card-type="ai" data-card="ai-analysis" style="
-        background:linear-gradient(135deg,#f59e0b 0%,#d97706 100%);
-        border:1px solid rgba(255,255,255,0.2);
-        border-radius:16px;
-        padding:1.5rem;
-        cursor:pointer;
-        transition:all 0.3s ease;
-        position:relative;
-        overflow:hidden;
-      ">
-        <div style="position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 70%);pointer-events:none;"></div>
-        <div style="position:relative;z-index:2;">
-          <div style="font-size:2rem;margin-bottom:0.5rem;">🔍</div>
-          <h3 style="color:white;margin-bottom:0.5rem;font-size:1.1rem;">Analisar Recursos</h3>
-          <p style="color:rgba(255,255,255,0.9);font-size:0.9rem;line-height:1.4;">IA analisa e explica recursos de aprendizado</p>
-        </div>
-      </div>
-    </div>
-  </section>`;
-}
 
-// Setup AI Card Event Listeners (adapted from roadmap.html)
-function setupAICardListeners() {
-  // Add hover effects
-  document.querySelectorAll('.ai-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      card.style.transform = 'translateY(-2px) scale(1.02)';
-      card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0) scale(1)';
-      card.style.boxShadow = 'none';
-    });
-  });
 
-  // AI Task Card
-  const taskCard = document.querySelector('[data-card="ai-task"]');
-  if (taskCard) {
-    taskCard.addEventListener('click', () => {
-      showLoadingModal('Tarefas IA', 'Gerando 5 perguntas progressivas...');
-      generateProgressiveTask('Roadmap atual');
-    });
-  }
 
-  // AI Mentor Card
-  const mentorCard = document.querySelector('[data-card="ai-mentor"]');
-  if (mentorCard) {
-    mentorCard.addEventListener('click', () => {
-      showInputModal('Mentor IA - Sua pergunta:', (question) => {
-        if (question && question.trim()) {
-          askPersonalizedMentor(question.trim());
-        }
-      });
-    });
-  }
-
-  // AI Quiz Card
-  const quizCard = document.querySelector('[data-card="ai-quiz"]');
-  if (quizCard) {
-    quizCard.addEventListener('click', () => {
-      showLoadingModal('Quiz IA', 'Gerando quiz inteligente...');
-      generateAdvancedQuiz('Roadmap atual');
-    });
-  }
-
-  // AI Analysis Card
-  const analysisCard = document.querySelector('[data-card="ai-analysis"]');
-  if (analysisCard) {
-    analysisCard.addEventListener('click', () => {
-      showInputModal('Analisar Recursos - Cole o link ou título:', (resource) => {
-        if (resource && resource.trim()) {
-          analyzeResourceWithAI(resource.trim());
-        }
-      });
-    });
-  }
-}
 
 // AI Function Placeholders (will use global functions if available)
 function generateProgressiveTask(topic) {
