@@ -3,7 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roadmap Tech - Guia de Carreira em Tecnologia</title>
+  <title>Roadmap Tech - Guia Completo de Carreira em Tecnologia</title>
+  <meta name="description" content="Domine sua jornada em tecnologia com roadmaps estruturados, trilhas personalizadas e mentoria IA. Prepare-se para Data Science, BI Analytics e desenvolvimento com foco em Big Tech.">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="background-color" content="#0f172a">
+  <meta name="display" content="standalone">
+  <meta name="orientation" content="portrait-primary">
+  
+  <!-- iOS PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Roadmap Tech">
+  
+  <!-- PWA Icons para iOS -->
+  <link rel="apple-touch-icon" href="/assets/icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon-192x192.png">
+  
+  <!-- Windows PWA Meta Tags -->
+  <meta name="msapplication-TileColor" content="#3b82f6">
+  <meta name="msapplication-TileImage" content="/assets/icon-144x144.png">
+  <meta name="msapplication-navbutton-color" content="#3b82f6">
+  
+  <!-- Preconnect para performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
     * {
       margin: 0;
@@ -1052,6 +1081,101 @@
       
       console.log('✅ Sistema de temas e animações inicializados!');
     });
+
+    // 🚀 PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          const registration = await navigator.serviceWorker.register('/sw.js');
+          console.log('✅ Service Worker registrado com sucesso:', registration.scope);
+          
+          // Handle updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New content available, show update notification
+                if (confirm('Nova versão disponível! Atualizar agora?')) {
+                  window.location.reload();
+                }
+              }
+            });
+          });
+        } catch (error) {
+          console.log('❌ Falha no registro do Service Worker:', error);
+        }
+      });
+    }
+
+    // 📱 PWA Install Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // Show install button or notification
+      console.log('💡 PWA pode ser instalado!');
+      
+      // You can show a custom install button here
+      const installBtn = document.createElement('button');
+      installBtn.textContent = '📱 Instalar App';
+      installBtn.className = 'pwa-install-btn';
+      installBtn.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease;
+      `;
+      
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          if (choiceResult.outcome === 'accepted') {
+            console.log('✅ PWA instalado pelo usuário');
+          }
+          deferredPrompt = null;
+          installBtn.remove();
+        }
+      });
+      
+      installBtn.addEventListener('mouseenter', () => {
+        installBtn.style.transform = 'translateY(-2px) scale(1.05)';
+      });
+      
+      installBtn.addEventListener('mouseleave', () => {
+        installBtn.style.transform = 'translateY(0) scale(1)';
+      });
+      
+      document.body.appendChild(installBtn);
+      
+      // Auto hide after 10 seconds
+      setTimeout(() => {
+        if (installBtn.parentNode) {
+          installBtn.remove();
+        }
+      }, 10000);
+    });
+
+    // 🔗 Handle PWA installation completion
+    window.addEventListener('appinstalled', () => {
+      console.log('✅ PWA instalado com sucesso!');
+      deferredPrompt = null;
+    });
+
+    // 📊 PWA Analytics
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('🚀 Executando como PWA standalone!');
+    }
   </script>
 </body>
 </html>
