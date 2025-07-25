@@ -88,6 +88,86 @@
             color: #60a5fa;
         }
 
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .hamburger-line {
+            width: 100%;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Mobile Navigation Styles */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transition: left 0.3s ease;
+                z-index: 1000;
+                -webkit-backdrop-filter: blur(20px);
+                backdrop-filter: blur(20px);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-link {
+                font-size: 1.5rem;
+                padding: 1rem 2rem;
+                border-radius: 12px;
+                text-align: center;
+                min-width: 200px;
+            }
+
+            .theme-toggle {
+                width: 50px;
+                height: 50px;
+            }
+
+            .theme-toggle-icon {
+                font-size: 1.5rem;
+            }
+        }
+
         .theme-toggle {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -586,9 +666,16 @@
                     Roadmap Tech
                 </a>
                 
-                <div class="nav-links">
-                    <a href="./roadmaps.html" class="nav-link">Roadmaps</a>
+                <!-- Mobile Menu Button -->
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Abrir menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+
+        <div class="nav-links" id="nav-links">
                     <a href="./tech-tracks.html" class="nav-link">🚀 Trilhas Tech</a>
+                    <a href="./roadmaps.html" class="nav-link">Roadmaps</a>
                     <a href="./dashboard.html" class="nav-link active">📊 Dashboard</a>
                     <a href="../index.html#features" class="nav-link">Recursos</a>
                     <a href="../index.html#about" class="nav-link">Sobre</a>
@@ -1231,9 +1318,48 @@
         `;
         document.head.appendChild(style);
 
-        // Inicializar Dashboard quando DOM estiver pronto
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        if (mobileMenuToggle && navLinks) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+            });
+            
+            // Close mobile menu when clicking on a link
+            navLinks.addEventListener('click', (e) => {
+                if (e.target.classList.contains('nav-link')) {
+                    mobileMenuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    mobileMenuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Close mobile menu on resize to desktop
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    mobileMenuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        // Initialize dashboard when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            window.dashboardManager = new DashboardManager();
+            new DashboardManager();
         });
     </script>
 </body>
