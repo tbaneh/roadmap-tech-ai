@@ -828,10 +828,24 @@
         </div>
     </div>
 
-    <script src="../data/roadmaps.js"></script>
     <script src="../js/progress-system.js"></script>
     <script>
         // Dashboard Enhanced Functionality with Real Data Integration
+        
+        // Load roadmaps data dynamically to avoid ES6 module syntax errors
+        let roadmapsData = null;
+        async function loadRoadmapsData() {
+            try {
+                const module = await import('../data/roadmaps.js');
+                roadmapsData = module.roadmaps;
+                console.log('✅ Roadmaps data loaded successfully');
+                return roadmapsData;
+            } catch (error) {
+                console.error('❌ Failed to load roadmaps data:', error);
+                return {};
+            }
+        }
+        
         class DashboardManager {
             constructor() {
                 this.progressSystem = null;
@@ -839,6 +853,9 @@
             }
 
             async init() {
+                // Carregar dados dos roadmaps dinamicamente
+                await loadRoadmapsData();
+                
                 // Aguardar sistema de progresso estar disponível
                 await this.waitForProgressSystem();
                 this.setupDashboard();
