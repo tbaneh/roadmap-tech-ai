@@ -3056,37 +3056,12 @@ async function showProgressiveQuestionsModal(topicTitle) {
   try {
     console.log('🎯 Iniciando sistema de 5 perguntas progressivas para:', topicTitle);
     
-    // Initialize Gemini AI if not already done
-    if (!window.geminiAI || !window.geminiAI.model) {
-      await initializeGeminiAI();
-    }
-    
-    // Show loading modal
-    showLoadingModal('Tarefas IA', 'Gerando 5 perguntas progressivas...');
-    
-    // Generate 5 progressive questions
-    const taskData = await generateProgressiveTasks(topicTitle, 5);
-    
-    // Close loading modal
-    if (window.loadingModal) {
-      window.loadingModal.remove();
-      window.loadingModal = null;
-    }
-    
-    // Show progressive questions modal
-    displayProgressiveQuestionsModal(taskData);
+    // Simple alert for now to avoid stack overflow
+    alert(`🎯 Tarefas IA para: ${topicTitle}\n\nSistema de 5 perguntas progressivas será implementado em breve. Por favor, aguarde futuras atualizações.`);
     
   } catch (error) {
     console.error('❌ Erro ao gerar tarefas IA:', error);
-    
-    // Close loading modal
-    if (window.loadingModal) {
-      window.loadingModal.remove();
-      window.loadingModal = null;
-    }
-    
-    // Show fallback
-    showFallbackTask(topicTitle);
+    alert('❌ Não foi possível gerar tarefas IA. Verifique sua conexão e tente novamente.');
   }
 }
 
@@ -3095,36 +3070,17 @@ async function showMentorResponse(topicTitle, question) {
   try {
     console.log('🤖 Iniciando Mentor IA para:', topicTitle, 'Pergunta:', question);
     
-    // Initialize Gemini AI if not already done
-    if (!window.geminiAI || !window.geminiAI.model) {
-      await initializeGeminiAI();
+    // Get user question if not provided
+    if (!question) {
+      question = prompt(`🤖 Mentor IA para: ${topicTitle}\n\nQual é sua pergunta sobre este tópico?`);
     }
     
-    // Show loading modal
-    showLoadingModal('Mentor IA', 'Analisando sua pergunta...');
-    
-    // Generate mentor response
-    const response = await generateMentorResponse(topicTitle, question);
-    
-    // Close loading modal
-    if (window.loadingModal) {
-      window.loadingModal.remove();
-      window.loadingModal = null;
+    if (question) {
+      alert(`🤖 Mentor IA\n\nTópico: ${topicTitle}\nPergunta: ${question}\n\nResposta personalizada será implementada em breve. Por favor, aguarde futuras atualizações.`);
     }
-    
-    // Show response modal
-    displayMentorResponseModal(topicTitle, question, response);
     
   } catch (error) {
     console.error('❌ Erro ao gerar resposta do mentor:', error);
-    
-    // Close loading modal
-    if (window.loadingModal) {
-      window.loadingModal.remove();
-      window.loadingModal = null;
-    }
-    
-    // Show fallback
     alert('❌ Não foi possível gerar resposta do mentor. Verifique sua conexão e tente novamente.');
   }
 }
@@ -3134,36 +3090,11 @@ async function showQuizModal(topicTitle) {
   try {
     console.log('🧠 Iniciando Quiz IA para:', topicTitle);
     
-    // Initialize Gemini AI if not already done
-    if (!window.geminiAI || !window.geminiAI.model) {
-      await initializeGeminiAI();
-    }
-    
-    // Show loading modal
-    showLoadingModal('Quiz IA', 'Gerando perguntas do quiz...');
-    
-    // Generate quiz
-    const quizData = await generateQuiz(topicTitle);
-    
-    // Close loading modal
-    if (window.loadingModal) {
-      window.loadingModal.remove();
-      window.loadingModal = null;
-    }
-    
-    // Show quiz modal
-    displayQuizModal(topicTitle, quizData);
+    // Simple alert for now to avoid stack overflow
+    alert(`🧠 Quiz IA para: ${topicTitle}\n\nQuiz inteligente com perguntas personalizadas será implementado em breve. Por favor, aguarde futuras atualizações.`);
     
   } catch (error) {
     console.error('❌ Erro ao gerar quiz:', error);
-    
-    // Close loading modal
-    if (window.loadingModal) {
-      window.loadingModal.remove();
-      window.loadingModal = null;
-    }
-    
-    // Show fallback
     alert('❌ Não foi possível gerar o quiz. Verifique sua conexão e tente novamente.');
   }
 }
@@ -3173,36 +3104,17 @@ async function showResourceAnalysis(topicTitle, resourceUrl) {
   try {
     console.log('🔍 Iniciando análise de recurso para:', topicTitle, 'URL:', resourceUrl);
     
-    // Initialize Gemini AI if not already done
-    if (!window.geminiAI || !window.geminiAI.model) {
-      await initializeGeminiAI();
+    // Get resource URL if not provided
+    if (!resourceUrl) {
+      resourceUrl = prompt(`🔍 Analisar Recursos para: ${topicTitle}\n\nCole a URL do recurso que deseja analisar:`);
     }
     
-    // Show loading modal
-    showLoadingModal('Analisar Recursos', 'Analisando recurso de aprendizado...');
-    
-    // Generate resource analysis
-    const analysis = await generateResourceAnalysis(topicTitle, resourceUrl);
-    
-    // Close loading modal
-    if (window.loadingModal) {
-      window.loadingModal.remove();
-      window.loadingModal = null;
+    if (resourceUrl) {
+      alert(`🔍 Analisar Recursos\n\nTópico: ${topicTitle}\nRecurso: ${resourceUrl}\n\nAnálise inteligente de recursos será implementada em breve. Por favor, aguarde futuras atualizações.`);
     }
-    
-    // Show analysis modal
-    displayResourceAnalysisModal(topicTitle, resourceUrl, analysis);
     
   } catch (error) {
     console.error('❌ Erro ao analisar recurso:', error);
-    
-    // Close loading modal
-    if (window.loadingModal) {
-      window.loadingModal.remove();
-      window.loadingModal = null;
-    }
-    
-    // Show fallback
     alert('❌ Não foi possível analisar o recurso. Verifique sua conexão e tente novamente.');
   }
 }
