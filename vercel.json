@@ -9,24 +9,10 @@
     {
       "source": "/roadmaps",
       "destination": "/pages/roadmaps.html"
-    },
-    {
-      "source": "/roadmap",
-      "destination": "/pages/roadmap.html"
-    },
-    {
-      "source": "/pages/(.*)",
-      "destination": "/pages/$1"
-    },
-    {
-      "source": "/utils/(.*)",
-      "destination": "/utils/$1"
-    },
-    {
-      "source": "/styles/(.*)",
-      "destination": "/styles/$1"
     }
   ],
+  "trailingSlash": false,
+  "cleanUrls": false,
   "headers": [
     {
       "source": "/(.*)",
