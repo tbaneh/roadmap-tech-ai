@@ -684,10 +684,28 @@ class UserProgressSystem {
 }
 
 // Inicializar sistema quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Inicializar sistema global
     if (!window.userProgressSystem) {
         window.userProgressSystem = new UserProgressSystem();
+    }
+    
+    // Inicializar serviço de sincronização (se disponível)
+    try {
+        const { progressSyncService } = await import('./progress-sync-service.js');
+        console.log('✅ Progress sync service loaded');
+        
+        // Listen for progress updates from sync service
+        window.addEventListener('progressUpdated', (e) => {
+            if (window.userProgressSystem) {
+                window.userProgressSystem.progress = e.detail;
+                console.log('🔄 Progress updated from sync service');
+            }
+        });
+        
+    } catch (error) {
+        console.log('ℹ️ Progress sync service not available (offline mode):', error);
+        // App continues to work with localStorage only
     }
 
     // Tornar funções disponíveis globalmente

@@ -1176,6 +1176,16 @@
     if (window.matchMedia('(display-mode: standalone)').matches) {
       console.log('🚀 Executando como PWA standalone!');
     }
+
+    // 🔐 Initialize Authentication System
+    import('./js/auth-state-manager.js')
+      .then(() => {
+        console.log('✅ Authentication system initialized');
+      })
+      .catch(error => {
+        console.log('ℹ️ Authentication system not available (offline mode):', error);
+        // App continues to work without auth in offline mode
+      });
   </script>
 </body>
 </html>
