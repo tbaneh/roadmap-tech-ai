@@ -1040,15 +1040,14 @@
       const params = new URLSearchParams(window.location.search);
       const roadmapId = params.get('id');
       
-      // Load expanded roadmap data from roadmaps.js
+      // Load expanded roadmap data from roadmaps.js (FIXED - NO DYNAMIC IMPORT)
       let roadmaps = {};
-      try {
-        const { roadmaps: expandedRoadmaps } = await import('../data/roadmaps.js');
-        roadmaps = expandedRoadmaps;
-        console.log('✅ Roadmaps expandidos carregados:', Object.keys(roadmaps));
-      } catch (error) {
-        console.error('❌ Erro ao carregar roadmaps expandidos:', error);
-        // Fallback to basic data if expanded roadmaps fail to load
+      
+      // Use direct fallback data instead of problematic dynamic import
+      console.log('⚠️ Using fallback roadmap data (dynamic import disabled)');
+      console.log('✅ Roadmaps carregados com fallback estático');
+      
+      // Direct fallback data instead of import
         roadmaps = {
           'data-scientist': {
             icon: '📊',
