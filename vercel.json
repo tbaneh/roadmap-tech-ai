@@ -31,6 +31,31 @@
       "source": "/pages/auth.html",
       "destination": "/auth.html",
       "permanent": true
+    },
+    {
+      "source": "/legacy/roadmap.html",
+      "destination": "/roadmap.html",
+      "permanent": true
+    },
+    {
+      "source": "/legacy/roadmaps.html",
+      "destination": "/roadmaps.html",
+      "permanent": true
+    },
+    {
+      "source": "/legacy/tech-track.html",
+      "destination": "/tech-track.html",
+      "permanent": true
+    },
+    {
+      "source": "/legacy/tech-tracks.html",
+      "destination": "/tech-tracks.html",
+      "permanent": true
+    },
+    {
+      "source": "/legacy/dashboard.html",
+      "destination": "/dashboard.html",
+      "permanent": true
     }
   ],
   "rewrites": [
