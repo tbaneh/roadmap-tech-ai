@@ -4,9 +4,6 @@
   "description": "Guia completo de carreira em tecnologia com IA integrada e sistema de progresso sincronizado",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
     "firebase:init": "firebase init",
     "firebase:deploy": "firebase deploy",
     "firebase:serve": "firebase serve"
@@ -14,9 +11,7 @@
   "dependencies": {
     "firebase": "^10.7.0"
   },
-  "devDependencies": {
-    "vite": "^5.0.0"
-  },
+
   "keywords": [
     "roadmap",
     "career",
