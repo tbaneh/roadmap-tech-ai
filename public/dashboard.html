@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Progresso - Guia de Carreira Tech</title>
     <link rel="icon" type="image/png" href="../assets/favicon.png">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./css/main.css">
+    
     <style>
         * {
             margin: 0;
@@ -243,6 +247,15 @@
 
         .dashboard-icon:hover::before {
             left: 100%;
+        }
+
+        /* Light theme overrides for dashboard icon */
+        [data-theme="light"] .dashboard-icon {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(59, 130, 246, 0.2),
+                0 3px 10px rgba(0, 0, 0, 0.15);
         }
 
         @keyframes iconPulse {
@@ -710,7 +723,7 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
     <!-- Navigation -->
     <nav class="nav">
         <div class="container">
@@ -1431,8 +1444,45 @@
             });
         }
 
+        // Theme System
+        function initializeThemeSystem() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.querySelector('.theme-toggle-icon');
+            const body = document.body;
+            
+            // Load saved theme or default to dark
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+            
+            // Theme toggle functionality
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = body.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    body.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    updateThemeIcon(newTheme);
+                    
+                    // Add click animation
+                    themeToggle.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        themeToggle.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            }
+            
+            function updateThemeIcon(theme) {
+                if (themeIcon) {
+                    themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+                }
+            }
+        }
+
         // Initialize dashboard when page loads
         document.addEventListener('DOMContentLoaded', () => {
+            initializeThemeSystem();
             new DashboardManager();
         });
     </script>
