@@ -1,6 +1,38 @@
 {
   "version": 2,
   "name": "tech-career-roadmap-elite",
+  "redirects": [
+    {
+      "source": "/pages/roadmap.html",
+      "destination": "/roadmap.html",
+      "permanent": true
+    },
+    {
+      "source": "/pages/roadmaps.html",
+      "destination": "/roadmaps.html",
+      "permanent": true
+    },
+    {
+      "source": "/pages/tech-track.html",
+      "destination": "/tech-track.html",
+      "permanent": true
+    },
+    {
+      "source": "/pages/tech-tracks.html",
+      "destination": "/tech-tracks.html",
+      "permanent": true
+    },
+    {
+      "source": "/pages/dashboard.html",
+      "destination": "/dashboard.html",
+      "permanent": true
+    },
+    {
+      "source": "/pages/auth.html",
+      "destination": "/auth.html",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/",
