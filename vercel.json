@@ -8,7 +8,7 @@
     },
     {
       "source": "/roadmaps",
-      "destination": "/pages/roadmaps.html"
+      "destination": "/roadmaps.html"
     }
   ],
   "trailingSlash": false,
