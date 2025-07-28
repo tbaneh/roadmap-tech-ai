@@ -7,10 +7,10 @@ const DYNAMIC_CACHE = 'roadmap-tech-dynamic-v1.2.0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/pages/roadmaps.html',
-  '/pages/dashboard.html', 
-  '/pages/tech-tracks.html',
-  '/pages/tech-track.html',
+  '/roadmaps.html',
+  '/dashboard.html', 
+  '/tech-tracks.html',
+  '/tech-track.html',
   '/data/roadmaps.js',
   '/js/progress-system.js',
   '/js/spa-router.js',
@@ -22,7 +22,7 @@ const STATIC_ASSETS = [
 
 // URLs dinâmicas que devem ser cacheadas
 const DYNAMIC_URLS = [
-  '/pages/',
+  '/',
   '/data/',
   '/js/'
 ];

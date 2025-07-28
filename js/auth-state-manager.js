@@ -152,7 +152,7 @@ class AuthStateManager {
     
     // Click to go to profile/dashboard
     profile.addEventListener('click', () => {
-      window.location.href = './pages/dashboard.html';
+      window.location.href = './dashboard.html';
     });
     
     profile.addEventListener('mouseenter', () => {
@@ -213,7 +213,7 @@ class AuthStateManager {
   // Create login button
   createLoginButton() {
     const button = document.createElement('a');
-    button.href = './pages/auth.html';
+    button.href = './auth.html';
     button.className = 'login-btn';
     button.textContent = '🔐 Entrar';
     button.style.cssText = `
@@ -417,7 +417,7 @@ class AuthStateManager {
   }
 
   // Require authentication (redirect to login if not authenticated)
-  requireAuth(redirectUrl = './pages/auth.html') {
+  requireAuth(redirectUrl = './auth.html') {
     if (!this.isAuthenticated()) {
       window.location.href = redirectUrl;
       return false;
