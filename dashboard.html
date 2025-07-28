@@ -836,7 +836,7 @@
         let roadmapsData = null;
         async function loadRoadmapsData() {
             try {
-                const module = await import('../data/roadmaps.js');
+                const module = await import('./data/roadmaps.js');
                 roadmapsData = module.roadmaps;
                 console.log('✅ Roadmaps data loaded successfully');
                 return roadmapsData;

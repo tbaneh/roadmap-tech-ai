@@ -10,7 +10,7 @@
   – `pages/roadmaps.html` owns the shell layout.
   – List view is wrapped in a #list-view element (shown by default).
   – Detail view placeholder is #roadmap-detail (initially hidden).
-  – Data lives in ../data/roadmaps.js and is exported as `roadmaps` (object keyed by id).
+  – Data lives in ./data/roadmaps.js and is exported as `roadmaps` (object keyed by id).
 */
 
 // Cache DOM references once – they exist only on roadmaps.html.
@@ -38,7 +38,7 @@ let roadmapsData = null;
 async function loadRoadmaps() {
   if (roadmapsData) return roadmapsData;
   try {
-    const module = await import('../data/roadmaps.js');
+    const module = await import('./data/roadmaps.js');
     roadmapsData = module.roadmaps || module.default || {};
   } catch (err) {
     console.error('[SPA Router] Failed to load roadmaps data:', err);
