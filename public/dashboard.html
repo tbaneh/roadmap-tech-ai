@@ -339,14 +339,47 @@
             transform: scale(1.05);
         }
 
-        /* Correção robusta para ícone do dashboard no modo claro */
-        body[data-theme="light"] .dashboard-icon {
+        /* CORREÇÕES EXTREMAS PARA MODO CLARO - MÚLTIPLA ESPECIFICIDADE */
+        
+        /* Ícone do dashboard - múltiplas formas de aplicar */
+        [data-theme="light"] .dashboard-icon,
+        body[data-theme="light"] .dashboard-icon,
+        html[data-theme="light"] .dashboard-icon {
             background: #ffffff !important;
-            color: #2563eb !important;
-            border: 3px solid #2563eb !important;
-            box-shadow: 
-                0 6px 20px rgba(37, 99, 235, 0.2) !important,
-                0 3px 10px rgba(0, 0, 0, 0.15) !important;
+            background-color: #ffffff !important;
+            color: #1e40af !important;
+            border: 4px solid #1e40af !important;
+            box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3) !important;
+        }
+        
+        /* Título Dashboard mais visível */
+        [data-theme="light"] h1,
+        body[data-theme="light"] h1 {
+            color: #1f2937 !important;
+            font-weight: 800 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Cards com bordas bem visíveis - múltipla especificidade */
+        [data-theme="light"] .card,
+        body[data-theme="light"] .card,
+        html[data-theme="light"] .card {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            border: 3px solid #374151 !important;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: none !important;
+        }
+        
+        /* Stats cards com bordas bem visíveis */
+        [data-theme="light"] .stat-card,
+        body[data-theme="light"] .stat-card,
+        html[data-theme="light"] .stat-card {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            border: 3px solid #374151 !important;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+            backdrop-filter: none !important;
         }
 
 
