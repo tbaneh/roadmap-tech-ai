@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard TESTE - Roadmap Tech</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .dashboard-icon {
+            width: 60px;
+            height: 60px;
+            background: #ffffff !important;
+            color: #1e40af !important;
+            border: 4px solid #1e40af !important;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .progress-card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 3px solid #374151 !important;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 3px solid #374151 !important;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #1e40af;
+            border-radius: 50px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Tema escuro */
+        body.dark-theme {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        }
+        
+        body.dark-theme .dashboard-icon {
+            background: #1f2937 !important;
+            color: #60a5fa !important;
+            border: 4px solid #60a5fa !important;
+        }
+        
+        body.dark-theme .progress-card,
+        body.dark-theme .stat-card {
+            background: rgba(31, 41, 55, 0.95) !important;
+            border: 3px solid #4b5563 !important;
+            color: white;
+        }
+        
+        body.dark-theme .stat-label {
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="dashboard-title">
+                <span class="dashboard-icon">📊</span>
+                DASHBOARD DE TESTE
+            </h1>
+            <p>Teste isolado - sem SPA, sem JavaScript complexo</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">15%</div>
+                <div class="stat-label">Progresso Geral</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Tópicos Concluídos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">25h</div>
+                <div class="stat-label">Horas Estudadas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Conquistas</div>
+            </div>
+        </div>
+        
+        <div class="progress-card">
+            <h3>📈 Progresso por Roadmap</h3>
+            <p>Este é um card de teste com bordas forçadas via CSS inline.</p>
+            <p><strong>Resultado esperado:</strong></p>
+            <ul>
+                <li>✅ Ícone 📊 com fundo branco e borda azul no modo claro</li>
+                <li>✅ Cards com bordas visíveis e contrastantes</li>
+                <li>✅ Alternância de tema funcionando perfeitamente</li>
+            </ul>
+        </div>
+        
+        <div class="progress-card">
+            <h3>🏆 Sistema de Conquistas</h3>
+            <p>Outro card de teste para validar bordas e contraste.</p>
+            <p>Se este teste funcionar, o problema está no SPA/JavaScript do dashboard principal.</p>
+        </div>
+    </div>
+    
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                button.textContent = '🌙';
+            } else {
+                body.classList.add('dark-theme');
+                button.textContent = '☀️';
+            }
+        }
+    </script>
+</body>
+</html>
