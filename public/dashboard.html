@@ -91,10 +91,19 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        [data-theme="light"] .card {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #a0aec0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Correções robustas para modo claro - alta especificidade */
+        body[data-theme="light"] .card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 2px solid #718096 !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+            backdrop-filter: none !important;
+        }
+        
+        body[data-theme="light"] .stat-card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 2px solid #718096 !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+            backdrop-filter: none !important;
         }
 
         .nav-content {
@@ -330,14 +339,14 @@
             transform: scale(1.05);
         }
 
-        /* Light theme overrides for dashboard icon */
-        [data-theme="light"] .dashboard-icon {
-            background: #ffffff;
-            color: #3b82f6;
-            border: 2px solid #3b82f6;
+        /* Correção robusta para ícone do dashboard no modo claro */
+        body[data-theme="light"] .dashboard-icon {
+            background: #ffffff !important;
+            color: #2563eb !important;
+            border: 3px solid #2563eb !important;
             box-shadow: 
-                0 4px 15px rgba(59, 130, 246, 0.15),
-                0 2px 8px rgba(0, 0, 0, 0.1);
+                0 6px 20px rgba(37, 99, 235, 0.2) !important,
+                0 3px 10px rgba(0, 0, 0, 0.15) !important;
         }
 
 
