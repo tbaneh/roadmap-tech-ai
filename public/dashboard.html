@@ -32,7 +32,7 @@
             --text-primary: #1a202c;
             --text-secondary: #4a5568;
             --text-muted: #718096;
-            --border-color: #cbd5e0;
+            --border-color: #a0aec0;
             --accent-primary: #0891b2;
             --accent-secondary: #0284c7;
             --nav-bg: #ffffff;
@@ -89,6 +89,12 @@
             background: rgba(255, 255, 255, 0.95);
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #a0aec0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .nav-content {
@@ -326,8 +332,9 @@
 
         /* Light theme overrides for dashboard icon */
         [data-theme="light"] .dashboard-icon {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
+            background: #ffffff;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
             box-shadow: 
                 0 4px 15px rgba(59, 130, 246, 0.15),
                 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -471,9 +478,9 @@
         }
 
         [data-theme="light"] .badge {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #a0aec0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .badge.earned {
