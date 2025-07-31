@@ -946,12 +946,24 @@
 
     <div class="container">
         <div class="header">
-            <div class="flex items-center gap-4 mb-8">
-                <div class="dashboard-icon" style="background: #ffffff !important; color: #1e40af !important; border: 4px solid #3b82f6 !important; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3) !important; width: 80px !important; height: 80px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 16px !important; font-size: 32px !important; font-weight: bold !important;">📊</div>
+            <div class="flex items-center mb-8" style="gap: 20px !important;">
+                <div class="dashboard-icon" style="background: linear-gradient(135deg, #3b82f6, #1e40af) !important; color: #ffffff !important; border: none !important; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4) !important; width: 70px !important; height: 70px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 16px !important; font-size: 30px !important; font-weight: bold !important;">📊</div>
                 <div>
-                    <h1 class="dashboard-title" style="color: #1f2937 !important; font-weight: 800 !important; text-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;">Dashboard de Progresso</h1>
+                    <h1 class="dashboard-title" style="color: #000000 !important; font-weight: 900 !important; font-size: 2.5rem !important; text-shadow: none !important; margin: 0 !important;">Dashboard de Progresso</h1>
                 </div>
             </div>
+            
+            <!-- CSS para tema dark -->
+            <style>
+                [data-theme="dark"] .dashboard-title {
+                    color: #ffffff !important;
+                    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+                }
+                [data-theme="dark"] .dashboard-icon {
+                    background: linear-gradient(135deg, #60a5fa, #3b82f6) !important;
+                    box-shadow: 0 4px 20px rgba(96, 165, 250, 0.6) !important;
+                }
+            </style>
             <p class="subtitle">Acompanhe sua jornada rumo ao sucesso em Big Tech</p>
         </div>
 
