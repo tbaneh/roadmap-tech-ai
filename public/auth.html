@@ -465,8 +465,14 @@
 
     <!-- Firebase SDK -->
     <script type="module">
+        // 🚨 EXTREME DEBUG TEST
+        console.log('🚨 EXTREME DEBUG: Script tag is executing!');
+        alert('🚨 EXTREME DEBUG: JavaScript is working!');
+        
         // Import Firebase services
         import { authService } from './js/auth-service.js';
+        
+        console.log('🚨 EXTREME DEBUG: authService imported successfully:', authService);
 
         // DOM Elements
         const loginForm = document.getElementById('login-form');
