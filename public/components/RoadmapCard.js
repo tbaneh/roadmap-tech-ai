@@ -72,7 +72,7 @@ export function createRoadmapCard(roadmap, index = 0) {
       </div>
       
       <div class="mt-6 flex gap-3">
-        <a href="./roadmap.html#/roadmap/${roadmap.id}" class="flex-1 bg-gradient-to-r ${gradientClasses[roadmap.color]} text-white py-3 px-4 rounded-xl font-semibold hover:scale-105 transition-all duration-300 shadow-lg text-center no-underline">
+        <a href="./roadmap.html?id=${roadmap.id}" class="flex-1 bg-gradient-to-r ${gradientClasses[roadmap.color]} text-white py-3 px-4 rounded-xl font-semibold hover:scale-105 transition-all duration-300 shadow-lg text-center no-underline">
           🚀 Iniciar Trilha
         </a>
         <button class="btn-icon tooltip" data-tooltip="Adicionar aos favoritos">
