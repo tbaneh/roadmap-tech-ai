@@ -1139,7 +1139,8 @@
       }
       
       // Show content after everything is loaded
-      document.getElementById('content').style.opacity = '1';
+      // 🔧 FIXED: Removed reference to non-existent 'content' element that was causing JS error
+      console.log('✅ Roadmap carregado com sucesso');
       
       // Smooth scroll control after page load
       setTimeout(() => {
