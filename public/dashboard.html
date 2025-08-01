@@ -980,9 +980,21 @@
                 
                 /* ESPECIFICIDADE EXTREMA para modo light */
                 body:not([data-theme="dark"]) .dashboard-title,
-                html:not([data-theme="dark"]) body .dashboard-title {
+                html:not([data-theme="dark"]) body .dashboard-title,
+                html body:not([data-theme="dark"]) h1.dashboard-title,
+                html body div:not([data-theme="dark"]) .dashboard-title[style],
+                body .header:not([data-theme="dark"]) .dashboard-title,
+                html body .header .dashboard-title:not([data-theme="dark"]) {
                     color: #000000 !important;
                     text-shadow: none !important;
+                    font-weight: 900 !important;
+                }
+                
+                /* FORÇA NUCLEAR para título light mode */
+                .dashboard-title:not([data-theme="dark"]),
+                h1:not([data-theme="dark"]),
+                .header h1:not([data-theme="dark"]) {
+                    color: #000000 !important;
                 }
                 
                 /* CORREÇÃO CRÍTICA: Cards no modo dark - CLASSES CORRETAS */
