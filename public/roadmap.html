@@ -1085,6 +1085,25 @@
         document.getElementById('roadmap-description').textContent = currentRoadmap.description;
         document.title = `${currentRoadmap.title} - Roadmap Tech`;
         
+        // 🔧 CRITICAL FIX: Control visibility of hardcoded roadmap sections
+        // Hide all roadmap content sections first
+        const allRoadmapSections = ['data-scientist-content', 'bi-analyst-content', 'data-analyst-content', 'data-engineer-content'];
+        allRoadmapSections.forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            section.style.display = 'none';
+          }
+        });
+        
+        // Show the selected roadmap content section
+        const selectedSection = document.getElementById(`${roadmapId}-content`);
+        if (selectedSection) {
+          selectedSection.style.display = 'block';
+          console.log(`✅ Exibindo seção: ${roadmapId}-content`);
+        } else {
+          console.warn(`⚠️ Seção não encontrada: ${roadmapId}-content`);
+        }
+        
         // Clear existing content and render expanded roadmap dynamically
         const contentContainer = document.getElementById('roadmap-content');
         contentContainer.innerHTML = '';
