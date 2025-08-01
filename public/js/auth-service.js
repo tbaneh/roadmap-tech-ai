@@ -1,5 +1,5 @@
 // Authentication Service
-import { auth, db } from '../config/firebase-config.js';
+import { auth, db } from './firebase-config.js';
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
