@@ -1092,7 +1092,7 @@
         
         // 🔧 CRITICAL FIX: Control visibility of hardcoded roadmap sections
         // Hide all roadmap content sections first
-        const allRoadmapSections = ['data-scientist-content', 'bi-analyst-content', 'data-analyst-content', 'data-engineer-content'];
+        const allRoadmapSections = ['data-scientist-content', 'bi-analyst-content', 'data-analyst-content', 'data-engineer-content', 'software-engineer-google-content'];
         allRoadmapSections.forEach(sectionId => {
           const section = document.getElementById(sectionId);
           if (section) {
@@ -1105,13 +1105,13 @@
         if (selectedSection) {
           selectedSection.style.display = 'block';
           console.log(`✅ Exibindo seção: ${roadmapId}-content`);
+          return; // Return early if hardcoded content exists
         } else {
-          console.warn(`⚠️ Seção não encontrada: ${roadmapId}-content`);
+          console.warn(`⚠️ Seção hardcoded não encontrada: ${roadmapId}-content, renderizando dinamicamente`);
         }
         
-        // Clear existing content and render expanded roadmap dynamically
+        // Only clear and render dynamically if no hardcoded content exists
         const contentContainer = document.getElementById('roadmap-content');
-        contentContainer.innerHTML = '';
         
         // Render expanded roadmap sections
         if (currentRoadmap.sections && currentRoadmap.sections.length > 0) {
