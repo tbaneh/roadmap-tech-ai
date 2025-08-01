@@ -985,37 +985,37 @@
                     text-shadow: none !important;
                 }
                 
-                /* CORREÇÃO CRÍTICA: Cards no modo dark com contraste máximo */
+                /* CORREÇÃO CRÍTICA: Cards no modo dark - CLASSES CORRETAS */
+                [data-theme="dark"] .stat-card,
                 [data-theme="dark"] .card,
-                [data-theme="dark"] .stats-card,
-                [data-theme="dark"] .metric-card,
+                html[data-theme="dark"] .stat-card,
                 html[data-theme="dark"] .card,
-                html[data-theme="dark"] .stats-card,
-                html[data-theme="dark"] .metric-card {
+                html body[data-theme="dark"] .stat-card,
+                html body[data-theme="dark"] .card {
                     background: #1e293b !important;
                     background-color: #1e293b !important;
                     color: #ffffff !important;
                     border: 2px solid #475569 !important;
                 }
                 
-                /* Números e texto dos cards no dark mode */
-                [data-theme="dark"] .card .value,
-                [data-theme="dark"] .card .number,
-                [data-theme="dark"] .card h3,
-                [data-theme="dark"] .card p,
-                [data-theme="dark"] .stats-card .value,
-                [data-theme="dark"] .stats-card .number,
-                [data-theme="dark"] .metric-card .value,
-                [data-theme="dark"] .metric-card .number {
-                    color: #ffffff !important;
-                    font-weight: 700 !important;
+                /* FORÇA EXTREMA para sobrepor inline styles */
+                html body div[data-theme="dark"] .stat-card[style],
+                html body div[data-theme="dark"] .card[style],
+                html body .stats-overview[data-theme="dark"] .stat-card,
+                html body .dashboard-grid[data-theme="dark"] .card {
+                    background: #1e293b !important;
+                    background-color: #1e293b !important;
                 }
                 
-                /* Força máxima nos cards dark mode */
-                html body[data-theme="dark"] .card,
-                html body[data-theme="dark"] .stats-card {
-                    background: #1e293b !important;
+                /* Números e valores dos cards no dark mode */
+                [data-theme="dark"] .stat-value,
+                [data-theme="dark"] .stat-label,
+                [data-theme="dark"] .card h3,
+                [data-theme="dark"] .card p,
+                [data-theme="dark"] .card .value,
+                [data-theme="dark"] .card .number {
                     color: #ffffff !important;
+                    font-weight: 700 !important;
                 }
             </style>
             <p class="subtitle">Acompanhe sua jornada rumo ao sucesso em Big Tech</p>
