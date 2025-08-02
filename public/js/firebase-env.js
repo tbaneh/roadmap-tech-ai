@@ -17,14 +17,14 @@
 // No Vercel: Settings → Environment Variables
 // No Netlify: Site settings → Environment variables
 
-// Configuração atual (substitua pelos valores reais)
-window.FIREBASE_API_KEY = "AIzaSyBvGBA-pX8-SUBSTITUA-PELA-CHAVE-REAL";
+// ✅ Configuração REAL do Firebase - Credenciais atualizadas!
+window.FIREBASE_API_KEY = "AIzaSyC8x0T1U8ipZtGC4ESQNU8utl1iloxLc74";
 window.FIREBASE_AUTH_DOMAIN = "roadmap-tech-ai.firebaseapp.com";
 window.FIREBASE_PROJECT_ID = "roadmap-tech-ai";
-window.FIREBASE_STORAGE_BUCKET = "roadmap-tech-ai.appspot.com";
-window.FIREBASE_MESSAGING_SENDER_ID = "123456789012";
-window.FIREBASE_APP_ID = "1:123456789012:web:SUBSTITUA-PELO-APP-ID-REAL";
-window.FIREBASE_MEASUREMENT_ID = "G-SUBSTITUA123";
+window.FIREBASE_STORAGE_BUCKET = "roadmap-tech-ai.firebasestorage.app";
+window.FIREBASE_MESSAGING_SENDER_ID = "1053154739627";
+window.FIREBASE_APP_ID = "1:1053154739627:web:9faf21f339b492e2f87eee";
+window.FIREBASE_MEASUREMENT_ID = "G-VYEV22VB35";
 
 console.log('🔥 Firebase Environment Variables loaded');
 console.log('📝 Para configurar em produção, veja: docs/FIREBASE_SETUP.md');
