@@ -469,11 +469,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
     <script>
-        // 🚨 EXTREME DEBUG TEST
-        console.log('🚨 EXTREME DEBUG: Classic JavaScript is executing!');
-        alert('🚨 EXTREME DEBUG: Classic JavaScript works!');
-        
-        // Firebase config
+        // Firebase config (demo credentials - will show Firebase errors but test functionality)
         const firebaseConfig = {
             apiKey: "AIzaSyDemoKey123456789",
             authDomain: "roadmap-tech-demo.firebaseapp.com",
@@ -489,7 +485,62 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         
-        console.log('🔥 Firebase initialized with classic JavaScript:', firebase.apps.length > 0);
+        console.log('🔥 Firebase initialized successfully');
+        
+        // Create AuthService equivalent with classic JavaScript
+        const authService = {
+            async signInWithEmail(email, password) {
+                try {
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    return { success: true, user: userCredential.user };
+                } catch (error) {
+                    return { success: false, error: error.message };
+                }
+            },
+            
+            async registerWithEmail(email, password, displayName) {
+                try {
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+                    
+                    if (displayName) {
+                        await user.updateProfile({ displayName });
+                    }
+                    
+                    await user.sendEmailVerification();
+                    return { success: true, user, message: 'Conta criada! Verifique seu email.' };
+                } catch (error) {
+                    return { success: false, error: error.message };
+                }
+            },
+            
+            async signInWithProvider(providerName) {
+                try {
+                    let provider;
+                    if (providerName === 'google') {
+                        provider = new firebase.auth.GoogleAuthProvider();
+                    } else if (providerName === 'github') {
+                        provider = new firebase.auth.GithubAuthProvider();
+                    } else {
+                        throw new Error('Provider not supported');
+                    }
+                    
+                    const result = await auth.signInWithPopup(provider);
+                    return { success: true, user: result.user };
+                } catch (error) {
+                    return { success: false, error: error.message };
+                }
+            },
+            
+            async resetPassword(email) {
+                try {
+                    await auth.sendPasswordResetEmail(email);
+                    return { success: true, message: 'Email de recuperação enviado!' };
+                } catch (error) {
+                    return { success: false, error: error.message };
+                }
+            }
+        };
 
         // DOM Elements
         const loginForm = document.getElementById('login-form');
