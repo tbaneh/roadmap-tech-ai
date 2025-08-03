@@ -255,6 +255,13 @@
       margin-bottom: 1.5rem;
       transition: all 0.3s ease;
       box-shadow: 0 4px 20px var(--shadow-light);
+      position: relative;
+    }
+    
+    .topic-card.completed {
+      border-color: #10b981;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
     }
     
     .topic-card:hover {
@@ -388,6 +395,151 @@
       opacity: 0.6;
     }
 
+    /* Progress System Styles */
+    .topic-progress {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 10;
+    }
+    
+    .progress-checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .progress-checkbox:hover {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.2);
+      transform: scale(1.1);
+    }
+    
+    .progress-checkbox.completed {
+      background: #10b981;
+      border-color: #10b981;
+      animation: checkmark-bounce 0.6s ease;
+    }
+    
+    .progress-checkbox.completed::after {
+      content: '✓';
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    @keyframes checkmark-bounce {
+      0% { transform: scale(0); }
+      60% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    .section-progress {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .section-progress-info {
+      flex: 1;
+    }
+    
+    .section-progress-label {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 0.25rem;
+    }
+    
+    .section-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .section-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #059669);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+    
+    .section-progress-percentage {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #10b981;
+      min-width: 40px;
+      text-align: right;
+    }
+    
+    .topic-xp-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      opacity: 0.9;
+    }
+    
+    .completion-feedback {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 16px 64px rgba(16, 185, 129, 0.3);
+      z-index: 1000;
+      text-align: center;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .completion-feedback.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    
+    .completion-feedback-icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      animation: pulse 2s infinite;
+    }
+    
+    .completion-feedback-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .completion-feedback-xp {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
     @media (max-width: 768px) {
       .nav-content {
         flex-direction: column;
@@ -412,6 +564,29 @@
       .topic-header {
         flex-direction: column;
         align-items: flex-start;
+      }
+      
+      .topic-progress {
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+      
+      .topic-xp-badge {
+        top: 0.5rem;
+        left: 0.5rem;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+      }
+      
+      .section-progress {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+      }
+      
+      .section-progress-percentage {
+        text-align: center;
+        min-width: auto;
       }
     }
   </style>
@@ -484,7 +659,13 @@
           <div class="roadmap-section">
             <h2 class="section-title">🔢 Fundamentos de Matemática e Estatística</h2>
         
-        <div class="topic-card">
+        <div class="topic-card" data-topic-id="estatistica-descritiva">
+          <div class="topic-xp-badge">
+            ⭐ 25 XP
+          </div>
+          <div class="topic-progress">
+            <div class="progress-checkbox" data-roadmap="data-scientist" data-section="fundamentos" data-topic="estatistica-descritiva" data-xp="25"></div>
+          </div>
           <div class="topic-header">
             <div class="topic-icon">📊</div>
             <div class="topic-title">Estatística Descritiva</div>
@@ -505,7 +686,13 @@
           </ul>
         </div>
 
-        <div class="topic-card">
+        <div class="topic-card" data-topic-id="algebra-linear">
+          <div class="topic-xp-badge">
+            ⭐ 30 XP
+          </div>
+          <div class="topic-progress">
+            <div class="progress-checkbox" data-roadmap="data-scientist" data-section="fundamentos" data-topic="algebra-linear" data-xp="30"></div>
+          </div>
           <div class="topic-header">
             <div class="topic-icon">🧮</div>
             <div class="topic-title">Álgebra Linear</div>
@@ -2701,19 +2888,221 @@ function initializeEnhancedAnimations() {
 
 // Initialize core functionality on page load
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🚀 Página carregada, inicializando sistema core...');
+  console.log('⚠️ Firebase sync temporarily disabled for debugging 404 error');
+  console.log('✅ Progress system running in stable localStorage-only mode');
+
+  // Make functions globally available
+  window.updateDashboard = updateDashboard;
+  window.updateOverallStats = updateOverallStats;
+  window.checkBadges = checkBadges;
   
-  // Initialize theme system
-  initializeThemeSystem();
+  console.log('✅ Progress system initialized');
   
-  // Initialize animations
-  initializeAnimations();
-  
-  // Initialize enhanced animations
-  initializeEnhancedAnimations();
-  
-  console.log('✅ Sistema core inicializado com sucesso!');
+  // Initialize Progress Interface System
+  initializeProgressInterface();
 });
+
+// Progress Interface System
+function initializeProgressInterface() {
+  console.log('🚀 Initializing Progress Interface System...');
+  
+  // Create feedback modal for completion
+  createFeedbackModal();
+  
+  // Initialize all checkboxes
+  initializeCheckboxes();
+  
+  // Initialize section progress bars
+  initializeSectionProgress();
+  
+  // Load and apply existing progress state
+  loadProgressState();
+  
+  console.log('✅ Progress Interface System initialized');
+}
+
+function createFeedbackModal() {
+  // Create completion feedback modal
+  const feedbackModal = document.createElement('div');
+  feedbackModal.className = 'completion-feedback';
+  feedbackModal.id = 'completion-feedback';
+  feedbackModal.innerHTML = `
+    <div class="completion-feedback-icon">🎉</div>
+    <div class="completion-feedback-title">Tópico Concluído!</div>
+    <div class="completion-feedback-xp">+25 XP ganhos</div>
+  `;
+  document.body.appendChild(feedbackModal);
+}
+
+function initializeCheckboxes() {
+  const checkboxes = document.querySelectorAll('.progress-checkbox');
+  
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('click', handleTopicToggle);
+    checkbox.style.cursor = 'pointer';
+  });
+  
+  console.log(`📋 Initialized ${checkboxes.length} progress checkboxes`);
+}
+
+function handleTopicToggle(event) {
+  const checkbox = event.target;
+  const roadmapId = checkbox.dataset.roadmap;
+  const sectionId = checkbox.dataset.section;
+  const topicId = checkbox.dataset.topic;
+  const xpValue = parseInt(checkbox.dataset.xp) || 25;
+  
+  const isCompleted = checkbox.classList.contains('completed');
+  
+  if (isCompleted) {
+    // Unmark topic
+    unmarkTopicCompleted(roadmapId, sectionId, topicId, checkbox);
+  } else {
+    // Mark topic as completed
+    markTopicCompleted(roadmapId, sectionId, topicId, xpValue, checkbox);
+  }
+}
+
+function markTopicCompleted(roadmapId, sectionId, topicId, xpValue, checkbox) {
+  // Visual feedback
+  checkbox.classList.add('completed');
+  const topicCard = checkbox.closest('.topic-card');
+  if (topicCard) {
+    topicCard.classList.add('completed');
+  }
+  
+  // Show completion feedback
+  showCompletionFeedback(xpValue);
+  
+  // Sync with UserProgressSystem (localStorage)
+  if (window.userProgressSystem) {
+    window.userProgressSystem.completeTask(roadmapId, sectionId, topicId);
+    window.userProgressSystem.addStudyHours(0.5);
+    window.userProgressSystem.recordStudyActivity();
+  }
+  
+  // Sync with DashboardManager (Firebase) via event
+  const topicTitle = topicCard ? topicCard.querySelector('.topic-title')?.textContent || topicId : topicId;
+  
+  window.dispatchEvent(new CustomEvent('topicCompleted', {
+    detail: {
+      roadmapId: roadmapId,
+      topicId: topicId,
+      topicTitle: topicTitle,
+      estimatedHours: 0.5
+    }
+  }));
+  
+  // Update section progress
+  updateSectionProgress(sectionId);
+  
+  console.log(`✅ Topic completed: ${roadmapId}.${sectionId}.${topicId} (+${xpValue} XP)`);
+}
+
+function unmarkTopicCompleted(roadmapId, sectionId, topicId, checkbox) {
+  // Visual feedback
+  checkbox.classList.remove('completed');
+  const topicCard = checkbox.closest('.topic-card');
+  if (topicCard) {
+    topicCard.classList.remove('completed');
+  }
+  
+  // Sync with UserProgressSystem
+  if (window.userProgressSystem && window.userProgressSystem.progress) {
+    const topicKey = `${roadmapId}.${sectionId}.${topicId}`;
+    const completedTopics = window.userProgressSystem.progress.completedTopics || [];
+    const index = completedTopics.indexOf(topicKey);
+    if (index > -1) {
+      completedTopics.splice(index, 1);
+      window.userProgressSystem.saveProgress();
+    }
+  }
+  
+  // Update section progress
+  updateSectionProgress(sectionId);
+  
+  console.log(`❌ Topic unmarked: ${roadmapId}.${sectionId}.${topicId}`);
+}
+
+function showCompletionFeedback(xpValue) {
+  const feedback = document.getElementById('completion-feedback');
+  if (!feedback) return;
+  
+  // Update XP value
+  const xpElement = feedback.querySelector('.completion-feedback-xp');
+  if (xpElement) {
+    xpElement.textContent = `+${xpValue} XP ganhos`;
+  }
+  
+  // Show with animation
+  feedback.classList.add('show');
+  
+  // Hide after 2 seconds
+  setTimeout(() => {
+    feedback.classList.remove('show');
+  }, 2000);
+}
+
+function initializeSectionProgress() {
+  // Find all sections and add progress bars
+  const sections = ['fundamentos', 'python', 'machine-learning', 'visualizacao', 'big-data', 'projetos'];
+  
+  sections.forEach(sectionId => {
+    updateSectionProgress(sectionId);
+  });
+}
+
+function updateSectionProgress(sectionId) {
+  const sectionCheckboxes = document.querySelectorAll(`[data-section="${sectionId}"] .progress-checkbox`);
+  const completedCheckboxes = document.querySelectorAll(`[data-section="${sectionId}"] .progress-checkbox.completed`);
+  
+  const total = sectionCheckboxes.length;
+  const completed = completedCheckboxes.length;
+  const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+  
+  // Update progress bar
+  const progressFill = document.querySelector(`[data-section="${sectionId}"].section-progress-fill`);
+  if (progressFill) {
+    progressFill.style.width = `${percentage}%`;
+  }
+  
+  // Update percentage text
+  const progressPercentage = document.querySelector(`[data-section="${sectionId}"].section-progress-percentage`);
+  if (progressPercentage) {
+    progressPercentage.textContent = `${percentage}%`;
+  }
+  
+  console.log(`📊 Section ${sectionId}: ${completed}/${total} (${percentage}%)`);
+}
+
+function loadProgressState() {
+  // Load from UserProgressSystem
+  if (window.userProgressSystem && window.userProgressSystem.progress) {
+    const completedTopics = window.userProgressSystem.progress.completedTopics || [];
+    
+    completedTopics.forEach(topicKey => {
+      const [roadmapId, sectionId, topicId] = topicKey.split('.');
+      const checkbox = document.querySelector(`[data-roadmap="${roadmapId}"][data-section="${sectionId}"][data-topic="${topicId}"]`);
+      
+      if (checkbox) {
+        checkbox.classList.add('completed');
+        const topicCard = checkbox.closest('.topic-card');
+        if (topicCard) {
+          topicCard.classList.add('completed');
+        }
+      }
+    });
+    
+    // Update all section progress bars
+    const sections = ['fundamentos', 'python', 'machine-learning', 'visualizacao', 'big-data', 'projetos'];
+    sections.forEach(sectionId => {
+      updateSectionProgress(sectionId);
+    });
+    
+    console.log(`🔄 Loaded ${completedTopics.length} completed topics from localStorage`);
+  }
+}
+
 // Progressive Questions Modal
 async function showProgressiveQuestionsModal(topicTitle) {
   try {
