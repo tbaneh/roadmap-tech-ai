@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil - Roadmap Tech</title>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="./css/main.css">
+  
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Firebase Environment Config -->
+  <script src="./js/firebase-env.js"></script>
+  
+  <style>
+    /* CSS Variables para Temas */
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #1d4ed8;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --success-color: #10b981;
+      --error-color: #ef4444;
+      --warning-color: #f59e0b;
+    }
+    
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #f1f5f9;
+      --bg-tertiary: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #1d4ed8;
+      --glass-bg: rgba(255, 255, 255, 0.8);
+      --glass-border: rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Profile Header */
+    .profile-header {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      background: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      border: 4px solid var(--glass-border);
+    }
+
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .profile-email {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .profile-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Profile Sections */
+    .profile-section {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-secondary);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--glass-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--glass-bg);
+    }
+
+    .btn-danger {
+      background: var(--error-color);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    /* Progress Bars */
+    .progress-item {
+      margin-bottom: 1rem;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-label {
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .progress-percentage {
+      font-size: 0.9rem;
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-tertiary);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    /* Loading States */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      animation: spin 1s linear infinite;
+      margin-right: 0.5rem;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .profile-stats {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .container {
+        padding: 0 0.5rem;
+      }
+      
+      .profile-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-content">
+        <a href="./index.html" class="logo">
+          <span class="logo-icon">🚀</span>
+          <span class="logo-text">Roadmap Tech</span>
+        </a>
+        <div class="nav-links">
+          <a href="./roadmaps.html" class="nav-link">🎯 Explorar Roadmaps</a>
+          <a href="./tech-tracks.html" class="nav-link">🚀 Trilhas Tech</a>
+          <a href="./dashboard.html" class="nav-link">📊 Dashboard</a>
+          <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+            <span class="theme-toggle-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <!-- Loading State -->
+      <div id="loading-state" class="loading">
+        <div class="spinner">⏳</div>
+        Carregando perfil...
+      </div>
+
+      <!-- Profile Content -->
+      <div id="profile-content" style="display: none;">
+        <!-- Profile Header -->
+        <div class="profile-header">
+          <div class="profile-avatar" id="profile-avatar">👤</div>
+          <h1 class="profile-name" id="profile-name">Carregando...</h1>
+          <p class="profile-email" id="profile-email">Carregando...</p>
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-number" id="roadmaps-completed">0</div>
+              <div class="stat-label">Roadmaps Concluídos</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="total-progress">0%</div>
+              <div class="stat-label">Progresso Total</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="days-streak">0</div>
+              <div class="stat-label">Dias Consecutivos</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="profile-section">
+          <h2 class="section-title">👤 Informações Pessoais</h2>
+          <form id="profile-form">
+            <div class="form-group">
+              <label class="form-label" for="display-name">Nome de Exibição</label>
+              <input type="text" class="form-input" id="display-name" placeholder="Seu nome completo">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input type="email" class="form-input" id="email" placeholder="seu@email.com" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bio">Bio</label>
+              <textarea class="form-input" id="bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">💾 Salvar Alterações</button>
+          </form>
+        </div>
+
+        <!-- Progress Tracking -->
+        <div class="profile-section">
+          <h2 class="section-title">📈 Progresso dos Roadmaps</h2>
+          <div id="roadmaps-progress">
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">📊 Data Scientist</span>
+                <span class="progress-percentage">0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">📋 BI Analyst</span>
+                <span class="progress-percentage">0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">💻 Software Engineer</span>
+                <span class="progress-percentage">0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="progress-label">📊 Data Analyst</span>
+                <span class="progress-percentage">0%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="profile-section">
+          <h2 class="section-title">⚙️ Configurações da Conta</h2>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="changePassword()">🔒 Alterar Senha</button>
+            <button class="btn btn-secondary" onclick="exportData()">📥 Exportar Dados</button>
+            <button class="btn btn-danger" onclick="deleteAccount()">🗑️ Excluir Conta</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Not Logged In State -->
+      <div id="not-logged-in" style="display: none;">
+        <div class="profile-section" style="text-align: center;">
+          <h2 class="section-title" style="justify-content: center;">🔒 Acesso Restrito</h2>
+          <p style="margin-bottom: 2rem; color: var(--text-muted);">
+            Você precisa estar logado para acessar seu perfil.
+          </p>
+          <a href="./auth.html" class="btn btn-primary">🚪 Fazer Login</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- User Auth Manager -->
+  <script src="./js/user-auth-manager.js"></script>
+
+  <script>
+    let currentUser = null;
+    let db = null;
+
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: window.FIREBASE_API_KEY || "demo-key",
+      authDomain: window.FIREBASE_AUTH_DOMAIN || "demo.firebaseapp.com",
+      projectId: window.FIREBASE_PROJECT_ID || "demo-project",
+      storageBucket: window.FIREBASE_STORAGE_BUCKET || "demo.appspot.com",
+      messagingSenderId: window.FIREBASE_MESSAGING_SENDER_ID || "123456789",
+      appId: window.FIREBASE_APP_ID || "demo-app-id"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    
+    const auth = firebase.auth();
+    db = firebase.firestore();
+
+    // Theme toggle functionality
+    function initializeThemeSystem() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.querySelector('.theme-toggle-icon');
+      
+      // Load saved theme
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.body.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+      
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+      
+      function updateThemeIcon(theme) {
+        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
+    }
+
+    // Load user profile
+    function loadUserProfile() {
+      const loadingState = document.getElementById('loading-state');
+      const profileContent = document.getElementById('profile-content');
+      const notLoggedIn = document.getElementById('not-logged-in');
+
+      auth.onAuthStateChanged((user) => {
+        loadingState.style.display = 'none';
+        
+        if (user) {
+          currentUser = user;
+          profileContent.style.display = 'block';
+          notLoggedIn.style.display = 'none';
+          
+          // Update profile header
+          updateProfileHeader(user);
+          
+          // Load user data from Firestore
+          loadUserData(user.uid);
+          
+        } else {
+          profileContent.style.display = 'none';
+          notLoggedIn.style.display = 'block';
+        }
+      });
+    }
+
+    // Update profile header
+    function updateProfileHeader(user) {
+      const profileAvatar = document.getElementById('profile-avatar');
+      const profileName = document.getElementById('profile-name');
+      const profileEmail = document.getElementById('profile-email');
+      const displayNameInput = document.getElementById('display-name');
+      const emailInput = document.getElementById('email');
+
+      // Update avatar
+      if (user.photoURL) {
+        profileAvatar.innerHTML = `<img src="${user.photoURL}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+      } else {
+        profileAvatar.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : '👤';
+      }
+
+      // Update name and email
+      profileName.textContent = user.displayName || 'Usuário';
+      profileEmail.textContent = user.email;
+      
+      // Update form fields
+      displayNameInput.value = user.displayName || '';
+      emailInput.value = user.email || '';
+    }
+
+    // Load user data from Firestore
+    async function loadUserData(userId) {
+      try {
+        const userDoc = await db.collection('users').doc(userId).get();
+        
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          
+          // Update bio
+          document.getElementById('bio').value = userData.bio || '';
+          
+          // Update stats
+          document.getElementById('roadmaps-completed').textContent = userData.roadmapsCompleted || 0;
+          document.getElementById('total-progress').textContent = `${userData.totalProgress || 0}%`;
+          document.getElementById('days-streak').textContent = userData.daysStreak || 0;
+          
+          // Update progress bars
+          updateProgressBars(userData.roadmapProgress || {});
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados do usuário:', error);
+      }
+    }
+
+    // Update progress bars
+    function updateProgressBars(roadmapProgress) {
+      const roadmaps = [
+        { key: 'data-scientist', selector: 0 },
+        { key: 'bi-analyst', selector: 1 },
+        { key: 'software-engineer', selector: 2 },
+        { key: 'data-analyst', selector: 3 }
+      ];
+
+      roadmaps.forEach((roadmap, index) => {
+        const progress = roadmapProgress[roadmap.key] || 0;
+        const progressItems = document.querySelectorAll('.progress-item');
+        
+        if (progressItems[index]) {
+          const percentage = progressItems[index].querySelector('.progress-percentage');
+          const fill = progressItems[index].querySelector('.progress-fill');
+          
+          percentage.textContent = `${progress}%`;
+          fill.style.width = `${progress}%`;
+        }
+      });
+    }
+
+    // Handle profile form submission
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (!currentUser) return;
+      
+      const displayName = document.getElementById('display-name').value;
+      const bio = document.getElementById('bio').value;
+      
+      try {
+        // Update Firebase Auth profile
+        await currentUser.updateProfile({
+          displayName: displayName
+        });
+        
+        // Update Firestore document
+        await db.collection('users').doc(currentUser.uid).set({
+          displayName: displayName,
+          bio: bio,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        
+        // Update UI
+        document.getElementById('profile-name').textContent = displayName || 'Usuário';
+        
+        alert('✅ Perfil atualizado com sucesso!');
+        
+      } catch (error) {
+        console.error('Erro ao atualizar perfil:', error);
+        alert('❌ Erro ao atualizar perfil. Tente novamente.');
+      }
+    });
+
+    // Account management functions
+    function changePassword() {
+      if (!currentUser) return;
+      
+      const email = currentUser.email;
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          alert('📧 Email de redefinição de senha enviado para ' + email);
+        })
+        .catch((error) => {
+          console.error('Erro ao enviar email:', error);
+          alert('❌ Erro ao enviar email de redefinição.');
+        });
+    }
+
+    function exportData() {
+      if (!currentUser) return;
+      
+      // Create data export
+      const exportData = {
+        user: {
+          uid: currentUser.uid,
+          email: currentUser.email,
+          displayName: currentUser.displayName,
+          createdAt: currentUser.metadata.creationTime
+        },
+        exportedAt: new Date().toISOString()
+      };
+      
+      // Download as JSON
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `roadmap-tech-profile-${currentUser.uid}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function deleteAccount() {
+      if (!currentUser) return;
+      
+      const confirmation = confirm('⚠️ Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.');
+      
+      if (confirmation) {
+        const finalConfirmation = prompt('Digite "EXCLUIR" para confirmar:');
+        
+        if (finalConfirmation === 'EXCLUIR') {
+          // Delete Firestore data
+          db.collection('users').doc(currentUser.uid).delete()
+            .then(() => {
+              // Delete authentication account
+              return currentUser.delete();
+            })
+            .then(() => {
+              alert('✅ Conta excluída com sucesso.');
+              window.location.href = './index.html';
+            })
+            .catch((error) => {
+              console.error('Erro ao excluir conta:', error);
+              alert('❌ Erro ao excluir conta. Você pode precisar fazer login novamente.');
+            });
+        }
+      }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeThemeSystem();
+      loadUserProfile();
+    });
+  </script>
+</body>
+</html>
