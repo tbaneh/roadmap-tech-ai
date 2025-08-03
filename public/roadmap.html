@@ -2953,6 +2953,22 @@ function initializeCheckboxes() {
   checkboxes.forEach((checkbox, index) => {
     console.log(`🔍 DEBUG: Adding listener to checkbox ${index}:`, checkbox);
     
+    // Load initial state from UserProgressSystem
+    const roadmapId = checkbox.dataset.roadmap;
+    const sectionId = checkbox.dataset.section;
+    const topicId = checkbox.dataset.topic;
+    
+    if (window.userProgressSystem && window.userProgressSystem.isTopicCompleted(roadmapId, sectionId, topicId)) {
+      checkbox.classList.add('completed');
+      const topicCard = checkbox.closest('.topic-card');
+      if (topicCard) {
+        topicCard.classList.add('completed');
+      }
+      console.log(`✅ Loaded completed state for: ${roadmapId}.${sectionId}.${topicId}`);
+    } else {
+      console.log(`⭕ Topic not completed: ${roadmapId}.${sectionId}.${topicId}`);
+    }
+    
     checkbox.addEventListener('click', function(event) {
       console.log('🔥 DEBUG: Checkbox clicked!', event.target);
       handleTopicToggle(event);

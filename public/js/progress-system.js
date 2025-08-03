@@ -12,38 +12,27 @@ class UserProgressSystem {
             return JSON.parse(saved);
         }
         
-        // Dados demonstrativos iniciais para melhor experiência
-        const demoData = {
-            roadmaps: {
-                'data-scientist': {
-                    progress: 25,
-                    completedSections: ['Fundamentos', 'Python Básico'],
-                    totalSections: 8
-                },
-                'bi-analyst': {
-                    progress: 40,
-                    completedSections: ['Power BI Básico', 'Excel Avançado'],
-                    totalSections: 5
-                }
-            },
-            completedTopics: [
-                'data-scientist.fundamentos.introducao-data-science',
-                'data-scientist.python.variaveis-tipos',
-                'data-scientist.python.estruturas-dados',
-                'bi-analyst.power-bi.interface-navegacao',
-                'bi-analyst.power-bi.conectar-dados',
-                'bi-analyst.excel.tabelas-dinamicas'
-            ],
-            studyHours: 12,
-            badgesEarned: ['first_steps', 'quick_learner'],
-            lastStudyDate: new Date().toISOString(),
-            tasksCompleted: 8,
-            questionsAnswered: 15
+        // Clean initial state for new users
+        const cleanInitialData = {
+            roadmaps: {},
+            completedTopics: [],
+            studyHours: 0,
+            badgesEarned: [],
+            lastStudyDate: null,
+            tasksCompleted: 0,
+            questionsAnswered: 0,
+            studyDates: [],
+            morningStudyDays: [],
+            nightStudyDays: [],
+            weekendStudyDays: [],
+            dailyTopics: {},
+            hasComeback: false
         };
         
-        // Salvar dados demo para próximas visitas
-        localStorage.setItem('userProgress', JSON.stringify(demoData));
-        return demoData;
+        // Save clean initial data
+        localStorage.setItem('userProgress', JSON.stringify(cleanInitialData));
+        console.log('✅ Clean user profile initialized');
+        return cleanInitialData;
     }
 
     saveProgress() {
@@ -680,6 +669,64 @@ class UserProgressSystem {
 
     isSectionCompleted(roadmapId, sectionId) {
         return this.progress.roadmaps[roadmapId]?.sections[sectionId]?.completed || false;
+    }
+    
+    // Complete a topic and persist to localStorage
+    completeTask(roadmapId, sectionId, topicId) {
+        console.log(`📋 UserProgressSystem: Completing task ${roadmapId}.${sectionId}.${topicId}`);
+        
+        // Initialize roadmap structure if it doesn't exist
+        if (!this.progress.roadmaps[roadmapId]) {
+            this.progress.roadmaps[roadmapId] = { sections: {} };
+        }
+        
+        if (!this.progress.roadmaps[roadmapId].sections[sectionId]) {
+            this.progress.roadmaps[roadmapId].sections[sectionId] = { topics: {}, completed: false };
+        }
+        
+        if (!this.progress.roadmaps[roadmapId].sections[sectionId].topics) {
+            this.progress.roadmaps[roadmapId].sections[sectionId].topics = {};
+        }
+        
+        // Mark topic as completed
+        this.progress.roadmaps[roadmapId].sections[sectionId].topics[topicId] = true;
+        
+        // Add to completedTopics array for backwards compatibility
+        const topicKey = `${roadmapId}.${sectionId}.${topicId}`;
+        if (!this.progress.completedTopics.includes(topicKey)) {
+            this.progress.completedTopics.push(topicKey);
+            this.progress.tasksCompleted++;
+        }
+        
+        // Record study activity
+        this.recordStudyActivity();
+        
+        // Save to localStorage
+        this.saveProgress();
+        
+        console.log('✅ Task completed and saved to localStorage');
+        console.log('📊 Current progress:', this.progress);
+    }
+    
+    // Add study hours to progress
+    addStudyHours(hours) {
+        this.progress.studyHours += hours;
+        this.saveProgress();
+        console.log(`⏰ Added ${hours} study hours. Total: ${this.progress.studyHours}h`);
+    }
+    
+    // Add task completion count
+    addTaskCompletion() {
+        this.progress.tasksCompleted++;
+        this.saveProgress();
+        console.log(`🎯 Task completed. Total: ${this.progress.tasksCompleted}`);
+    }
+    
+    // Add answered question count
+    addQuestionAnswered() {
+        this.progress.questionsAnswered++;
+        this.saveProgress();
+        console.log(`🧠 Question answered. Total: ${this.progress.questionsAnswered}`);
     }
 }
 
