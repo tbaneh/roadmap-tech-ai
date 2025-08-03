@@ -2949,9 +2949,19 @@ function createFeedbackModal() {
 function initializeCheckboxes() {
   const checkboxes = document.querySelectorAll('.progress-checkbox');
   
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('click', handleTopicToggle);
+  console.log('🔍 DEBUG: Found checkboxes:', checkboxes.length);
+  console.log('🔍 DEBUG: Checkboxes elements:', checkboxes);
+  
+  checkboxes.forEach((checkbox, index) => {
+    console.log(`🔍 DEBUG: Adding listener to checkbox ${index}:`, checkbox);
+    
+    checkbox.addEventListener('click', function(event) {
+      console.log('🔥 DEBUG: Checkbox clicked!', event.target);
+      handleTopicToggle(event);
+    });
+    
     checkbox.style.cursor = 'pointer';
+    checkbox.style.border = '2px solid red'; // DEBUG: Visual indicator
   });
   
   console.log(`📋 Initialized ${checkboxes.length} progress checkboxes`);
