@@ -27,6 +27,9 @@ class DashboardManager {
       }
     };
     
+    // Process pending events from localStorage immediately
+    this.processPendingEvents();
+    
     this.config = {
       XP_PER_TOPIC: 10,
       XP_PER_HOUR: 5,
@@ -624,10 +627,41 @@ class DashboardManager {
 
   // Public method to mark topic completed (for external use)
   static markTopicCompleted(roadmapId, topicId, topicTitle, estimatedHours = 0.5) {
-    // Dispatch event for dashboard to handle
+    // Static method to trigger topic completion without instance
     window.dispatchEvent(new CustomEvent('topicCompleted', {
       detail: { roadmapId, topicId, topicTitle, estimatedHours }
     }));
+  }
+  
+  // Process pending events from localStorage (cross-page sync)
+  processPendingEvents() {
+    try {
+      const pendingEvents = JSON.parse(localStorage.getItem('dashboardEvents') || '[]');
+      
+      if (pendingEvents.length > 0) {
+        console.log(`🔄 Processing ${pendingEvents.length} pending dashboard events...`);
+        
+        pendingEvents.forEach(event => {
+          if (event.type === 'topicCompleted') {
+            console.log('📋 Processing topic completion:', event.data);
+            this.markTopicCompleted(
+              event.data.roadmapId, 
+              event.data.topicId, 
+              event.data.topicTitle, 
+              event.data.estimatedHours
+            );
+          }
+        });
+        
+        // Clear processed events
+        localStorage.removeItem('dashboardEvents');
+        console.log('✅ All pending events processed and cleared');
+      } else {
+        console.log('ℹ️ No pending dashboard events to process');
+      }
+    } catch (error) {
+      console.error('❌ Error processing pending events:', error);
+    }
   }
 }
 

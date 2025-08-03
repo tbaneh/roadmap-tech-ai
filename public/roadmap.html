@@ -3001,17 +3001,33 @@ function markTopicCompleted(roadmapId, sectionId, topicId, xpValue, checkbox) {
     window.userProgressSystem.recordStudyActivity();
   }
   
-  // Sync with DashboardManager (Firebase) via event
+  // Sync with DashboardManager via localStorage (cross-page communication)
   const topicTitle = topicCard ? topicCard.querySelector('.topic-title')?.textContent || topicId : topicId;
   
-  window.dispatchEvent(new CustomEvent('topicCompleted', {
-    detail: {
+  // Create event data for dashboard
+  const dashboardEvent = {
+    type: 'topicCompleted',
+    timestamp: Date.now(),
+    data: {
       roadmapId: roadmapId,
       topicId: topicId,
       topicTitle: topicTitle,
-      estimatedHours: 0.5
+      estimatedHours: 0.5,
+      xpGained: xpValue
     }
+  };
+  
+  // Store in localStorage for dashboard to pick up
+  const existingEvents = JSON.parse(localStorage.getItem('dashboardEvents') || '[]');
+  existingEvents.push(dashboardEvent);
+  localStorage.setItem('dashboardEvents', JSON.stringify(existingEvents));
+  
+  // Also trigger local event (if same page)
+  window.dispatchEvent(new CustomEvent('topicCompleted', {
+    detail: dashboardEvent.data
   }));
+  
+  console.log('🔄 Dashboard sync event stored:', dashboardEvent);
   
   // Update section progress
   updateSectionProgress(sectionId);
