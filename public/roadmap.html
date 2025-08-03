@@ -2903,10 +2903,8 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('⚠️ Firebase sync temporarily disabled for debugging 404 error');
   console.log('✅ Progress system running in stable localStorage-only mode');
 
-  // Make functions globally available
-  window.updateDashboard = updateDashboard;
-  window.updateOverallStats = updateOverallStats;
-  window.checkBadges = checkBadges;
+  // Skip undefined function references to prevent crashes
+  console.log('⚠️ Skipping undefined function references');
   
   console.log('✅ Progress system initialized');
   
