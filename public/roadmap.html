@@ -2944,6 +2944,26 @@ function createFeedbackModal() {
   document.body.appendChild(feedbackModal);
 }
 
+// Handle topic toggle when checkbox is clicked
+function handleTopicToggle(event) {
+  console.log('🔥 handleTopicToggle called:', event.target);
+  
+  const checkbox = event.target;
+  const roadmapId = checkbox.dataset.roadmap;
+  const sectionId = checkbox.dataset.section;
+  const topicId = checkbox.dataset.topic;
+  
+  console.log(`🔥 Toggle for: ${roadmapId}.${sectionId}.${topicId}`);
+  
+  if (checkbox.classList.contains('completed')) {
+    // Unmark as completed
+    unmarkTopicCompleted(roadmapId, sectionId, topicId, checkbox);
+  } else {
+    // Mark as completed
+    markTopicCompleted(roadmapId, sectionId, topicId, checkbox);
+  }
+}
+
 function initializeCheckboxes() {
   const checkboxes = document.querySelectorAll('.progress-checkbox');
   
