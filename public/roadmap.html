@@ -3252,8 +3252,29 @@ window.showResourceAnalysis = showResourceAnalysis;
 // INICIALIZAÇÃO AUTOMÁTICA
 // =============================================================================
 
-
-
     </script>
+    
+    <!-- CRITICAL: Import UserProgressSystem for checkbox persistence -->
+    <script src="/js/progress-system.js"></script>
+    
+    <!-- Wait for UserProgressSystem to load before initializing checkboxes -->
+    <script>
+    // Ensure UserProgressSystem is loaded before using
+    window.addEventListener('DOMContentLoaded', function() {
+      console.log('🔍 DEBUG: DOM loaded, checking UserProgressSystem...');
+      console.log('🔍 DEBUG: UserProgressSystem exists:', !!window.userProgressSystem);
+      
+      // Wait a bit for script to load
+      setTimeout(() => {
+        console.log('🔍 DEBUG: After timeout - UserProgressSystem exists:', !!window.userProgressSystem);
+        if (window.userProgressSystem) {
+          console.log('✅ UserProgressSystem loaded successfully');
+        } else {
+          console.error('❌ UserProgressSystem still not loaded!');
+        }
+      }, 100);
+    });
+    </script>
+    
   </body>
 </html>
