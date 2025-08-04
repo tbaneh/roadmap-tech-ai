@@ -2074,39 +2074,27 @@
             }
         }
 
-        // ROBUST FALLBACK: Ensure DashboardManager is always initialized
-        function ensureDashboardManagerInitialized() {
-            console.log('🔧 Ensuring DashboardManager initialization...');
-            
-            if (window.dashboardManager) {
-                console.log('✅ DashboardManager already initialized');
-                return;
-            }
-            
-            if (window.DashboardManager) {
-                console.log('🚀 Creating DashboardManager instance...');
-                window.dashboardManager = new window.DashboardManager();
-                console.log('✅ DashboardManager initialized successfully!');
-            } else {
-                console.error('❌ DashboardManager class not found!');
-            }
-        }
-        
         // Initialize dashboard when page loads
         document.addEventListener('DOMContentLoaded', () => {
             initializeThemeSystem();
-            ensureDashboardManagerInitialized();
+            
+            // SIMPLE INLINE INITIALIZATION - Always works
+            console.log('🔧 Initializing DashboardManager...');
+            if (!window.dashboardManager && window.DashboardManager) {
+                console.log('🚀 Creating DashboardManager instance...');
+                window.dashboardManager = new window.DashboardManager();
+                console.log('✅ DashboardManager initialized successfully!');
+            }
         });
         
-        // FALLBACK 1: Initialize after a short delay if DOMContentLoaded fails
+        // CRITICAL FALLBACK: Direct inline initialization after scripts load
         setTimeout(() => {
-            ensureDashboardManagerInitialized();
-        }, 500);
-        
-        // FALLBACK 2: Initialize when window loads (last resort)
-        window.addEventListener('load', () => {
-            ensureDashboardManagerInitialized();
-        });
+            if (!window.dashboardManager && window.DashboardManager) {
+                console.log('🔧 FALLBACK: Creating DashboardManager instance...');
+                window.dashboardManager = new window.DashboardManager();
+                console.log('✅ FALLBACK: DashboardManager initialized!');
+            }
+        }, 100);
     </script>
 </body>
 </html>
