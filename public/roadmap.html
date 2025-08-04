@@ -2958,15 +2958,34 @@ function initializeCheckboxes() {
     const sectionId = checkbox.dataset.section;
     const topicId = checkbox.dataset.topic;
     
-    if (window.userProgressSystem && window.userProgressSystem.isTopicCompleted(roadmapId, sectionId, topicId)) {
-      checkbox.classList.add('completed');
-      const topicCard = checkbox.closest('.topic-card');
-      if (topicCard) {
-        topicCard.classList.add('completed');
+    console.log(`🔍 DEBUG: Checking state for: ${roadmapId}.${sectionId}.${topicId}`);
+    console.log('🔍 DEBUG: UserProgressSystem exists:', !!window.userProgressSystem);
+    
+    if (window.userProgressSystem) {
+      console.log('🔍 DEBUG: Current progress structure:', window.userProgressSystem.progress);
+      console.log('🔍 DEBUG: Roadmaps data:', window.userProgressSystem.progress.roadmaps);
+      console.log('🔍 DEBUG: CompletedTopics array:', window.userProgressSystem.progress.completedTopics);
+      
+      const topicKey = `${roadmapId}.${sectionId}.${topicId}`;
+      const isInArray = window.userProgressSystem.progress.completedTopics.includes(topicKey);
+      const isInStructure = window.userProgressSystem.isTopicCompleted(roadmapId, sectionId, topicId);
+      
+      console.log(`🔍 DEBUG: Topic key: "${topicKey}"`);
+      console.log(`🔍 DEBUG: Is in completedTopics array: ${isInArray}`);
+      console.log(`🔍 DEBUG: Is in roadmaps structure: ${isInStructure}`);
+      
+      if (isInStructure || isInArray) {
+        checkbox.classList.add('completed');
+        const topicCard = checkbox.closest('.topic-card');
+        if (topicCard) {
+          topicCard.classList.add('completed');
+        }
+        console.log(`✅ Loaded completed state for: ${roadmapId}.${sectionId}.${topicId}`);
+      } else {
+        console.log(`⭕ Topic not completed: ${roadmapId}.${sectionId}.${topicId}`);
       }
-      console.log(`✅ Loaded completed state for: ${roadmapId}.${sectionId}.${topicId}`);
     } else {
-      console.log(`⭕ Topic not completed: ${roadmapId}.${sectionId}.${topicId}`);
+      console.log('❌ ERROR: UserProgressSystem not found!');
     }
     
     checkbox.addEventListener('click', function(event) {
