@@ -2104,27 +2104,73 @@
             }
         }
 
-        // Initialize dashboard when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeThemeSystem();
-            
-            // SIMPLE INLINE INITIALIZATION - Always works
-            console.log('🔧 Initializing DashboardManager...');
-            if (!window.dashboardManager && window.DashboardManager) {
-                console.log('🚀 Creating DashboardManager instance...');
-                window.dashboardManager = new window.DashboardManager();
-                console.log('✅ DashboardManager initialized successfully!');
+        // ROBUST INITIALIZATION: Multiple fallbacks to ensure DashboardManager is always created
+        function initializeDashboardManager() {
+            if (window.dashboardManager) {
+                console.log('✅ DashboardManager already exists');
+                return true;
             }
+            
+            if (window.DashboardManager) {
+                try {
+                    console.log('🚀 Creating DashboardManager instance...');
+                    window.dashboardManager = new window.DashboardManager();
+                    console.log('✅ DashboardManager initialized successfully!');
+                    return true;
+                } catch (error) {
+                    console.error('❌ DashboardManager creation failed:', error);
+                    return false;
+                }
+            }
+            
+            console.log('⚠️ DashboardManager class not yet available');
+            return false;
+        }
+        
+        // FALLBACK 1: DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔧 DOMContentLoaded: Initializing dashboard...');
+            initializeThemeSystem();
+            initializeDashboardManager();
         });
         
-        // CRITICAL FALLBACK: Direct inline initialization after scripts load
+        // FALLBACK 2: Immediate timeout (very short)
         setTimeout(() => {
-            if (!window.dashboardManager && window.DashboardManager) {
-                console.log('🔧 FALLBACK: Creating DashboardManager instance...');
-                window.dashboardManager = new window.DashboardManager();
-                console.log('✅ FALLBACK: DashboardManager initialized!');
+            console.log('🔧 FALLBACK 2: Immediate timeout initialization...');
+            initializeDashboardManager();
+        }, 50);
+        
+        // FALLBACK 3: Short timeout
+        setTimeout(() => {
+            console.log('🔧 FALLBACK 3: Short timeout initialization...');
+            initializeDashboardManager();
+        }, 200);
+        
+        // FALLBACK 4: Medium timeout
+        setTimeout(() => {
+            console.log('🔧 FALLBACK 4: Medium timeout initialization...');
+            initializeDashboardManager();
+        }, 500);
+        
+        // FALLBACK 5: Window load event
+        window.addEventListener('load', () => {
+            console.log('🔧 FALLBACK 5: Window load initialization...');
+            initializeDashboardManager();
+        });
+        
+        // FALLBACK 6: Interval check (aggressive)
+        const initCheck = setInterval(() => {
+            if (initializeDashboardManager()) {
+                clearInterval(initCheck);
+                console.log('✅ FALLBACK 6: Interval check succeeded!');
             }
         }, 100);
+        
+        // Stop interval after 5 seconds to avoid infinite checking
+        setTimeout(() => {
+            clearInterval(initCheck);
+            console.log('🔍 Stopped interval checking after 5 seconds');
+        }, 5000);
     </script>
 </body>
 </html>
