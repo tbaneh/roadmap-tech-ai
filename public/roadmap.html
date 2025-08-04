@@ -3264,16 +3264,58 @@ window.showResourceAnalysis = showResourceAnalysis;
       console.log('🔍 DEBUG: DOM loaded, checking UserProgressSystem...');
       console.log('🔍 DEBUG: UserProgressSystem exists:', !!window.userProgressSystem);
       
-      // Wait a bit for script to load
-      setTimeout(() => {
-        console.log('🔍 DEBUG: After timeout - UserProgressSystem exists:', !!window.userProgressSystem);
+      // Wait for UserProgressSystem and re-initialize checkboxes
+      function waitForSystemAndInitialize() {
         if (window.userProgressSystem) {
-          console.log('✅ UserProgressSystem loaded successfully');
+          console.log('✅ UserProgressSystem loaded successfully - Re-initializing checkboxes...');
+          // Re-initialize checkboxes with proper state
+          reinitializeCheckboxes();
         } else {
-          console.error('❌ UserProgressSystem still not loaded!');
+          console.log('⏳ Waiting for UserProgressSystem...');
+          setTimeout(waitForSystemAndInitialize, 50);
         }
-      }, 100);
+      }
+      
+      // Start waiting process
+      setTimeout(waitForSystemAndInitialize, 100);
     });
+    
+    // Function to re-initialize checkboxes with correct state
+    function reinitializeCheckboxes() {
+      console.log('🔄 Re-initializing checkboxes with UserProgressSystem...');
+      
+      const checkboxes = document.querySelectorAll('.progress-checkbox');
+      console.log(`🔍 Found ${checkboxes.length} checkboxes to re-initialize`);
+      
+      checkboxes.forEach((checkbox, index) => {
+        const roadmapId = checkbox.dataset.roadmap;
+        const sectionId = checkbox.dataset.section;
+        const topicId = checkbox.dataset.topic;
+        
+        console.log(`🔍 Re-checking state for: ${roadmapId}.${sectionId}.${topicId}`);
+        
+        if (window.userProgressSystem) {
+          const topicKey = `${roadmapId}.${sectionId}.${topicId}`;
+          const isInArray = window.userProgressSystem.progress.completedTopics.includes(topicKey);
+          const isInStructure = window.userProgressSystem.isTopicCompleted(roadmapId, sectionId, topicId);
+          
+          console.log(`🔍 Re-check - Array: ${isInArray}, Structure: ${isInStructure}`);
+          
+          if (isInStructure || isInArray) {
+            checkbox.classList.add('completed');
+            const topicCard = checkbox.closest('.topic-card');
+            if (topicCard) {
+              topicCard.classList.add('completed');
+            }
+            console.log(`✅ Re-loaded completed state for: ${roadmapId}.${sectionId}.${topicId}`);
+          } else {
+            console.log(`⭕ Re-check: Topic not completed: ${roadmapId}.${sectionId}.${topicId}`);
+          }
+        }
+      });
+      
+      console.log('✅ Checkbox re-initialization complete!');
+    }
     </script>
     
   </body>
