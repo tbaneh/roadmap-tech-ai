@@ -2074,7 +2074,15 @@
         // Initialize dashboard when page loads
         document.addEventListener('DOMContentLoaded', () => {
             initializeThemeSystem();
-            // DashboardManager will be initialized by its own script
+            
+            // Initialize DashboardManager to process XP and progress events
+            console.log('🔧 Initializing DashboardManager for XP processing...');
+            if (window.DashboardManager) {
+                window.dashboardManager = new window.DashboardManager();
+                console.log('✅ DashboardManager initialized successfully!');
+            } else {
+                console.error('❌ DashboardManager class not found!');
+            }
         });
     </script>
     
