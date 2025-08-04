@@ -17,7 +17,37 @@
     <!-- Firebase Environment Config -->
     <script src="./js/firebase-env.js"></script>
     
-    <!-- Dashboard Manager - MUST load BEFORE initialization -->
+    <!-- Firebase Initialization -->
+    <script>
+        // Initialize Firebase with environment variables
+        console.log('🔥 Initializing Firebase for dashboard...');
+        
+        const firebaseConfig = {
+            apiKey: window.FIREBASE_API_KEY,
+            authDomain: window.FIREBASE_AUTH_DOMAIN,
+            projectId: window.FIREBASE_PROJECT_ID,
+            storageBucket: window.FIREBASE_STORAGE_BUCKET,
+            messagingSenderId: window.FIREBASE_MESSAGING_SENDER_ID,
+            appId: window.FIREBASE_APP_ID,
+            measurementId: window.FIREBASE_MEASUREMENT_ID
+        };
+        
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log('✅ Firebase initialized successfully for dashboard!');
+            
+            // Initialize Auth and Firestore
+            window.auth = firebase.auth();
+            window.db = firebase.firestore();
+            console.log('✅ Auth and Firestore ready!');
+            
+        } catch (error) {
+            console.error('❌ Firebase initialization failed:', error);
+        }
+    </script>
+    
+    <!-- Dashboard Manager - MUST load AFTER Firebase initialization -->
     <script src="./js/dashboard-manager.js"></script>
     
     <style>
