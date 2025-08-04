@@ -185,9 +185,11 @@ class DashboardManager {
 
   // Main function to mark topic as completed
   async markTopicCompleted(roadmapId, topicId, topicTitle, estimatedHours = 0.5) {
-    if (!this.currentUser) {
-      alert('❌ Você precisa estar logado para salvar seu progresso!');
-      return false;
+    // GUEST MODE: Allow XP to work without Firebase login
+    const isGuestMode = !this.currentUser;
+    
+    if (isGuestMode) {
+      console.log('🎯 Guest Mode: Processing XP without Firebase login');
     }
 
     try {
@@ -230,9 +232,16 @@ class DashboardManager {
       // Check for new achievements
       await this.checkAchievements(roadmapId, topicId, topicTitle);
       
-      // Save to Firebase
-      await this.saveUserProgress();
-      await this.saveRoadmapProgress(roadmapId, roadmapProgress);
+      // Save to Firebase (only if user is logged in)
+      if (!isGuestMode) {
+        await this.saveUserProgress();
+        await this.saveRoadmapProgress(roadmapId, roadmapProgress);
+        console.log('💾 Firebase: Progress saved to cloud');
+      } else {
+        // Guest mode: Save to localStorage as backup
+        localStorage.setItem('guestProgress', JSON.stringify(this.userProgress));
+        console.log('💾 Guest Mode: Progress saved to localStorage');
+      }
       
       // Update UI
       this.updateDashboardUI();
