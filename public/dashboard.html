@@ -50,6 +50,64 @@
     <!-- Dashboard Manager - MUST load AFTER Firebase initialization -->
     <script src="./js/dashboard-manager.js"></script>
     
+    <!-- DIRECT INLINE CREATION - No event dependencies -->
+    <script>
+        // IMMEDIATE CREATION: Create DashboardManager instance as soon as class is available
+        console.log('🚀 DIRECT CREATION: Creating DashboardManager immediately...');
+        
+        // Function to create instance with retry logic
+        function createDashboardManagerNow() {
+            if (window.dashboardManager) {
+                console.log('✅ DashboardManager instance already exists');
+                return true;
+            }
+            
+            if (window.DashboardManager) {
+                try {
+                    console.log('🔥 Creating DashboardManager instance NOW...');
+                    window.dashboardManager = new window.DashboardManager();
+                    console.log('✅ SUCCESS: DashboardManager instance created immediately!');
+                    return true;
+                } catch (error) {
+                    console.error('❌ DIRECT creation failed:', error.message);
+                    return false;
+                }
+            }
+            
+            console.log('⚠️ DashboardManager class not yet available, retrying...');
+            return false;
+        }
+        
+        // Try immediate creation
+        createDashboardManagerNow();
+        
+        // If immediate creation fails, try with minimal delays (no events)
+        if (!window.dashboardManager) {
+            setTimeout(() => {
+                console.log('🔄 RETRY 1: Attempting creation after 10ms...');
+                createDashboardManagerNow();
+            }, 10);
+        }
+        
+        if (!window.dashboardManager) {
+            setTimeout(() => {
+                console.log('🔄 RETRY 2: Attempting creation after 50ms...');
+                createDashboardManagerNow();
+            }, 50);
+        }
+        
+        setTimeout(() => {
+            console.log('🔄 FINAL CHECK: DashboardManager status after retries...');
+            if (window.dashboardManager) {
+                console.log('✅ FINAL SUCCESS: DashboardManager instance exists!');
+            } else {
+                console.error('❌ FINAL FAILURE: DashboardManager instance NOT created!');
+                // One last attempt
+                createDashboardManagerNow();
+            }
+        }, 100);
+    </script>
+    
     <style>
         :root {
             /* Dark theme colors (default) */
