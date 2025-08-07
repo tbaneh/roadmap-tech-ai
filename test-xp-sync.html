@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test XP Sync - Dashboard Bug Fix</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #1a1d23;
+            color: #ffffff;
+            padding: 40px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #2a2f3a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #3a3f4a;
+        }
+        h1 {
+            color: #64ffda;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #252930;
+            border-radius: 8px;
+        }
+        .test-button {
+            background: #64ffda;
+            color: #1a1d23;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .test-button:hover {
+            background: #4fc3f7;
+        }
+        .result {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            background: #1a1d23;
+            border: 1px solid #3a3f4a;
+        }
+        .success {
+            border-color: #64ffda;
+            color: #64ffda;
+        }
+        .error {
+            border-color: #ff5252;
+            color: #ff5252;
+        }
+        .info {
+            border-color: #4fc3f7;
+            color: #4fc3f7;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Dashboard XP Sync Test Suite</h1>
+        
+        <div class="test-section">
+            <h2>1. Environment Check</h2>
+            <button class="test-button" onclick="checkEnvironment()">Check Environment</button>
+            <div id="env-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>2. Simulate Topic Completion</h2>
+            <button class="test-button" onclick="simulateTopicCompletion()">Complete Topic (25 XP)</button>
+            <button class="test-button" onclick="checkDashboardEvents()">Check Dashboard Events</button>
+            <div id="topic-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>3. DashboardManager Test</h2>
+            <button class="test-button" onclick="testDashboardManager()">Test DashboardManager</button>
+            <button class="test-button" onclick="processEvents()">Process Pending Events</button>
+            <div id="dashboard-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>4. Clear Test Data</h2>
+            <button class="test-button" onclick="clearTestData()">Clear All Test Data</button>
+            <div id="clear-result"></div>
+        </div>
+    </div>
+    
+    <!-- Load required scripts -->
+    <script src="public/js/progress-system.js"></script>
+    <script src="public/js/dashboard-manager.js"></script>
+    
+    <script>
+        // Test functions
+        function checkEnvironment() {
+            const result = document.getElementById('env-result');
+            let output = '=== Environment Check ===\n';
+            
+            // Check if classes exist
+            output += `UserProgressSystem: ${typeof UserProgressSystem !== 'undefined' ? '✅ Loaded' : '❌ Not Found'}\n`;
+            output += `DashboardManager: ${typeof DashboardManager !== 'undefined' ? '✅ Loaded' : '❌ Not Found'}\n`;
+            
+            // Check instances
+            output += `\n=== Instances ===\n`;
+            output += `window.userProgressSystem: ${window.userProgressSystem ? '✅ Created' : '❌ Not Created'}\n`;
+            output += `window.dashboardManager: ${window.dashboardManager ? '✅ Created' : '❌ Not Created'}\n`;
+            
+            // Check localStorage
+            output += `\n=== LocalStorage ===\n`;
+            const userProgress = localStorage.getItem('userProgress');
+            const dashboardData = localStorage.getItem('dashboardData');
+            const dashboardEvents = localStorage.getItem('dashboardEvents');
+            
+            output += `userProgress: ${userProgress ? '✅ ' + JSON.parse(userProgress).completedTopics.length + ' topics' : '❌ Empty'}\n`;
+            output += `dashboardData: ${dashboardData ? '✅ Has data' : '❌ Empty'}\n`;
+            output += `dashboardEvents: ${dashboardEvents ? '✅ ' + JSON.parse(dashboardEvents).length + ' events' : '❌ Empty'}\n`;
+            
+            result.className = 'result info';
+            result.textContent = output;
+        }
+        
+        function simulateTopicCompletion() {
+            const result = document.getElementById('topic-result');
+            let output = '=== Simulating Topic Completion ===\n';
+            
+            try {
+                // Create event data (similar to what roadmap.html does)
+                const dashboardEvent = {
+                    type: 'topicCompleted',
+                    timestamp: Date.now(),
+                    data: {
+                        roadmapId: 'data-scientist',
+                        topicId: 'test-topic-' + Date.now(),
+                        topicTitle: 'Test Topic for XP Sync',
+                        estimatedHours: 0.5,
+                        xpGained: 25
+                    }
+                };
+                
+                // Store in localStorage for dashboard to pick up
+                const existingEvents = JSON.parse(localStorage.getItem('dashboardEvents') || '[]');
+                existingEvents.push(dashboardEvent);
+                localStorage.setItem('dashboardEvents', JSON.stringify(existingEvents));
+                
+                output += `✅ Topic completion event created\n`;
+                output += `   - Topic: ${dashboardEvent.data.topicTitle}\n`;
+                output += `   - XP: ${dashboardEvent.data.xpGained}\n`;
+                output += `   - Total events: ${existingEvents.length}\n`;
+                
+                // Also trigger local event
+                window.dispatchEvent(new CustomEvent('topicCompleted', {
+                    detail: dashboardEvent.data
+                }));
+                
+                output += `✅ Local event dispatched\n`;
+                
+                result.className = 'result success';
+            } catch (error) {
+                output += `❌ Error: ${error.message}\n`;
+                result.className = 'result error';
+            }
+            
+            result.textContent = output;
+        }
+        
+        function checkDashboardEvents() {
+            const result = document.getElementById('topic-result');
+            let output = '=== Dashboard Events Status ===\n';
+            
+            try {
+                const events = JSON.parse(localStorage.getItem('dashboardEvents') || '[]');
+                output += `Total pending events: ${events.length}\n\n`;
+                
+                events.forEach((event, index) => {
+                    output += `Event ${index + 1}:\n`;
+                    output += `  Type: ${event.type}\n`;
+                    output += `  Topic: ${event.data.topicTitle}\n`;
+                    output += `  XP: ${event.data.xpGained}\n`;
+                    output += `  Time: ${new Date(event.timestamp).toLocaleTimeString()}\n\n`;
+                });
+                
+                result.className = 'result info';
+            } catch (error) {
+                output += `❌ Error: ${error.message}\n`;
+                result.className = 'result error';
+            }
+            
+            result.textContent = output;
+        }
+        
+        function testDashboardManager() {
+            const result = document.getElementById('dashboard-result');
+            let output = '=== Testing DashboardManager ===\n';
+            
+            try {
+                // Create instance if it doesn't exist
+                if (!window.dashboardManager) {
+                    window.dashboardManager = new DashboardManager();
+                    output += `✅ DashboardManager instance created\n`;
+                } else {
+                    output += `ℹ️ DashboardManager instance already exists\n`;
+                }
+                
+                // Get current state
+                const data = window.dashboardManager.data;
+                output += `\n=== Current State ===\n`;
+                output += `XP: ${data.xp}/${data.nextLevelXP}\n`;
+                output += `Level: ${data.level}\n`;
+                output += `Total Topics: ${data.totalTopicsCompleted}\n`;
+                output += `Study Hours: ${data.totalStudyHours}h\n`;
+                output += `Achievements: ${data.achievements.length}\n`;
+                
+                // Test XP addition
+                output += `\n=== Testing XP Addition ===\n`;
+                const beforeXP = data.xp;
+                window.dashboardManager.addXP(50);
+                const afterXP = window.dashboardManager.data.xp;
+                
+                output += `Before: ${beforeXP} XP\n`;
+                output += `Added: 50 XP\n`;
+                output += `After: ${afterXP} XP\n`;
+                output += afterXP > beforeXP ? '✅ XP increased correctly\n' : '❌ XP did not increase\n';
+                
+                result.className = 'result success';
+            } catch (error) {
+                output += `❌ Error: ${error.message}\n`;
+                output += `Stack: ${error.stack}\n`;
+                result.className = 'result error';
+            }
+            
+            result.textContent = output;
+        }
+        
+        function processEvents() {
+            const result = document.getElementById('dashboard-result');
+            let output = '=== Processing Pending Events ===\n';
+            
+            try {
+                if (!window.dashboardManager) {
+                    window.dashboardManager = new DashboardManager();
+                    output += `✅ DashboardManager instance created\n`;
+                }
+                
+                // Process pending events
+                window.dashboardManager.processPendingEvents();
+                output += `✅ Pending events processed\n`;
+                
+                // Show updated state
+                const data = window.dashboardManager.data;
+                output += `\n=== Updated State ===\n`;
+                output += `XP: ${data.xp}/${data.nextLevelXP}\n`;
+                output += `Level: ${data.level}\n`;
+                output += `Total Topics: ${data.totalTopicsCompleted}\n`;
+                
+                result.className = 'result success';
+            } catch (error) {
+                output += `❌ Error: ${error.message}\n`;
+                result.className = 'result error';
+            }
+            
+            result.textContent = output;
+        }
+        
+        function clearTestData() {
+            const result = document.getElementById('clear-result');
+            let output = '=== Clearing Test Data ===\n';
+            
+            try {
+                // Clear dashboard events
+                localStorage.removeItem('dashboardEvents');
+                output += `✅ Cleared dashboard events\n`;
+                
+                // Clear dashboard data
+                localStorage.removeItem('dashboardData');
+                output += `✅ Cleared dashboard data\n`;
+                
+                // Reset instances
+                if (window.dashboardManager) {
+                    window.dashboardManager = new DashboardManager();
+                    output += `✅ Reset DashboardManager instance\n`;
+                }
+                
+                output += `\n✅ All test data cleared successfully\n`;
+                result.className = 'result success';
+            } catch (error) {
+                output += `❌ Error: ${error.message}\n`;
+                result.className = 'result error';
+            }
+            
+            result.textContent = output;
+        }
+        
+        // Auto-initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('🧪 XP Sync Test Suite loaded');
+            
+            // Create instances if they don't exist
+            if (!window.userProgressSystem && typeof UserProgressSystem !== 'undefined') {
+                window.userProgressSystem = new UserProgressSystem();
+                console.log('✅ UserProgressSystem instance created');
+            }
+            
+            // Try to create DashboardManager with delay (to simulate real scenario)
+            setTimeout(() => {
+                if (!window.dashboardManager && typeof DashboardManager !== 'undefined') {
+                    window.dashboardManager = new DashboardManager();
+                    console.log('✅ DashboardManager instance created');
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
