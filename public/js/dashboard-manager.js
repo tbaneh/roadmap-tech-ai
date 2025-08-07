@@ -13,6 +13,7 @@ class DashboardManager {
       LEVEL_BASE_XP: 100,      // Base XP required for level 2
       LEVEL_MULTIPLIER: 1.5,   // XP multiplier per level
       XP_PER_TOPIC: 25,        // XP gained per completed topic
+      XP_PER_HOUR: 10,         // XP gained per hour of study
       XP_BONUS_STREAK: 10,     // Bonus XP for streaks
       XP_BONUS_SECTION: 50,    // Bonus XP for completing a section
       XP_BONUS_ROADMAP: 500    // Bonus XP for completing a roadmap
@@ -41,13 +42,8 @@ class DashboardManager {
     // Process pending events from localStorage immediately
     this.processPendingEvents();
     
-    this.config = {
-      XP_PER_TOPIC: 10,
-      XP_PER_HOUR: 5,
-      XP_PER_STREAK_DAY: 2,
-      LEVEL_BASE_XP: 100,
-      LEVEL_MULTIPLIER: 1.5
-    };
+    // Load saved progress from localStorage
+    this.loadProgressFromLocalStorage();
 
     this.badges = [
       { id: 'first_steps', name: 'Primeiros Passos', icon: '🚀', description: 'Complete seu primeiro tópico', xpRequired: 10 },
@@ -230,9 +226,10 @@ class DashboardManager {
       this.userProgress.completedTopics++;
       this.userProgress.studyHours += estimatedHours;
       
-      // Add XP
-      const xpGained = this.config.XP_PER_TOPIC + (estimatedHours * this.config.XP_PER_HOUR);
+      // Add XP - Simplified calculation
+      const xpGained = 25; // Fixed 25 XP per topic for now
       this.userProgress.totalXP += xpGained;
+      console.log(`💰 XP Gained: ${xpGained}, Total XP: ${this.userProgress.totalXP}`);
       
       // Update level
       this.updateLevel();
@@ -676,6 +673,39 @@ class DashboardManager {
   }
   
   // Process pending events from localStorage (cross-page sync)
+  loadProgressFromLocalStorage() {
+    try {
+      // Try to load guest progress first
+      const guestProgress = localStorage.getItem('guestProgress');
+      if (guestProgress) {
+        const saved = JSON.parse(guestProgress);
+        console.log('📦 Loading saved guest progress:', saved);
+        
+        // Merge saved progress with current
+        if (saved.totalXP) this.userProgress.totalXP = saved.totalXP;
+        if (saved.level) this.userProgress.level = saved.level;
+        if (saved.completedTopics) this.userProgress.completedTopics = saved.completedTopics;
+        if (saved.studyHours) this.userProgress.studyHours = saved.studyHours;
+        if (saved.badges) this.userProgress.badges = saved.badges;
+        if (saved.roadmaps) this.userProgress.roadmaps = saved.roadmaps;
+        
+        console.log('✅ Guest progress loaded. Total XP:', this.userProgress.totalXP);
+      }
+      
+      // Also check for dashboard data
+      const dashboardData = localStorage.getItem('dashboardData');
+      if (dashboardData) {
+        const data = JSON.parse(dashboardData);
+        console.log('📊 Loading saved dashboard data:', data);
+        if (data.xp !== undefined) this.userProgress.totalXP = data.xp;
+        if (data.level !== undefined) this.userProgress.level = data.level;
+      }
+      
+    } catch (error) {
+      console.error('❌ Error loading progress from localStorage:', error);
+    }
+  }
+
   processPendingEvents() {
     try {
       const pendingEvents = JSON.parse(localStorage.getItem('dashboardEvents') || '[]');
