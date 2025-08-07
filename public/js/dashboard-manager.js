@@ -255,7 +255,29 @@ class DashboardManager {
       
     } catch (error) {
       console.error('❌ Erro ao marcar tópico como concluído:', error);
-      alert('❌ Erro ao salvar progresso. Tente novamente.');
+      console.error('Error details:', {
+        message: error.message,
+        code: error.code,
+        stack: error.stack,
+        isGuestMode: isGuestMode,
+        hasFirebase: typeof firebase !== 'undefined',
+        hasAuth: window.auth ? true : false,
+        currentUser: this.currentUser ? 'exists' : 'null'
+      });
+      
+      // Only show alert for non-guest mode errors or critical errors
+      if (!isGuestMode && error.code !== 'permission-denied') {
+        alert('❌ Erro ao salvar progresso. Tente novamente.');
+      } else if (isGuestMode) {
+        console.log('⚠️ Guest mode: Saving locally only (Firebase error ignored)');
+        // Don't show error in guest mode, just save locally
+        localStorage.setItem('dashboardData', JSON.stringify(this.data));
+        localStorage.setItem('guestProgress', JSON.stringify(this.userProgress));
+        this.updateDashboardUI();
+        this.showXPGain(25, topicTitle || 'Tópico');
+        return true; // Return success for guest mode
+      }
+      
       return false;
     }
   }
