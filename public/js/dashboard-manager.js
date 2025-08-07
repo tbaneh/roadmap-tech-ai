@@ -3,20 +3,29 @@
  * Gerencia tracking de tópicos, XP, níveis, conquistas e persistência Firebase
  */
 
+// Global XP Constants - Available everywhere
+const LEVEL_BASE_XP = 100;      // Base XP required for level 2
+const LEVEL_MULTIPLIER = 1.5;   // XP multiplier per level
+const XP_PER_TOPIC = 25;        // XP gained per completed topic
+const XP_PER_HOUR = 10;         // XP gained per hour of study
+const XP_BONUS_STREAK = 10;     // Bonus XP for streaks
+const XP_BONUS_SECTION = 50;    // Bonus XP for completing a section
+const XP_BONUS_ROADMAP = 500;   // Bonus XP for completing a roadmap
+
 class DashboardManager {
   constructor() {
     this.currentUser = null;
     this.db = null;
     
-    // XP Configuration
+    // XP Configuration - Using global constants
     this.config = {
-      LEVEL_BASE_XP: 100,      // Base XP required for level 2
-      LEVEL_MULTIPLIER: 1.5,   // XP multiplier per level
-      XP_PER_TOPIC: 25,        // XP gained per completed topic
-      XP_PER_HOUR: 10,         // XP gained per hour of study
-      XP_BONUS_STREAK: 10,     // Bonus XP for streaks
-      XP_BONUS_SECTION: 50,    // Bonus XP for completing a section
-      XP_BONUS_ROADMAP: 500    // Bonus XP for completing a roadmap
+      LEVEL_BASE_XP: LEVEL_BASE_XP,
+      LEVEL_MULTIPLIER: LEVEL_MULTIPLIER,
+      XP_PER_TOPIC: XP_PER_TOPIC,
+      XP_PER_HOUR: XP_PER_HOUR,
+      XP_BONUS_STREAK: XP_BONUS_STREAK,
+      XP_BONUS_SECTION: XP_BONUS_SECTION,
+      XP_BONUS_ROADMAP: XP_BONUS_ROADMAP
     };
     
     this.userProgress = {
