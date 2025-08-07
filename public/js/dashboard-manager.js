@@ -7,6 +7,17 @@ class DashboardManager {
   constructor() {
     this.currentUser = null;
     this.db = null;
+    
+    // XP Configuration
+    this.config = {
+      LEVEL_BASE_XP: 100,      // Base XP required for level 2
+      LEVEL_MULTIPLIER: 1.5,   // XP multiplier per level
+      XP_PER_TOPIC: 25,        // XP gained per completed topic
+      XP_BONUS_STREAK: 10,     // Bonus XP for streaks
+      XP_BONUS_SECTION: 50,    // Bonus XP for completing a section
+      XP_BONUS_ROADMAP: 500    // Bonus XP for completing a roadmap
+    };
+    
     this.userProgress = {
       totalXP: 0,
       level: 1,
