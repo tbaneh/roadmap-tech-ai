@@ -12,6 +12,15 @@ const XP_BONUS_STREAK = 10;     // Bonus XP for streaks
 const XP_BONUS_SECTION = 50;    // Bonus XP for completing a section
 const XP_BONUS_ROADMAP = 500;   // Bonus XP for completing a roadmap
 
+// Expose constants to window for global access
+window.LEVEL_BASE_XP = LEVEL_BASE_XP;
+window.LEVEL_MULTIPLIER = LEVEL_MULTIPLIER;
+window.XP_PER_TOPIC = XP_PER_TOPIC;
+window.XP_PER_HOUR = XP_PER_HOUR;
+window.XP_BONUS_STREAK = XP_BONUS_STREAK;
+window.XP_BONUS_SECTION = XP_BONUS_SECTION;
+window.XP_BONUS_ROADMAP = XP_BONUS_ROADMAP;
+
 class DashboardManager {
   constructor() {
     this.currentUser = null;
