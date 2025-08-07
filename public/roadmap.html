@@ -2945,24 +2945,7 @@ function createFeedbackModal() {
 }
 
 // Handle topic toggle when checkbox is clicked
-function handleTopicToggle(event) {
-  console.log('🔥 handleTopicToggle called:', event.target);
-  
-  const checkbox = event.target;
-  const roadmapId = checkbox.dataset.roadmap;
-  const sectionId = checkbox.dataset.section;
-  const topicId = checkbox.dataset.topic;
-  
-  console.log(`🔥 Toggle for: ${roadmapId}.${sectionId}.${topicId}`);
-  
-  if (checkbox.classList.contains('completed')) {
-    // Unmark as completed
-    unmarkTopicCompleted(roadmapId, sectionId, topicId, checkbox);
-  } else {
-    // Mark as completed
-    markTopicCompleted(roadmapId, sectionId, topicId, checkbox);
-  }
-}
+// REMOVED: First duplicate handleTopicToggle function - keeping only the more complete version below
 
 function initializeCheckboxes() {
   const checkboxes = document.querySelectorAll('.progress-checkbox');
@@ -3038,7 +3021,17 @@ function handleTopicToggle(event) {
   }
 }
 
-function markTopicCompleted(roadmapId, sectionId, topicId, xpValue, checkbox) {
+function markTopicCompleted(roadmapId, sectionId, topicId, xpValueOrCheckbox, checkboxParam) {
+  // Handle both old and new function signatures
+  let xpValue, checkbox;
+  if (typeof xpValueOrCheckbox === 'number') {
+    xpValue = xpValueOrCheckbox;
+    checkbox = checkboxParam;
+  } else {
+    // Old signature - default XP value
+    xpValue = 25;
+    checkbox = xpValueOrCheckbox;
+  }
   // Visual feedback
   checkbox.classList.add('completed');
   const topicCard = checkbox.closest('.topic-card');
@@ -3109,8 +3102,10 @@ function unmarkTopicCompleted(roadmapId, sectionId, topicId, checkbox) {
     }
   }
   
-  // Update section progress
-  updateSectionProgress(sectionId);
+  // Update section progress if function exists
+  if (typeof updateSectionProgress === 'function') {
+    updateSectionProgress(sectionId);
+  }
   
   console.log(`❌ Topic unmarked: ${roadmapId}.${sectionId}.${topicId}`);
 }
