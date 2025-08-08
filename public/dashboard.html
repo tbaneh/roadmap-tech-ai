@@ -1345,15 +1345,27 @@
             }
 
             updateXPSystem() {
-                const progress = this.progressSystem.progress;
-                const xp = this.calculateXP();
-                const level = this.calculateLevel(xp);
-                const xpForCurrentLevel = this.getXPForLevel(level);
-                const xpForNextLevel = this.getXPForLevel(level + 1);
-                const currentLevelXP = xp - xpForCurrentLevel;
-                const neededXP = xpForNextLevel - xpForCurrentLevel;
+                // Usar dados do DashboardManager se disponível, senão usar progressSystem
+                let xp = 0;
+                let level = 1;
+                
+                // Verificar se DashboardManager existe e tem dados
+                if (window.dashboardManager && window.dashboardManager.userProgress) {
+                    xp = window.dashboardManager.userProgress.totalXP || 0;
+                    level = window.dashboardManager.userProgress.level || 1;
+                } else if (this.progressSystem && this.progressSystem.progress) {
+                    // Fallback para o sistema de progresso antigo
+                    xp = this.calculateXP();
+                    level = this.calculateLevel(xp);
+                }
+                
+                // Calcular XP para o nível atual usando LEVEL_BASE_XP (100)
+                const LEVEL_BASE_XP = 100;
+                const currentLevelXP = xp % LEVEL_BASE_XP;
+                const neededXP = LEVEL_BASE_XP;
                 const percentage = (currentLevelXP / neededXP) * 100;
 
+                // Atualizar UI
                 document.getElementById('userLevel').textContent = level;
                 document.getElementById('currentXP').textContent = currentLevelXP;
                 document.getElementById('nextLevelXP').textContent = neededXP;
